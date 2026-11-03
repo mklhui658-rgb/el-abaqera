@@ -17,7 +17,7 @@ const coursesData = [
     price: "250 ج.م / شهر",
     topics: ["الألكانات والألكينات والألكاينات", "الهيدروكربونات الحلقية والبنزين العطري", "الكحولات والفينولات", "الأحماض الكربوكسيلية والإسترات"],
     icon: "fa-flask-vial",
-    color: "from-red-600 to-rose-900"
+    color: "from-blue-600 to-indigo-900"
   },
   {
     id: "chem3-transition",
@@ -26,13 +26,13 @@ const coursesData = [
     title: "الباب الأول: العناصر الانتقالية وتعدين الحديد",
     description: "التوزيع الإلكتروني، حالات التأكسد الشائعة، الخواص المغناطيسية والألوان، وتفاعلات سبائك الحديد وأكاسيده الثلاثة بدقة متناهية.",
     badge: "تأسيس تالتة",
-    badgeColor: "bg-red-500/20 text-red-300 border-red-500/30",
+    badgeColor: "bg-blue-500/20 text-blue-300 border-blue-500/30",
     lecturesCount: 16,
     hours: 32,
     price: "200 ج.م / شهر",
     topics: ["عناصر السلسلة الانتقالية الأولى", "الخواص العامة وخواص التيتانيوم والمنجنيز", "خامات الحديد والأفران", "مخطط تحويلات أكاسيد الحديد"],
     icon: "fa-atom",
-    color: "from-red-700 to-stone-900"
+    color: "from-blue-700 to-slate-900"
   },
   {
     id: "chem3-electro",
@@ -47,7 +47,7 @@ const coursesData = [
     price: "220 ج.م / شهر",
     topics: ["الخلايا الجلفانية وخلية دانيال", "تطبيقات إنتاج الطاقة وبطارية الرصاص", "تآكل المعادن وطرق الحماية الكاثودية", "قوانين فاراداي والتحليل الكهربي"],
     icon: "fa-bolt",
-    color: "from-red-800 to-rose-950"
+    color: "from-blue-800 to-slate-950"
   },
   {
     id: "chem3-equilibrium",
@@ -56,13 +56,13 @@ const coursesData = [
     title: "الباب الثاني والثالث: التحليل الكيميائي والاتزان الأيوني",
     description: "كواشف الشقوق الحامضية والقاعدية وألوان الرواسب، ومسائل التطاير والترسيب، مع قاعدة لوشاتيليه وحسابات الـ pH و Ka.",
     badge: "تجارب معملية",
-    badgeColor: "bg-red-500/20 text-red-300 border-red-500/30",
+    badgeColor: "bg-blue-500/20 text-blue-300 border-blue-500/30",
     lecturesCount: 22,
     hours: 40,
     price: "220 ج.م / شهر",
     topics: ["الكشف عن الأنيونات والكاتيونات", "مسائل المعايرة والترسيب والتطاير", "الاتزان الكيميائي وقاعدة لوشاتيليه", "حسابات الأس الهيدروجيني وحاصل الإذابة Ksp"],
     icon: "fa-scale-balanced",
-    color: "from-rose-700 to-red-950"
+    color: "from-cyan-600 to-blue-950"
   },
   {
     id: "chem2-full",
@@ -71,13 +71,13 @@ const coursesData = [
     title: "منهج الكيمياء المتكامل - الصف الثاني الثانوي",
     description: "بنية الذرة ونظريات بور والحديثة، أعداد الكم الأربعة، الجدول الدوري وتدرج الخواص، والروابط التساهمية والأيونية ونظرية الأوربيتالات الجزيئية.",
     badge: "ترم كامل",
-    badgeColor: "bg-red-600/20 text-red-300 border-red-500/30",
+    badgeColor: "bg-blue-600/20 text-blue-300 border-blue-500/30",
     lecturesCount: 24,
     hours: 42,
     price: "180 ج.م / شهر",
     topics: ["تطور مفهوم بنية الذرة", "أعداد الكم الأربعة وقواعد التوزيع", "تدرج نصف القطر وسالبية العناصر", "نظريات الرابطة التساهمية والتهجين"],
     icon: "fa-dna",
-    color: "from-red-600 to-zinc-900"
+    color: "from-blue-600 to-slate-900"
   },
   {
     id: "chem1-full",
@@ -92,7 +92,7 @@ const coursesData = [
     price: "150 ج.م / شهر",
     topics: ["الكيمياء والقياس وأدوات المعمل", "كيمياء النانو وتطبيقاتها الطبية", "المول والكتلة المولية وحجم الغاز", "المعادلة الأيونية ومسائل التحديد"],
     icon: "fa-vial",
-    color: "from-red-700 to-amber-900"
+    color: "from-blue-700 to-cyan-900"
   }
 ];
 
@@ -208,15 +208,15 @@ function renderNavbarAuthState() {
     // Replace header buttons with student dashboard link and logout
     authContainer.innerHTML = `
       <div class="flex items-center gap-2">
-        <a href="dashboard.html" class="flex items-center gap-2 bg-[#1f0910] hover:bg-red-950 border border-red-800/60 text-slate-200 px-3.5 py-2 rounded-xl text-xs font-bold transition shadow-md">
-          <div class="w-6 h-6 rounded-lg bg-red-600 text-white flex items-center justify-center text-[10px]">
+        <a href="dashboard.html" class="flex items-center gap-2 bg-[#1f0910] hover:bg-slate-900 border border-red-800/60 text-slate-200 px-3.5 py-2 rounded-xl text-xs font-bold transition shadow-md">
+          <div class="w-6 h-6 rounded-lg bg-blue-600 text-white flex items-center justify-center text-[10px]">
             <i class="fa-solid fa-user-graduate"></i>
           </div>
           <span class="text-white">${studentName}</span>
           <span class="text-amber-400 text-[10px] bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/20">لوحة الطالب</span>
         </a>
 
-        <button onclick="logoutFromHome()" title="تسجيل الخروج" class="w-9 h-9 rounded-xl bg-red-950/40 hover:bg-red-600 text-red-300 hover:text-white border border-red-900/50 flex items-center justify-center text-xs transition">
+        <button onclick="logoutFromHome()" title="تسجيل الخروج" class="w-9 h-9 rounded-xl bg-slate-900/40 hover:bg-blue-600 text-blue-300 hover:text-white border border-blue-900/60/50 flex items-center justify-center text-xs transition">
           <i class="fa-solid fa-right-from-bracket"></i>
         </button>
       </div>
@@ -238,8 +238,8 @@ function renderNavbarAuthState() {
   } else {
     // Guest state
     authContainer.innerHTML = `
-      <a href="auth.html" class="flex items-center gap-2 bg-[#1f0a10] hover:bg-red-950 border border-red-900/50 text-red-200 px-3.5 py-2.5 rounded-xl text-xs font-bold transition shadow-sm">
-        <i class="fa-solid fa-user-lock text-red-400"></i>
+      <a href="auth.html" class="flex items-center gap-2 bg-[#1f0a10] hover:bg-slate-900 border border-blue-900/60/50 text-blue-200 px-3.5 py-2.5 rounded-xl text-xs font-bold transition shadow-sm">
+        <i class="fa-solid fa-user-lock text-blue-400"></i>
         <span>دخول / تسجيل</span>
       </a>
 
@@ -251,7 +251,7 @@ function renderNavbarAuthState() {
 
     if (topAuthContainer) {
       topAuthContainer.innerHTML = `
-        <a href="auth.html" class="hover:text-red-300 transition font-bold text-red-400 flex items-center gap-1">
+        <a href="auth.html" class="hover:text-blue-300 transition font-bold text-blue-400 flex items-center gap-1">
           <i class="fa-solid fa-user-circle"></i>
           <span>تسجيل الدخول / حساب جديد</span>
         </a>
@@ -296,13 +296,13 @@ function renderCourses() {
             title: c.title || original.title,
             description: c.description || original.description || "شرح مفصل وتدريبات عملية على نواتج التعلم.",
             badge: c.badge || original.badge || "كورس متميز ⭐",
-            badgeColor: c.badgeColor || original.badgeColor || "bg-red-500/20 text-red-300 border-red-500/30",
+            badgeColor: c.badgeColor || original.badgeColor || "bg-blue-500/20 text-blue-300 border-blue-500/30",
             lecturesCount: c.lecturesCount || original.lecturesCount || 20,
             hours: c.hours || original.hours || 40,
             price: c.price || original.price || "250 ج.م / شهر",
             topics: c.topics || original.topics || ["شرح تفصيلي للمنهج", "تدريبات وتطبيقات عملية", "حل نماذج امتحانات الوزارة"],
             icon: c.icon || original.icon || "fa-flask-vial",
-            color: c.color || original.color || "from-red-600 to-rose-900",
+            color: c.color || original.color || "from-blue-600 to-indigo-900",
             image: c.image || original.image || "assets/logo.png",
             youtubeUrl: c.youtubeUrl || original.youtubeUrl || ""
           };
@@ -316,7 +316,7 @@ function renderCourses() {
     : allCourses.filter(c => c.grade === currentFilter);
 
   container.innerHTML = filtered.map(course => `
-    <div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between relative border border-red-900/40 transition-all duration-300 group">
+    <div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between relative border border-blue-900/60/40 transition-all duration-300 group">
       <div>
         <!-- Course Thumbnail Banner -->
         ${course.image ? `
@@ -326,8 +326,8 @@ function renderCourses() {
             <span class="absolute top-3 right-3 text-xs font-semibold px-3 py-1 rounded-full border ${course.badgeColor} backdrop-blur-md">
               ${course.badge}
             </span>
-            <span class="absolute top-3 left-3 text-xs text-white bg-black/60 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-red-900/50">
-              <i class="fa-solid fa-graduation-cap text-red-400 ml-1"></i>
+            <span class="absolute top-3 left-3 text-xs text-white bg-black/60 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-blue-900/60/50">
+              <i class="fa-solid fa-graduation-cap text-blue-400 ml-1"></i>
               ${course.gradeName}
             </span>
           </div>
@@ -338,7 +338,7 @@ function renderCourses() {
             <div class="w-10 h-10 rounded-xl bg-gradient-to-br ${course.color} flex items-center justify-center text-white text-lg shadow-lg shadow-red-900/40 shrink-0">
               <i class="fa-solid ${course.icon}"></i>
             </div>
-            <h3 class="text-base sm:text-lg font-bold text-white hover:text-red-400 transition-colors leading-snug">
+            <h3 class="text-base sm:text-lg font-bold text-white hover:text-blue-400 transition-colors leading-snug">
               ${course.title}
             </h3>
           </div>
@@ -347,12 +347,12 @@ function renderCourses() {
             ${course.description}
           </p>
 
-          <div class="bg-red-950/30 rounded-xl p-3 mb-2 border border-red-900/40">
-            <span class="text-xs text-red-300 block mb-1.5 font-semibold">أبرز المحتويات:</span>
+          <div class="bg-slate-900/30 rounded-xl p-3 mb-2 border border-blue-900/60/40">
+            <span class="text-xs text-blue-300 block mb-1.5 font-semibold">أبرز المحتويات:</span>
             <ul class="space-y-1 text-xs text-slate-300">
               ${(course.topics || []).slice(0, 3).map(t => `
                 <li class="flex items-center gap-1.5">
-                  <i class="fa-solid fa-circle-check text-red-400 text-[10px]"></i>
+                  <i class="fa-solid fa-circle-check text-blue-400 text-[10px]"></i>
                   <span>${t}</span>
                 </li>
               `).join("")}
@@ -362,20 +362,20 @@ function renderCourses() {
       </div>
 
       <div class="p-6 pt-0">
-        <div class="flex items-center justify-between py-3 border-t border-red-950 text-xs text-slate-400 mb-4">
-          <span><i class="fa-solid fa-video ml-1 text-red-400"></i> ${course.lecturesCount} محاضرة</span>
+        <div class="flex items-center justify-between py-3 border-t border-blue-950/70 text-xs text-slate-400 mb-4">
+          <span><i class="fa-solid fa-video ml-1 text-blue-400"></i> ${course.lecturesCount} محاضرة</span>
           <span><i class="fa-solid fa-clock ml-1 text-amber-400"></i> ${course.hours || 35} ساعة</span>
           <span class="text-emerald-400 font-bold font-mono text-sm">${course.price}</span>
         </div>
 
         <div class="grid grid-cols-2 gap-2">
           <!-- Direct to Payment Gateway -->
-          <button onclick="goToCheckout('${course.title}', '${course.price}')" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2.5 px-3 rounded-xl text-xs transition duration-200 flex items-center justify-center gap-1.5 shadow-md shadow-red-600/30">
+          <button onclick="goToCheckout('${course.title}', '${course.price}')" class="w-full bg-blue-600 hover:bg-red-700 text-white font-bold py-2.5 px-3 rounded-xl text-xs transition duration-200 flex items-center justify-center gap-1.5 shadow-md shadow-red-600/30">
             <i class="fa-solid fa-credit-card"></i>
             <span>حجز ودفع</span>
           </button>
-          <button onclick="openVideoModal('${course.title}', '${course.gradeName}')" class="w-full bg-[#1e0d12] hover:bg-red-950/70 border border-red-900/50 text-slate-200 font-bold py-2.5 px-3 rounded-xl text-xs transition duration-200 flex items-center justify-center gap-1.5">
-            <i class="fa-solid fa-play text-red-400"></i>
+          <button onclick="openVideoModal('${course.title}', '${course.gradeName}')" class="w-full bg-[#1e0d12] hover:bg-slate-900/70 border border-blue-900/60/50 text-slate-200 font-bold py-2.5 px-3 rounded-xl text-xs transition duration-200 flex items-center justify-center gap-1.5">
+            <i class="fa-solid fa-play text-blue-400"></i>
             <span>معاينة حصة</span>
           </button>
         </div>
@@ -390,10 +390,10 @@ function initFilterButtons() {
   buttons.forEach(btn => {
     btn.addEventListener("click", () => {
       buttons.forEach(b => {
-        b.classList.remove("bg-red-600", "text-white");
+        b.classList.remove("bg-blue-600", "text-white");
         b.classList.add("bg-[#1a0a0f]", "text-slate-300");
       });
-      btn.classList.add("bg-red-600", "text-white");
+      btn.classList.add("bg-blue-600", "text-white");
       btn.classList.remove("bg-[#1a0a0f]", "text-slate-300");
       currentFilter = btn.getAttribute("data-filter");
       renderCourses();
@@ -411,7 +411,7 @@ function renderQuizQuestion() {
   const currentAnswer = userAnswers[q.id];
 
   let optionsHtml = q.options.map((opt, idx) => {
-    let classes = "quiz-option p-4 rounded-xl border border-red-950/80 bg-[#16080b]/80 text-slate-200 text-sm font-medium flex items-center justify-between";
+    let classes = "quiz-option p-4 rounded-xl border border-blue-950/70/80 bg-[#16080b]/80 text-slate-200 text-sm font-medium flex items-center justify-between";
     if (quizSubmitted) {
       if (idx === q.correctAnswer) {
         classes += " correct";
@@ -425,13 +425,13 @@ function renderQuizQuestion() {
     return `
       <div class="${classes}" onclick="selectQuizOption(${q.id}, ${idx})">
         <div class="flex items-center gap-3">
-          <span class="w-7 h-7 rounded-lg bg-red-950/80 border border-red-800/40 flex items-center justify-center text-xs font-bold text-red-300">
+          <span class="w-7 h-7 rounded-lg bg-slate-900/80 border border-red-800/40 flex items-center justify-center text-xs font-bold text-blue-300">
             ${['أ', 'ب', 'ج', 'د'][idx]}
           </span>
           <span>${opt}</span>
         </div>
         ${quizSubmitted && idx === q.correctAnswer ? '<i class="fa-solid fa-check text-emerald-400 text-base"></i>' : ''}
-        ${quizSubmitted && currentAnswer === idx && idx !== q.correctAnswer ? '<i class="fa-solid fa-xmark text-red-400 text-base"></i>' : ''}
+        ${quizSubmitted && currentAnswer === idx && idx !== q.correctAnswer ? '<i class="fa-solid fa-xmark text-blue-400 text-base"></i>' : ''}
       </div>
     `;
   }).join("");
@@ -439,8 +439,8 @@ function renderQuizQuestion() {
   let explanationHtml = "";
   if (quizSubmitted) {
     explanationHtml = `
-      <div class="mt-5 p-4 rounded-xl bg-red-950/40 border border-red-800/50 text-xs leading-relaxed text-red-200">
-        <div class="font-bold text-red-300 mb-1 flex items-center gap-2">
+      <div class="mt-5 p-4 rounded-xl bg-slate-900/40 border border-red-800/50 text-xs leading-relaxed text-blue-200">
+        <div class="font-bold text-blue-300 mb-1 flex items-center gap-2">
           <i class="fa-solid fa-lightbulb text-amber-400"></i>
           <span>التفسير العلمي المعتمد لوزارة التربية والتعليم:</span>
         </div>
@@ -452,12 +452,12 @@ function renderQuizQuestion() {
   container.innerHTML = `
     <div>
       <div class="flex items-center justify-between mb-4">
-        <span class="text-xs text-red-300 font-bold bg-red-500/10 border border-red-500/20 px-3 py-1 rounded-full">
+        <span class="text-xs text-blue-300 font-bold bg-red-500/10 border border-red-500/20 px-3 py-1 rounded-full">
           السؤال ${currentQuizIndex + 1} من ${total}
         </span>
         <div class="flex items-center gap-1">
           ${quizQuestions.map((_, i) => `
-            <span class="w-2.5 h-2.5 rounded-full ${i === currentQuizIndex ? 'bg-red-500 ring-2 ring-red-400/50' : (userAnswers[quizQuestions[i].id] !== undefined ? 'bg-emerald-500' : 'bg-red-950')}"></span>
+            <span class="w-2.5 h-2.5 rounded-full ${i === currentQuizIndex ? 'bg-red-500 ring-2 ring-red-400/50' : (userAnswers[quizQuestions[i].id] !== undefined ? 'bg-emerald-500' : 'bg-slate-900')}"></span>
           `).join("")}
         </div>
       </div>
@@ -472,24 +472,24 @@ function renderQuizQuestion() {
 
       ${explanationHtml}
 
-      <div class="flex items-center justify-between mt-6 pt-4 border-t border-red-950">
-        <button onclick="prevQuizQuestion()" ${currentQuizIndex === 0 ? 'disabled' : ''} class="px-4 py-2 rounded-xl text-xs font-bold text-slate-300 bg-[#1c0c11] hover:bg-red-950/60 disabled:opacity-40 disabled:cursor-not-allowed transition border border-red-900/30">
+      <div class="flex items-center justify-between mt-6 pt-4 border-t border-blue-950/70">
+        <button onclick="prevQuizQuestion()" ${currentQuizIndex === 0 ? 'disabled' : ''} class="px-4 py-2 rounded-xl text-xs font-bold text-slate-300 bg-[#1c0c11] hover:bg-slate-900/60 disabled:opacity-40 disabled:cursor-not-allowed transition border border-blue-900/60/30">
           <i class="fa-solid fa-arrow-right ml-1"></i> السابق
         </button>
 
         ${currentQuizIndex < total - 1 ? `
-          <button onclick="nextQuizQuestion()" class="px-5 py-2 rounded-xl text-xs font-bold text-white bg-red-600 hover:bg-red-700 transition flex items-center gap-1 shadow-md shadow-red-600/30">
+          <button onclick="nextQuizQuestion()" class="px-5 py-2 rounded-xl text-xs font-bold text-white bg-blue-600 hover:bg-red-700 transition flex items-center gap-1 shadow-md shadow-red-600/30">
             <span>التالي</span>
             <i class="fa-solid fa-arrow-left mr-1"></i>
           </button>
         ` : `
           ${!quizSubmitted ? `
-            <button onclick="submitQuiz()" class="px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-red-600 hover:bg-red-700 transition flex items-center gap-1.5 shadow-lg shadow-red-600/40">
+            <button onclick="submitQuiz()" class="px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-blue-600 hover:bg-red-700 transition flex items-center gap-1.5 shadow-lg shadow-red-600/40">
               <i class="fa-solid fa-flag-checkered"></i>
               <span>تسليم الاختبار وحساب النتيجة</span>
             </button>
           ` : `
-            <button onclick="resetQuiz()" class="px-5 py-2 rounded-xl text-xs font-bold text-slate-200 bg-[#1c0c11] hover:bg-red-950/60 border border-red-900/40 transition flex items-center gap-1">
+            <button onclick="resetQuiz()" class="px-5 py-2 rounded-xl text-xs font-bold text-slate-200 bg-[#1c0c11] hover:bg-slate-900/60 border border-blue-900/60/40 transition flex items-center gap-1">
               <i class="fa-solid fa-rotate-right ml-1"></i>
               <span>إعادة الاختبار</span>
             </button>
@@ -545,12 +545,12 @@ function submitQuiz() {
   if (scoreBanner) {
     scoreBanner.classList.remove("hidden");
     scoreBanner.innerHTML = `
-      <div class="glass-panel p-4 rounded-xl border border-red-500/40 bg-red-950/30 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-right">
+      <div class="glass-panel p-4 rounded-xl border border-red-500/40 bg-slate-900/30 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-right">
         <div>
-          <h5 class="text-red-300 font-bold text-sm">نتيجة الاختبار: ${correctCount} / ${quizQuestions.length} (${percentage}%)</h5>
+          <h5 class="text-blue-300 font-bold text-sm">نتيجة الاختبار: ${correctCount} / ${quizQuestions.length} (${percentage}%)</h5>
           <p class="text-xs text-slate-300 mt-0.5">${percentage >= 80 ? 'مستوى عبقري! أنت جاهز للحصول على الدرجة النهائية 60/60 في الكيمياء' : 'مجهود ممتاز! راجع التفسيرات بالأسفل لتقوية نقاط ضعفك.'}</p>
         </div>
-        <button onclick="goToCheckout('كورس مراجعة بنك الأسئلة الشامل', '200 ج.م')" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-4 py-2 rounded-lg transition shrink-0 shadow-md shadow-red-600/30">
+        <button onclick="goToCheckout('كورس مراجعة بنك الأسئلة الشامل', '200 ج.م')" class="bg-blue-600 hover:bg-red-700 text-white text-xs font-bold px-4 py-2 rounded-lg transition shrink-0 shadow-md shadow-red-600/30">
           تفعيل باقي بنك الأسئلة الوزارية
         </button>
       </div>
@@ -574,10 +574,10 @@ function renderElementsCards() {
   if (!container) return;
 
   container.innerHTML = elementsData.map(elem => `
-    <div class="p-4 rounded-2xl bg-[#180a0e] border border-red-950/80 hover:border-red-500/50 transition group cursor-pointer" onclick="showToast('عنصر ${elem.name} (${elem.symbol}) - العدد الذري ${elem.atomicNumber}')">
+    <div class="p-4 rounded-2xl bg-[#180a0e] border border-blue-950/70/80 hover:border-red-500/50 transition group cursor-pointer" onclick="showToast('عنصر ${elem.name} (${elem.symbol}) - العدد الذري ${elem.atomicNumber}')">
       <div class="flex items-center justify-between mb-2">
-        <span class="text-2xl font-black text-red-400 font-mono">${elem.symbol}</span>
-        <span class="text-xs font-bold px-2 py-0.5 rounded bg-red-500/15 text-red-300 border border-red-500/30">${elem.atomicNumber}</span>
+        <span class="text-2xl font-black text-blue-400 font-mono">${elem.symbol}</span>
+        <span class="text-xs font-bold px-2 py-0.5 rounded bg-red-500/15 text-blue-300 border border-red-500/30">${elem.atomicNumber}</span>
       </div>
       <h4 class="font-bold text-white text-sm mb-1">${elem.name}</h4>
       <p class="text-slate-400 text-xs leading-relaxed line-clamp-2">${elem.note}</p>
@@ -634,7 +634,7 @@ function showToast(message) {
   const toast = document.createElement("div");
   toast.className = "toast";
   toast.innerHTML = `
-    <i class="fa-solid fa-circle-check text-red-400 text-lg"></i>
+    <i class="fa-solid fa-circle-check text-blue-400 text-lg"></i>
     <span class="text-sm font-semibold">${message}</span>
   `;
 

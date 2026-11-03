@@ -1,15 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&family=Tajawal:wght@400;500;700;900&display=swap');
 
 :root {
-  --primary: #dc2626;
-  --primary-dark: #991b1b;
-  --primary-light: #ef4444;
-  --primary-deep: #7f1d1d;
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --primary-light: #3b82f6;
+  --primary-deep: #1e3a8a;
   --secondary: #10b981;
   --accent: #f59e0b;
-  --dark-bg: #0d0608;
-  --dark-card: #180b0f;
-  --crimson: #e11d48;
+  --dark-bg: #0b1120;
+  --dark-card: #0f172a;
+  --crimson: #0284c7;
 }
 
 * {
@@ -21,7 +21,7 @@
 }
 
 body {
-  background-color: #0d0608;
+  background-color: #0b1120;
   color: #f1f5f9;
   direction: rtl;
   overflow-x: hidden;
@@ -30,7 +30,7 @@ body {
 
 /* Background animated glow & grid */
 .bg-grid-pattern {
-  background-image: radial-gradient(rgba(220, 38, 38, 0.16) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(37, 99, 235, 0.16) 1px, transparent 1px);
   background-size: 32px 32px;
 }
 
@@ -46,7 +46,7 @@ body {
 .glow-orb-1 {
   width: 480px;
   height: 480px;
-  background: #dc2626;
+  background: #2563eb;
   top: 5%;
   right: -100px;
 }
@@ -54,7 +54,7 @@ body {
 .glow-orb-2 {
   width: 520px;
   height: 520px;
-  background: #991b1b;
+  background: #1d4ed8;
   top: 35%;
   left: -150px;
 }
@@ -62,37 +62,37 @@ body {
 .glow-orb-3 {
   width: 420px;
   height: 420px;
-  background: #b91c1c;
+  background: #1e40af;
   bottom: 10%;
   right: 10%;
 }
 
 /* Glassmorphism */
 .glass-panel {
-  background: rgba(24, 11, 15, 0.72);
+  background: rgba(15, 23, 42, 0.75);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(220, 38, 38, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.16);
 }
 
 .glass-nav {
-  background: rgba(13, 6, 8, 0.88);
+  background: rgba(11, 17, 32, 0.90);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(220, 38, 38, 0.18);
+  border-bottom: 1px solid rgba(59, 130, 246, 0.20);
 }
 
 .glass-card {
-  background: rgba(26, 12, 17, 0.65);
+  background: rgba(15, 23, 42, 0.70);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(220, 38, 38, 0.14);
+  border: 1px solid rgba(59, 130, 246, 0.18);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .glass-card:hover {
   transform: translateY(-6px);
-  border-color: rgba(239, 68, 68, 0.45);
-  box-shadow: 0 20px 35px -10px rgba(185, 28, 28, 0.35);
+  border-color: rgba(96, 165, 250, 0.45);
+  box-shadow: 0 20px 35px -10px rgba(37, 99, 235, 0.35);
 }
 
 /* Floating animation */
@@ -114,8 +114,8 @@ body {
 }
 
 /* Gradient Texts */
-.gradient-text-red {
-  background: linear-gradient(135deg, #fca5a5 0%, #ef4444 40%, #dc2626 100%);
+.gradient-text-blue {
+  background: linear-gradient(135deg, #fca5a5 0%, #ef4444 40%, #2563eb 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -127,7 +127,7 @@ body {
 }
 
 .gradient-text-chem {
-  background: linear-gradient(135deg, #f87171 0%, #dc2626 50%, #b91c1c 100%);
+  background: linear-gradient(135deg, #f87171 0%, #2563eb 50%, #1e40af 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -142,19 +142,19 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #451a1a;
+  background: #1e293b;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #dc2626;
+  background: #2563eb;
 }
 
 /* Pulse glow button */
 .btn-glow {
   position: relative;
   overflow: hidden;
-  box-shadow: 0 0 25px rgba(220, 38, 38, 0.45);
+  box-shadow: 0 0 25px rgba(37, 99, 235, 0.45);
 }
 
 .btn-glow::after {
@@ -180,13 +180,13 @@ body {
 }
 
 .quiz-option:hover {
-  background: rgba(220, 38, 38, 0.15);
-  border-color: rgba(239, 68, 68, 0.5);
+  background: rgba(37, 99, 235, 0.15);
+  border-color: rgba(59, 130, 246, 0.5);
 }
 
 .quiz-option.selected {
-  background: rgba(220, 38, 38, 0.28);
-  border-color: #dc2626;
+  background: rgba(37, 99, 235, 0.28);
+  border-color: #2563eb;
 }
 
 .quiz-option.correct {
@@ -196,7 +196,7 @@ body {
 }
 
 .quiz-option.incorrect {
-  background: rgba(239, 68, 68, 0.35) !important;
+  background: rgba(59, 130, 246, 0.35) !important;
   border-color: #ef4444 !important;
   color: #fca5a5 !important;
 }
@@ -213,11 +213,11 @@ body {
 }
 
 .toast {
-  background: #1c0c11;
+  background: #0f172a;
   color: #f8fafc;
   padding: 14px 20px;
   border-radius: 12px;
-  border-right: 4px solid #dc2626;
+  border-right: 4px solid #2563eb;
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
