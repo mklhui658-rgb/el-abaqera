@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>بوابة الدفع وتفعيل الكورسات | منصة العباقرة في الكيمياء</title>
+  <meta name="description" content="بوابة الدفع الإلكتروني لمنصة العباقرة في الكيمياء - الدفع عبر فودافون كاش، إنستاباي، أو كود التفعيل المسبق.">
+  <link rel="icon" type="image/png" href="assets/logo.png">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#fef2f2',
+              100: '#fee2e2',
+              500: '#ef4444',
+              600: '#dc2626',
+              700: '#b91c1c',
+              800: '#991b1b',
+              900: '#7f1d1d',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Cairo & Tajawal -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Custom Stylesheet (Dark Red Theme) -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-[#0d0608] text-slate-100 min-h-screen relative bg-grid-pattern selection:bg-red-600 selection:text-white flex flex-col justify-between">
+
+  <!-- Ambient Glow Orbs -->
+  <div class="glow-orb glow-orb-1"></div>
+  <div class="glow-orb glow-orb-2"></div>
+  <div class="glow-orb glow-orb-3"></div>
+
+  <!-- Header -->
+  <header class="glass-nav py-4 px-4 sm:px-8 border-b border-red-950/80 relative z-30">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3 group">
+        <div class="w-11 h-11 rounded-2xl bg-white p-0.5 shadow-lg shadow-red-900/40 group-hover:scale-105 transition duration-300 overflow-hidden border border-red-500/40">
+          <img src="assets/logo.png" alt="لوجو منصة العباقرة" class="w-full h-full object-cover">
+        </div>
+        <div class="flex flex-col">
+          <span class="text-xl font-black text-white">الـعـبـاقـرة</span>
+          <span class="text-[10px] text-red-400 font-semibold -mt-1">بوابة الدفع والتفعيل الآمن</span>
+        </div>
+      </a>
+
+      <div class="flex items-center gap-3">
+        <a href="dashboard.html" class="text-xs font-bold text-amber-300 hover:text-white bg-[#1f0910] border border-red-900/40 px-3.5 py-2 rounded-xl transition flex items-center gap-1.5">
+          <i class="fa-solid fa-graduation-cap text-amber-400"></i>
+          <span>لوحة الطالب</span>
+        </a>
+        <a href="index.html" class="text-xs font-bold text-slate-300 hover:text-white bg-[#1a0a0f] border border-red-900/40 px-3.5 py-2 rounded-xl transition flex items-center gap-1.5">
+          <i class="fa-solid fa-house text-red-400"></i>
+          <span>الرئيسية</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Checkout Container -->
+  <main class="flex-grow max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full relative z-10">
+    
+    <div class="text-center max-w-2xl mx-auto mb-8">
+      <span class="text-xs font-bold text-red-400 uppercase tracking-widest bg-red-500/10 px-3 py-1 rounded-full border border-red-500/20">
+        خطوة واحدة لتأكيد الاشتراك
+      </span>
+      <h1 class="text-2xl sm:text-3xl font-black text-white mt-2">
+        بوابة دفع وتفعيل اشتراك الكيمياء
+      </h1>
+      <p class="text-xs sm:text-sm text-slate-400 mt-1">
+        اختر وسيلة الدفع المناسبة لك، وسيتم تفعيل المحتوى وفتح المحاضرات فوراً في حسابك
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      
+      <!-- Left / Top: Order Summary Card -->
+      <div class="lg:col-span-5 glass-card rounded-3xl p-6 sm:p-7 border border-red-900/60 bg-[#16060a]/90 space-y-5">
+        
+        <div class="flex items-center justify-between pb-4 border-b border-red-950">
+          <div class="flex items-center gap-2">
+            <i class="fa-solid fa-receipt text-red-400"></i>
+            <h3 class="text-sm font-bold text-white">تفاصيل الاشتراك المطلوب</h3>
+          </div>
+          <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-red-500/20 text-red-300 border border-red-500/30">
+            دفعة 2026
+          </span>
+        </div>
+
+        <div class="space-y-3 text-xs">
+          <div>
+            <span class="text-slate-400 block mb-1">الكورس / الباقة المختارة:</span>
+            <div class="p-3 rounded-xl bg-[#1d090f] border border-red-900/50 flex items-center justify-between">
+              <span class="font-bold text-white" id="summary-course-title">الكيمياء العضوية الشاملة للثانوية العامة</span>
+              <i class="fa-solid fa-check-circle text-emerald-400 text-sm"></i>
+            </div>
+          </div>
+
+          <div class="flex justify-between text-slate-300 py-1 border-b border-red-950/60">
+            <span>سعر الكورس الأصلي:</span>
+            <span class="line-through text-slate-500" id="summary-original-price">350 ج.م</span>
+          </div>
+
+          <div class="flex justify-between text-slate-300 py-1 border-b border-red-950/60">
+            <span>خصم المنصة المباشر:</span>
+            <span class="text-emerald-400 font-bold" id="summary-discount">- 100 ج.م</span>
+          </div>
+
+          <div class="flex justify-between items-baseline pt-2">
+            <span class="text-sm font-bold text-white">المبلغ المطلوب للدفع:</span>
+            <div class="text-left">
+              <span class="text-2xl font-black text-amber-400 font-mono" id="summary-final-price">250</span>
+              <span class="text-xs text-slate-400">جنيه مصري</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Student Data linked to order -->
+        <div class="pt-4 border-t border-red-950 space-y-2 text-xs">
+          <div class="flex items-center justify-between">
+            <span class="text-slate-400">اسم الطالب المسجل:</span>
+            <span class="text-white font-bold" id="summary-student-name">أحمد محمود إبراهيم</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-slate-400">رقم الهاتف:</span>
+            <span class="text-red-400 font-mono font-bold" dir="ltr" id="summary-student-phone">019624723742</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-slate-400">حالة التفعيل:</span>
+            <span class="text-amber-400 font-bold">بانتظار تأكيد الدفع ⏳</span>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-2xl bg-emerald-950/30 border border-emerald-800/40 text-[11px] text-emerald-300 flex items-center gap-2.5">
+          <i class="fa-solid fa-shield-halved text-base shrink-0"></i>
+          <span>تفعيل فوري وآمن للمحاضرات ومذكرات الـ PDF فور إتمام العملية.</span>
+        </div>
+
+      </div>
+
+      <!-- Right: Payment Methods Tabs & Form -->
+      <div class="lg:col-span-7 glass-card rounded-3xl p-6 sm:p-8 border border-red-900/60 bg-[#16060a]/90 shadow-2xl">
+        
+        <h3 class="text-sm font-bold text-white mb-4 flex items-center gap-2">
+          <i class="fa-solid fa-wallet text-red-400"></i>
+          <span>اختر طريقة الدفع المناسبة لك:</span>
+        </h3>
+
+        <!-- Payment Method Tabs -->
+        <div class="grid grid-cols-3 gap-2 p-1.5 bg-[#120407] rounded-2xl border border-red-950 mb-6">
+          
+          <button id="tab-btn-wallet" onclick="selectPaymentMethod('wallet')" class="py-3 px-2 rounded-xl text-xs font-bold transition flex flex-col sm:flex-row items-center justify-center gap-1.5 bg-red-600 text-white shadow-md shadow-red-600/30">
+            <i class="fa-solid fa-mobile-screen-button text-base"></i>
+            <span>محفظة كاش</span>
+          </button>
+
+          <button id="tab-btn-instapay" onclick="selectPaymentMethod('instapay')" class="py-3 px-2 rounded-xl text-xs font-bold transition flex flex-col sm:flex-row items-center justify-center gap-1.5 text-slate-300 hover:text-white">
+            <i class="fa-solid fa-bolt text-amber-400 text-base"></i>
+            <span>إنستاباي InstaPay</span>
+          </button>
+
+          <button id="tab-btn-code" onclick="selectPaymentMethod('code')" class="py-3 px-2 rounded-xl text-xs font-bold transition flex flex-col sm:flex-row items-center justify-center gap-1.5 text-slate-300 hover:text-white">
+            <i class="fa-solid fa-key text-emerald-400 text-base"></i>
+            <span>كود التفعيل</span>
+          </button>
+
+        </div>
+
+        <!-- ================= METHOD 1: WALLET CASH ================= -->
+        <div id="method-wallet" class="space-y-5">
+          
+          <div class="p-4 rounded-2xl bg-[#1d090f] border border-red-900/50 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-slate-300 font-semibold">رقم محفظة المنصة المعتمدة:</span>
+              <span class="text-[11px] bg-red-500/20 text-red-300 px-2 py-0.5 rounded font-bold">فودافون كاش / أورنج / وي / اتصالات</span>
+            </div>
+
+            <div class="flex items-center justify-between bg-[#120407] p-3 rounded-xl border border-red-950">
+              <span class="text-lg sm:text-xl font-black text-amber-400 font-mono tracking-wider" dir="ltr" id="platform-wallet-number">019624723742</span>
+              <button onclick="copyWalletNumber()" class="bg-red-600 hover:bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition flex items-center gap-1">
+                <i class="fa-solid fa-copy"></i>
+                <span>نسخ الرقم</span>
+              </button>
+            </div>
+
+            <p class="text-[11px] text-slate-400 leading-relaxed">
+              قم بتحويل المبلغ المطلوب من أي محفظة إلكترونية إلى الرقم الموضح بالأعلى، ثم اكتب رقم المحفظة التي قمت بالتحويل منها بالأسفل لتأكيد الاشتراك.
+            </p>
+          </div>
+
+          <form onsubmit="handleWalletSubmit(event)" class="space-y-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1.5">رقم المحفظة المُحوَّل منها *</label>
+              <input type="tel" id="wallet-sender-number" required placeholder="01xxxxxxxxx (الرقم الذي أرسلت منه)" class="w-full bg-[#1c0c11] border border-red-950 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-red-500" dir="ltr">
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1.5">رقم العملية أو اسم صاحب المحفظة (اختياري)</label>
+              <input type="text" id="wallet-tx-id" placeholder="مثال: تم التحويل باسم أحمد أو كود العملية" class="w-full bg-[#1c0c11] border border-red-950 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-red-500">
+            </div>
+
+            <button type="submit" class="w-full bg-red-600 hover:bg-red-500 text-white font-bold py-3.5 rounded-xl text-xs sm:text-sm transition duration-200 shadow-lg shadow-red-600/40 btn-glow flex items-center justify-center gap-2">
+              <i class="fa-solid fa-check-double"></i>
+              <span>تأكيد التحويل وتفعيل الكورس فوراً</span>
+            </button>
+          </form>
+
+        </div>
+
+        <!-- ================= METHOD 2: INSTAPAY ================= -->
+        <div id="method-instapay" class="space-y-5 hidden">
+          
+          <div class="p-4 rounded-2xl bg-[#1d090f] border border-red-900/50 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-slate-300 font-semibold">التحويل عبر تطبيق إنستاباي InstaPay:</span>
+              <span class="text-[11px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded font-bold">لحظي وبدون رسوم ⚡</span>
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex items-center justify-between bg-[#120407] p-3 rounded-xl border border-red-950">
+                <div>
+                  <span class="text-[10px] text-slate-400 block">رقم الهاتف المسجل بإنستاباي:</span>
+                  <span class="text-base sm:text-lg font-black text-amber-400 font-mono" dir="ltr">019624723742</span>
+                </div>
+                <button onclick="copyWalletNumber()" class="bg-red-600 hover:bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition flex items-center gap-1">
+                  <i class="fa-solid fa-copy"></i>
+                  <span>نسخ</span>
+                </button>
+              </div>
+
+              <div class="flex items-center justify-between bg-[#120407] p-3 rounded-xl border border-red-950">
+                <div>
+                  <span class="text-[10px] text-slate-400 block">معرف إنستاباي (IPA Address):</span>
+                  <span class="text-sm font-bold text-white font-mono" dir="ltr">al-abaqera@instapay</span>
+                </div>
+                <button onclick="copyText('al-abaqera@instapay', 'معرف إنستاباي')" class="bg-[#1f0910] hover:bg-red-950 border border-red-900/50 text-slate-200 text-xs font-bold px-3 py-1.5 rounded-lg transition flex items-center gap-1">
+                  <i class="fa-solid fa-copy"></i>
+                  <span>نسخ المعرف</span>
+                </button>
+              </div>
+            </div>
+
+            <p class="text-[11px] text-slate-400 leading-relaxed">
+              افتح تطبيق InstaPay وقم بالتحويل على الرقم أو المعرف، ثم اكتب اسم الحساب المحول منه بالأسفل.
+            </p>
+          </div>
+
+          <form onsubmit="handleInstapaySubmit(event)" class="space-y-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1.5">اسم الحساب في إنستاباي أو رقم الهاتف المحول منه *</label>
+              <input type="text" id="instapay-sender" required placeholder="مثال: Mohamed Ali أو 01xxxxxxxxx" class="w-full bg-[#1c0c11] border border-red-950 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-red-500">
+            </div>
+
+            <button type="submit" class="w-full bg-red-600 hover:bg-red-500 text-white font-bold py-3.5 rounded-xl text-xs sm:text-sm transition duration-200 shadow-lg shadow-red-600/40 btn-glow flex items-center justify-center gap-2">
+              <i class="fa-solid fa-bolt"></i>
+              <span>تأكيد دفع إنستاباي وتفعيل الحساب</span>
+            </button>
+          </form>
+
+        </div>
+
+        <!-- ================= METHOD 3: ACTIVATION CODE ================= -->
+        <div id="method-code" class="space-y-5 hidden">
+          
+          <div class="p-4 rounded-2xl bg-[#1d090f] border border-red-900/50 space-y-2">
+            <span class="text-xs text-slate-300 font-semibold block">كروت التفعيل وأكواد السناتر والمكتبات:</span>
+            <p class="text-[11px] text-slate-400 leading-relaxed">
+              إذا قمت بشراء كارت الاشتراك من السنتر أو المكتبة المعتمدة، قم بكشط الكارت وإدخال كود التفعيل المكون من حروف وأرقام بالأسفل لتفعيل المحتوى في ثانية واحدة!
+            </p>
+
+            <div class="pt-1">
+              <span class="text-[11px] text-amber-400 bg-amber-500/10 px-2 py-1 rounded border border-amber-500/20 inline-block">
+                💡 كود تجريبي للاختبار: <strong>CHEM-2026-VIP</strong>
+              </span>
+            </div>
+          </div>
+
+          <form onsubmit="handleCodeSubmit(event)" class="space-y-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1.5">أدخل كود التفعيل *</label>
+              <input type="text" id="activation-code-input" required placeholder="CHEM-XXXX-YYYY" class="w-full bg-[#1c0c11] border border-red-950 rounded-xl px-4 py-3 text-sm text-center text-amber-300 font-mono tracking-widest focus:outline-none focus:border-red-500 uppercase" dir="ltr" value="CHEM-2026-VIP">
+            </div>
+
+            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 rounded-xl text-xs sm:text-sm transition duration-200 shadow-lg shadow-emerald-600/40 btn-glow flex items-center justify-center gap-2">
+              <i class="fa-solid fa-key"></i>
+              <span>تفعيل الكورس فوراً بالكود</span>
+            </button>
+          </form>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Success Payment / Activation Modal -->
+  <div id="payment-success-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="glass-panel bg-[#15070a] rounded-3xl p-6 sm:p-8 max-w-lg w-full border border-emerald-500/50 shadow-2xl relative text-center space-y-5 animate-in fade-in zoom-in duration-200">
+      
+      <div class="w-20 h-20 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-4xl mx-auto border-2 border-emerald-500/40 animate-bounce">
+        <i class="fa-solid fa-circle-check"></i>
+      </div>
+
+      <div>
+        <h3 class="text-xl sm:text-2xl font-black text-white">مبروك يا بطل! تم التفعيل بنجاح 🎉</h3>
+        <p class="text-xs text-slate-300 mt-2" id="success-modal-desc">
+          تم تأكيد طلب اشتراكك وتفعيل كورس الكيمياء بالكامل على حسابك في منصة العباقرة.
+        </p>
+      </div>
+
+      <div class="bg-[#120407] p-4 rounded-2xl border border-red-950 text-xs text-right space-y-2">
+        <div class="flex justify-between border-b border-red-950 pb-2">
+          <span class="text-slate-400">كود الفاتورة:</span>
+          <span class="text-white font-mono font-bold" id="receipt-invoice-code">#INV-89241</span>
+        </div>
+        <div class="flex justify-between border-b border-red-950 pb-2">
+          <span class="text-slate-400">طريقة الدفع:</span>
+          <span class="text-amber-400 font-bold" id="receipt-payment-method">فودافون كاش</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-slate-400">حالة الكورس:</span>
+          <span class="text-emerald-400 font-bold">متاح للمشاهدة الآن ✓</span>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-3 pt-2">
+        <a href="dashboard.html" class="flex-1 bg-red-600 hover:bg-red-500 text-white font-bold py-3.5 rounded-xl text-xs sm:text-sm transition flex items-center justify-center gap-2 shadow-lg shadow-red-600/40 btn-glow">
+          <i class="fa-solid fa-graduation-cap"></i>
+          <span>فتح لوحة الطالب والمحاضرات الآن</span>
+        </a>
+
+        <button onclick="sendReceiptWhatsapp()" class="bg-emerald-600/20 hover:bg-emerald-600 text-emerald-300 hover:text-white border border-emerald-500/40 py-3.5 px-4 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2">
+          <i class="fa-brands fa-whatsapp text-base"></i>
+          <span>إرسال إشعار للإدارة</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Toast Notification System -->
+  <div class="toast-container"></div>
+
+  <!-- Footer -->
+  <footer class="border-t border-red-950 bg-[#090305] py-6 relative z-10 text-xs text-slate-500 text-center">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <p>منصة العباقرة في الكيمياء | خط الدعم والاشتراكات المعتمد: <span class="text-red-400 font-mono font-bold" dir="ltr">019624723742</span></p>
+      <a href="index.html" class="text-red-400 hover:underline">العودة للرئيسية</a>
+    </div>
+  </footer>
+
+  <!-- Checkout Logic Script -->
+  <script>
+    const PLATFORM_PHONE = "019624723742";
+    const WHATSAPP_INTL = "2019624723742";
+    let selectedMethod = "wallet";
+    let currentCourseName = "الكيمياء العضوية الشاملة للثانوية العامة";
+    let currentPrice = "250 ج.م";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      parseUrlParams();
+      loadStudentInfo();
+    });
+
+    function parseUrlParams() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const course = urlParams.get("course");
+      const price = urlParams.get("price");
+
+      if (course) {
+        currentCourseName = course;
+        document.getElementById("summary-course-title").innerText = course;
+      }
+      if (price) {
+        currentPrice = price;
+        const num = price.replace(/[^0-9]/g, "");
+        if (num) {
+          document.getElementById("summary-final-price").innerText = num;
+          const orig = parseInt(num) + 100;
+          document.getElementById("summary-original-price").innerText = orig + " ج.م";
+        }
+      }
+    }
+
+    function loadStudentInfo() {
+      const stored = localStorage.getItem("abaqera_student");
+      if (stored) {
+        try {
+          const user = JSON.parse(stored);
+          if (user.name) document.getElementById("summary-student-name").innerText = user.name;
+          if (user.phone) document.getElementById("summary-student-phone").innerText = user.phone;
+        } catch(e) {}
+      }
+    }
+
+    function selectPaymentMethod(method) {
+      selectedMethod = method;
+      const methods = ["wallet", "instapay", "code"];
+      
+      methods.forEach(m => {
+        const btn = document.getElementById(`tab-btn-${m}`);
+        const div = document.getElementById(`method-${m}`);
+        if (m === method) {
+          btn.className = "py-3 px-2 rounded-xl text-xs font-bold transition flex flex-col sm:flex-row items-center justify-center gap-1.5 bg-red-600 text-white shadow-md shadow-red-600/30";
+          div.classList.remove("hidden");
+        } else {
+          btn.className = "py-3 px-2 rounded-xl text-xs font-bold transition flex flex-col sm:flex-row items-center justify-center gap-1.5 text-slate-300 hover:text-white";
+          div.classList.add("hidden");
+        }
+      });
+    }
+
+    function copyWalletNumber() {
+      navigator.clipboard.writeText(PLATFORM_PHONE).then(() => {
+        showToast(`تم نسخ رقم محفظة المنصة: ${PLATFORM_PHONE}`);
+      }).catch(() => {
+        showToast(`رقم المحفظة: ${PLATFORM_PHONE}`);
+      });
+    }
+
+    function copyText(text, label) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast(`تم نسخ ${label}: ${text}`);
+      });
+    }
+
+    function handleWalletSubmit(e) {
+      e.preventDefault();
+      const sender = document.getElementById("wallet-sender-number").value.trim();
+      const tx = document.getElementById("wallet-tx-id").value.trim();
+
+      if (!sender) {
+        alert("من فضلك اكتب رقم المحفظة الذي قمت بالتحويل منه.");
+        return;
+      }
+
+      showPaymentSuccess("محفظة كاش (فودافون / اتصالات / وي / أورنج)");
+    }
+
+    function handleInstapaySubmit(e) {
+      e.preventDefault();
+      const sender = document.getElementById("instapay-sender").value.trim();
+
+      if (!sender) {
+        alert("من فضلك اكتب اسم حساب إنستاباي المحول منه.");
+        return;
+      }
+
+      showPaymentSuccess("إنستاباي InstaPay");
+    }
+
+    function handleCodeSubmit(e) {
+      e.preventDefault();
+      const code = document.getElementById("activation-code-input").value.trim();
+
+      if (!code) {
+        alert("يرجى إدخال كود التفعيل.");
+        return;
+      }
+
+      showPaymentSuccess("كود التفعيل مسبق الدفع (كارت السنتر)");
+    }
+
+    function showPaymentSuccess(methodName) {
+      showToast("جاري التحقق من العملية وتفعيل الكورس...");
+      
+      // Save student login state
+      localStorage.setItem("abaqera_logged_in", "true");
+      let student = {
+        name: document.getElementById("summary-student-name").innerText || "أحمد محمود إبراهيم",
+        phone: document.getElementById("summary-student-phone").innerText || PLATFORM_PHONE,
+        grade: "الصف الثالث الثانوي (علمي علوم)",
+        governorate: "القاهرة",
+        id: "#ALB-2026-8492",
+        activeCourse: currentCourseName
+      };
+      localStorage.setItem("abaqera_student", JSON.stringify(student));
+
+      // Save into subscribed courses list in localStorage
+      let subs = [];
+      const storedSubs = localStorage.getItem("abaqera_subscribed_courses");
+      if (storedSubs) {
+        try { subs = JSON.parse(storedSubs); } catch(e) {}
+      }
+      if (!Array.isArray(subs)) subs = [];
+
+      // Find full details from abaqera_courses if available
+      let fullCourse = null;
+      const storedCourses = localStorage.getItem("abaqera_courses");
+      if (storedCourses) {
+        try {
+          const list = JSON.parse(storedCourses);
+          fullCourse = list.find(c => c.title === currentCourseName || currentCourseName.includes(c.title) || (c.title && c.title.includes(currentCourseName)));
+        } catch(e) {}
+      }
+
+      const newSub = {
+        id: fullCourse ? fullCourse.id : ("sub-" + Date.now()),
+        title: currentCourseName || "كورس الكيمياء للثانوية العامة",
+        grade: fullCourse ? (fullCourse.gradeName || "الصف الثالث الثانوي") : "الصف الثالث الثانوي",
+        price: currentPrice || "250 ج.م",
+        image: (fullCourse && fullCourse.image) ? fullCourse.image : "assets/logo.png",
+        youtubeUrl: (fullCourse && fullCourse.youtubeUrl) ? fullCourse.youtubeUrl : "https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ",
+        description: fullCourse ? fullCourse.description : "شرح تفصيلي للمنهج مع حل أفكار ومسائل الامتحانات ونواتج التعلم.",
+        lecturesCount: fullCourse ? (fullCourse.lecturesCount || 20) : 20,
+        pdfUrl: fullCourse ? (fullCourse.pdfUrl || "") : "",
+        subscribedAt: new Date().toLocaleDateString('ar-EG'),
+        status: "كورس نشط ومفعل ✓"
+      };
+
+      // Add to beginning of array without duplicates
+      subs = subs.filter(s => s.title !== newSub.title);
+      subs.unshift(newSub);
+      localStorage.setItem("abaqera_subscribed_courses", JSON.stringify(subs));
+
+      setTimeout(() => {
+        const inv = "#INV-" + Math.floor(10000 + Math.random() * 90000);
+        document.getElementById("receipt-invoice-code").innerText = inv;
+        document.getElementById("receipt-payment-method").innerText = methodName;
+        
+        const modal = document.getElementById("payment-success-modal");
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+      }, 700);
+    }
+
+    function sendReceiptWhatsapp() {
+      const studentName = document.getElementById("summary-student-name").innerText;
+      const inv = document.getElementById("receipt-invoice-code").innerText;
+      const method = document.getElementById("receipt-payment-method").innerText;
+      
+      const msg = `السلام عليكم إدارة منصة العباقرة،\nقمت بإتمام عملية دفع وتفعيل كورس الكيمياء:\n- اسم الطالب: ${studentName}\n- الكورس: ${currentCourseName}\n- طريقة الدفع: ${method}\n- كود العملية: ${inv}\nبرجاء التأكيد وتأكيد الحضور في البث المباشر القادم.`;
+      
+      window.open(`https://wa.me/${WHATSAPP_INTL}?text=${encodeURIComponent(msg)}`, "_blank");
+    }
+
+    function showToast(message) {
+      let container = document.querySelector(".toast-container");
+      if (!container) {
+        container = document.createElement("div");
+        container.className = "toast-container";
+        document.body.appendChild(container);
+      }
+
+      const toast = document.createElement("div");
+      toast.className = "toast";
+      toast.innerHTML = `
+        <i class="fa-solid fa-circle-check text-red-400 text-lg"></i>
+        <span class="text-sm font-semibold">${message}</span>
+      `;
+
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateX(100%)";
+        toast.style.transition = "all 0.3s ease";
+        setTimeout(() => toast.remove(), 300);
+      }, 4000);
+    }
+  </script>
+</body>
+</html>

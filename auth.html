@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل الدخول وإنشاء حساب | منصة العباقرة في الكيمياء</title>
+  <meta name="description" content="صفحة تسجيل الدخول وإنشاء حساب جديد لطلاب الثانوية العامة على منصة العباقرة في الكيمياء.">
+  <link rel="icon" type="image/png" href="assets/logo.png">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#fef2f2',
+              100: '#fee2e2',
+              500: '#ef4444',
+              600: '#dc2626',
+              700: '#b91c1c',
+              800: '#991b1b',
+              900: '#7f1d1d',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Cairo & Tajawal -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-[#0d0608] text-slate-100 min-h-screen relative bg-grid-pattern selection:bg-red-600 selection:text-white flex flex-col justify-between">
+
+  <!-- Ambient Glow Orbs -->
+  <div class="glow-orb glow-orb-1"></div>
+  <div class="glow-orb glow-orb-2"></div>
+  <div class="glow-orb glow-orb-3"></div>
+
+  <!-- Top Simple Nav -->
+  <header class="glass-nav py-4 px-4 sm:px-8 border-b border-red-950/80 relative z-30">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3 group">
+        <div class="w-11 h-11 rounded-2xl bg-white p-0.5 shadow-lg shadow-red-900/40 group-hover:scale-105 transition duration-300 overflow-hidden border border-red-500/40">
+          <img src="assets/logo.png" alt="لوجو منصة العباقرة" class="w-full h-full object-cover">
+        </div>
+        <div class="flex flex-col">
+          <span class="text-xl font-black text-white">الـعـبـاقـرة</span>
+          <span class="text-[10px] text-red-400 font-semibold -mt-1">كيمياء الثانوية العامة</span>
+        </div>
+      </a>
+
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-xs font-bold text-slate-300 hover:text-white bg-[#1a0a0f] border border-red-900/40 px-3.5 py-2 rounded-xl transition flex items-center gap-1.5">
+          <i class="fa-solid fa-arrow-right"></i>
+          <span>العودة للرئيسية</span>
+        </a>
+        <a href="https://wa.me/2019624723742" target="_blank" class="hidden sm:flex text-xs font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800/40 px-3.5 py-2 rounded-xl transition items-center gap-1.5">
+          <i class="fa-brands fa-whatsapp text-sm"></i>
+          <span dir="ltr">019624723742</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Auth Container -->
+  <main class="flex-grow flex items-center justify-center py-12 px-4 sm:px-6 relative z-10">
+    <div class="w-full max-w-xl">
+      
+      <!-- Card Container -->
+      <div class="glass-card bg-[#14080b]/90 rounded-3xl p-6 sm:p-10 border border-red-900/50 shadow-2xl relative overflow-hidden">
+        
+        <!-- Top Tab Switcher -->
+        <div class="flex bg-[#1f0b11] p-1.5 rounded-2xl border border-red-950 mb-8">
+          <button id="tab-login-btn" onclick="switchTab('login')" class="flex-1 py-3 text-xs sm:text-sm font-bold rounded-xl transition flex items-center justify-center gap-2 bg-red-600 text-white shadow-md shadow-red-600/30">
+            <i class="fa-solid fa-right-to-bracket"></i>
+            <span>تسجيل الدخول</span>
+          </button>
+          <button id="tab-register-btn" onclick="switchTab('register')" class="flex-1 py-3 text-xs sm:text-sm font-bold rounded-xl transition flex items-center justify-center gap-2 text-slate-400 hover:text-white">
+            <i class="fa-solid fa-user-plus"></i>
+            <span>إنشاء حساب طالب جديد</span>
+          </button>
+        </div>
+
+        <!-- ================= LOGIN FORM ================= -->
+        <div id="login-section" class="space-y-6">
+          <div class="text-center">
+            <h2 class="text-2xl font-black text-white">تسجيل دخول الطالب 🧪</h2>
+            <p class="text-xs text-slate-400 mt-1">أدخل البريد الإلكتروني أو رقم الهاتف وكلمة المرور لفتح حسابك والمحتوى المشترك فيه</p>
+          </div>
+
+          <form onsubmit="handleLogin(event)" class="space-y-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1.5">
+                <i class="fa-solid fa-envelope ml-1 text-red-400"></i>
+                البريد الإلكتروني أو رقم الهاتف *
+              </label>
+              <input type="text" id="login-identifier" required placeholder="student@abaqera.com أو 01xxxxxxxxx" class="w-full bg-[#1c0c11] border border-red-950 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-red-500 transition" dir="ltr" value="ahmed.chem2026@gmail.com">
+            </div>
+
+            <div>
+              <div class="flex items-center justify-between mb-1.5">
+                <label class="block text-xs font-semibold text-slate-300">
+                  <i class="fa-solid fa-lock ml-1 text-red-400"></i>
+                  كلمة المرور *
+                </label>
+                <a href="javascript:void(0)" onclick="openForgotPassPrompt()" class="text-[11px] text-red-400 hover:underline">نسيت كلمة المرور؟</a>
+              </div>
+              <div class="relative">
+                <input type="password" id="login-password" required placeholder="••••••••" class="w-full bg-[#1c0c11] border border-red-950 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-red-500 transition" dir="ltr" value="123456">
+                <button type="button" onclick="togglePasswordVisibility('login-password', this)" class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs">
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between text-xs text-slate-400">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" checked class="accent-red-600 rounded">
+                <span>تذكر بيانات الدخول على هذا الجهاز</span>
+              </label>
+            </div>
+
+            <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3.5 rounded-xl text-xs sm:text-sm transition duration-200 shadow-lg shadow-red-600/30 btn-glow flex items-center justify-center gap-2">
+              <i class="fa-solid fa-right-to-bracket"></i>
+              <span>تسجيل الدخول وفتح لوحة الطالب</span>
+            </button>
+          </form>
+
+          <!-- Quick Demo Login Button for easy testing -->
+          <div class="text-center pt-2 border-t border-red-950">
+            <button onclick="demoQuickLogin()" class="w-full bg-[#1d090e] hover:bg-[#2c0d15] text-red-300 border border-red-900/40 text-xs font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-2">
+              <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i>
+              <span>دخول سريع تجريبي كطالب مشترك (تجربة مباشرة)</span>
+            </button>
+          </div>
+
+          <!-- Quick WhatsApp Help -->
+          <div class="p-3.5 rounded-2xl bg-red-950/30 border border-red-900/40 text-xs text-slate-300 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <i class="fa-solid fa-headset text-red-400 text-base"></i>
+              <span>تواجه صعوبة في تسجيل الدخول؟</span>
+            </div>
+            <a href="https://wa.me/2019624723742?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%20%D9%85%D9%86%D8%B5%D8%A9%20%D8%A7%D9%84%D8%B9%D8%A8%D8%A7%D9%82%D8%B1%D8%A9%D8%8C%20%D9%84%D8%AF%D9%8A%20%D9%85%D8%B4%D9%83%D9%84%D8%A9%20%D9%81%D9%8A%20%D8%AA%D8%B3%D8%AC%D9%8A%D9%84%20%D8%A7%D9%84%D8%AF%D8%AE%D9%88%D9%84" target="_blank" class="text-red-400 font-bold hover:underline">
+              الدعم الفني (019624723742)
+            </a>
+          </div>
+
+          <!-- Admin Portal Link -->
+          <div class="text-center pt-1">
+            <a href="admin.html" class="text-[11px] text-slate-400 hover:text-red-300 transition inline-flex items-center gap-1 font-semibold">
+              <i class="fa-solid fa-user-shield text-amber-400"></i>
+              <span>الدخول إلى لوحة تحكم الإدارة (الأدمن)</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- ================= REGISTER FORM ================= -->
+        <div id="register-section" class="space-y-6 hidden">
+          <div class="text-center">
+            <h2 class="text-2xl font-black text-white">انضم لعائلة العباقرة 🚀</h2>
+            <p class="text-xs text-slate-400 mt-1">أنشئ حسابك لبدء تجربة التعلم وتفعيل المحتوى المشترك فيه</p>
+          </div>
+
+          <form onsubmit="handleRegister(event)" class="space-y-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1.5">
+                <i class="fa-solid fa-user ml-1 text-red-400"></i>
+                اسم الطالب رباعي *
+              </label>
+              <input type="text" id="reg-name" required placeholder="مثال: زياد محمد أحمد عبد الله" class="w-full bg-[#1c0c11] border border-red-950 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-red-500 transition">
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">
+                  <i class="fa-solid fa-envelope ml-1 text-red-400"></i>
+                  البريد الإلكتروني *
+                </label>
+                <input type="email" id="reg-email" required placeholder="student@example.com" class="w-full bg-[#1c0c11] border border-red-950 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-red-500 transition" dir="ltr">
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">
+                  <i class="fa-solid fa-phone ml-1 text-red-400"></i>
+                  رقم هاتف الطالب (واتساب) *
+                </label>
+                <input type="tel" id="reg-student-phone" required placeholder="01xxxxxxxxx" class="w-full bg-[#1c0c11] border border-red-950 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-red-500 transition" dir="ltr">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">
+                  <i class="fa-solid fa-user-shield ml-1 text-red-400"></i>
+                  رقم هاتف ولي الأمر *
+                </label>
+                <input type="tel" id="reg-parent-phone" required placeholder="01xxxxxxxxx" class="w-full bg-[#1c0c11] border border-red-950 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-red-500 transition" dir="ltr">
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">المحافظة *</label>
+                <select id="reg-gov" class="w-full bg-[#1c0c11] border border-red-950 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-red-500">
+                  <option value="القاهرة">القاهرة</option>
+                  <option value="الجيزة">الجيزة</option>
+                  <option value="الإسكندرية">الإسكندرية</option>
+                  <option value="الدقهلية">الدقهلية</option>
+                  <option value="الغربية">الغربية</option>
+                  <option value="الشرقية">الشرقية</option>
+                  <option value="القليوبية">القليوبية</option>
+                  <option value="المنوفية">المنوفية</option>
+                  <option value="البحيرة">البحيرة</option>
+                  <option value="أخرى">محافظة أخرى</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">الصف الدراسي *</label>
+                <select id="reg-grade" onchange="handleGradeChange()" class="w-full bg-[#1c0c11] border border-red-950 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-red-500">
+                  <option value="الصف الثالث الثانوي">الصف الثالث الثانوي (تالتة ثانوي)</option>
+                  <option value="الصف الثاني الثانوي">الصف الثاني الثانوي (تانية ثانوي)</option>
+                  <option value="الصف الأول الثانوي">الصف الأول الثانوي (أولى ثانوي)</option>
+                </select>
+              </div>
+
+              <div id="branch-wrapper">
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">الشعبة (لتالتة ثانوي)</label>
+                <select id="reg-branch" class="w-full bg-[#1c0c11] border border-red-950 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-red-500">
+                  <option value="علمي علوم">علمي علوم</option>
+                  <option value="علمي رياضة">علمي رياضة</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">كلمة المرور *</label>
+                <div class="relative">
+                  <input type="password" id="reg-pass" required placeholder="6 أحرف على الأقل" class="w-full bg-[#1c0c11] border border-red-950 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-red-500" dir="ltr">
+                  <button type="button" onclick="togglePasswordVisibility('reg-pass', this)" class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs">
+                    <i class="fa-solid fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">تأكيد كلمة المرور *</label>
+                <div class="relative">
+                  <input type="password" id="reg-pass-confirm" required placeholder="أعد كتابتها" class="w-full bg-[#1c0c11] border border-red-950 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-red-500" dir="ltr">
+                  <button type="button" onclick="togglePasswordVisibility('reg-pass-confirm', this)" class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs">
+                    <i class="fa-solid fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 text-xs text-slate-400">
+              <input type="checkbox" required id="reg-terms" checked class="accent-red-600 rounded">
+              <label for="reg-terms" class="cursor-pointer">أوافق على ميثاق الالتزام والشروط الخاصة بمنصة العباقرة</label>
+            </div>
+
+            <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3.5 rounded-xl text-xs sm:text-sm transition duration-200 shadow-lg shadow-red-600/30 btn-glow flex items-center justify-center gap-2">
+              <i class="fa-solid fa-user-check"></i>
+              <span>إنشاء الحساب والانتقال للوحة التحكم</span>
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+      <!-- Footer Info -->
+      <div class="text-center mt-6 text-xs text-slate-500">
+        <p>منصة العباقرة في الكيمياء | هاتف وواتساب: <a href="tel:019624723742" class="text-red-400 font-mono font-bold" dir="ltr">019624723742</a></p>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Notification Toast Container -->
+  <div class="toast-container"></div>
+
+  <!-- Auth Script -->
+  <script>
+    const PLATFORM_PHONE = "019624723742";
+    const WHATSAPP_INTL = "2019624723742";
+
+    function switchTab(tab) {
+      const loginBtn = document.getElementById("tab-login-btn");
+      const regBtn = document.getElementById("tab-register-btn");
+      const loginSec = document.getElementById("login-section");
+      const regSec = document.getElementById("register-section");
+
+      if (tab === 'login') {
+        loginBtn.className = "flex-1 py-3 text-xs sm:text-sm font-bold rounded-xl transition flex items-center justify-center gap-2 bg-red-600 text-white shadow-md shadow-red-600/30";
+        regBtn.className = "flex-1 py-3 text-xs sm:text-sm font-bold rounded-xl transition flex items-center justify-center gap-2 text-slate-400 hover:text-white";
+        loginSec.classList.remove("hidden");
+        regSec.classList.add("hidden");
+      } else {
+        regBtn.className = "flex-1 py-3 text-xs sm:text-sm font-bold rounded-xl transition flex items-center justify-center gap-2 bg-red-600 text-white shadow-md shadow-red-600/30";
+        loginBtn.className = "flex-1 py-3 text-xs sm:text-sm font-bold rounded-xl transition flex items-center justify-center gap-2 text-slate-400 hover:text-white";
+        regSec.classList.remove("hidden");
+        loginSec.classList.add("hidden");
+      }
+    }
+
+    function togglePasswordVisibility(fieldId, btn) {
+      const field = document.getElementById(fieldId);
+      if (!field) return;
+      const icon = btn.querySelector('i');
+      if (field.type === 'password') {
+        field.type = 'text';
+        icon.className = 'fa-solid fa-eye-slash';
+      } else {
+        field.type = 'password';
+        icon.className = 'fa-solid fa-eye';
+      }
+    }
+
+    function handleGradeChange() {
+      const grade = document.getElementById("reg-grade").value;
+      const branchWrapper = document.getElementById("branch-wrapper");
+      if (grade.includes("الثالث")) {
+        branchWrapper.classList.remove("hidden");
+      } else {
+        branchWrapper.classList.add("hidden");
+      }
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const identifier = document.getElementById("login-identifier").value.trim();
+      const pass = document.getElementById("login-password").value;
+
+      if (!identifier || !pass) {
+        showToast("يرجى إدخال البريد الإلكتروني أو رقم الهاتف وكلمة المرور.");
+        return;
+      }
+
+      // Check if student profile exists in storage or create default
+      let student = {
+        name: identifier.includes("@") ? identifier.split("@")[0] : "أحمد محمود إبراهيم",
+        email: identifier,
+        phone: "019624723742",
+        grade: "الصف الثالث الثانوي (علمي علوم)",
+        governorate: "القاهرة",
+        id: "#ALB-2026-8492"
+      };
+
+      const existing = localStorage.getItem("abaqera_student");
+      if (existing) {
+        try {
+          student = JSON.parse(existing);
+        } catch(e) {}
+      }
+
+      localStorage.setItem("abaqera_student", JSON.stringify(student));
+      localStorage.setItem("abaqera_logged_in", "true");
+
+      showToast("تم تسجيل الدخول بنجاح! جاري تحويلك إلى لوحة الطالب والمحتوى المشترك فيه...");
+      setTimeout(() => {
+        window.location.href = "dashboard.html";
+      }, 900);
+    }
+
+    function demoQuickLogin() {
+      const student = {
+        name: "أحمد محمود إبراهيم",
+        email: "ahmed.chem2026@gmail.com",
+        phone: "019624723742",
+        grade: "الصف الثالث الثانوي (علمي علوم)",
+        governorate: "القاهرة",
+        id: "#ALB-2026-8492"
+      };
+      localStorage.setItem("abaqera_student", JSON.stringify(student));
+      localStorage.setItem("abaqera_logged_in", "true");
+
+      showToast("مرحباً بك يا أحمد! جاري فتح لوحة الطالب والمحتوى المشترك فيه...");
+      setTimeout(() => {
+        window.location.href = "dashboard.html";
+      }, 700);
+    }
+
+    function handleRegister(e) {
+      e.preventDefault();
+      const name = document.getElementById("reg-name").value.trim();
+      const email = document.getElementById("reg-email").value.trim();
+      const sPhone = document.getElementById("reg-student-phone").value.trim();
+      const pPhone = document.getElementById("reg-parent-phone").value.trim();
+      const pass = document.getElementById("reg-pass").value;
+      const passConfirm = document.getElementById("reg-pass-confirm").value;
+      const grade = document.getElementById("reg-grade").value;
+      const branch = document.getElementById("reg-branch").value;
+      const gov = document.getElementById("reg-gov").value;
+
+      if (pass !== passConfirm) {
+        alert("كلمتا المرور غير متطابقتين، برجاء التأكد من كتابتهما بشكل صحيح.");
+        return;
+      }
+
+      const randomId = "#ALB-2026-" + Math.floor(1000 + Math.random() * 9000);
+      const student = {
+        name: name,
+        email: email,
+        phone: sPhone,
+        parentPhone: pPhone,
+        grade: `${grade} (${branch})`,
+        governorate: gov,
+        id: randomId
+      };
+
+      localStorage.setItem("abaqera_student", JSON.stringify(student));
+      localStorage.setItem("abaqera_logged_in", "true");
+
+      showToast("تم إنشاء حسابك وتفعيله بنجاح! جاري الانتقال للوحة الطالب...");
+      setTimeout(() => {
+        window.location.href = "dashboard.html";
+      }, 900);
+    }
+
+    function openForgotPassPrompt() {
+      const phone = prompt("أدخل رقم هاتفك أو بريدك المسجل على المنصة لإرسال كود استعادة كلمة المرور:");
+      if (phone) {
+        const msg = encodeURIComponent(`السلام عليكم، نسيت كلمة المرور الخاصة بحسابي على منصة العباقرة في الكيمياء.\nبيانات الحساب: ${phone}`);
+        window.open(`https://wa.me/${WHATSAPP_INTL}?text=${msg}`, "_blank");
+      }
+    }
+
+    function showToast(message) {
+      let container = document.querySelector(".toast-container");
+      if (!container) {
+        container = document.createElement("div");
+        container.className = "toast-container";
+        document.body.appendChild(container);
+      }
+
+      const toast = document.createElement("div");
+      toast.className = "toast";
+      toast.innerHTML = `
+        <i class="fa-solid fa-circle-check text-red-400 text-lg"></i>
+        <span class="text-sm font-semibold">${message}</span>
+      `;
+
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateX(100%)";
+        toast.style.transition = "all 0.3s ease";
+        setTimeout(() => toast.remove(), 300);
+      }, 4000);
+    }
+  </script>
+</body>
+</html>
