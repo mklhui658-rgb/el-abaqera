@@ -209,14 +209,14 @@ function renderNavbarAuthState() {
     authContainer.innerHTML = `
       <div class="flex items-center gap-2">
         <a href="dashboard.html" class="flex items-center gap-2 bg-[#1f0910] hover:bg-slate-900 border border-red-800/60 text-slate-200 px-3.5 py-2 rounded-xl text-xs font-bold transition shadow-md">
-          <div class="w-6 h-6 rounded-lg bg-blue-600 text-white flex items-center justify-center text-[10px]">
+          <div class="w-6 h-6 rounded-lg bg-blue-600 text-slate-900 flex items-center justify-center text-[10px]">
             <i class="fa-solid fa-user-graduate"></i>
           </div>
-          <span class="text-white">${studentName}</span>
+          <span class="text-slate-900">${studentName}</span>
           <span class="text-amber-400 text-[10px] bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/20">لوحة الطالب</span>
         </a>
 
-        <button onclick="logoutFromHome()" title="تسجيل الخروج" class="w-9 h-9 rounded-xl bg-slate-900/40 hover:bg-blue-600 text-blue-300 hover:text-white border border-blue-900/60/50 flex items-center justify-center text-xs transition">
+        <button onclick="logoutFromHome()" title="تسجيل الخروج" class="w-9 h-9 rounded-xl bg-slate-900/40 hover:bg-blue-600 text-blue-300 hover:text-slate-900 border border-blue-900/60/50 flex items-center justify-center text-xs transition">
           <i class="fa-solid fa-right-from-bracket"></i>
         </button>
       </div>
@@ -243,7 +243,7 @@ function renderNavbarAuthState() {
         <span>دخول / تسجيل</span>
       </a>
 
-      <button onclick="goToCheckout('كورس كيمياء الثانوية العامة', '250 ج.م')" class="bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-500 hover:to-rose-600 text-white font-bold px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-lg shadow-red-900/40 transition duration-200 btn-glow flex items-center gap-1.5">
+      <button onclick="goToCheckout('كورس كيمياء الثانوية العامة', '250 ج.م')" class="bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-500 hover:to-rose-600 text-slate-900 font-bold px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-lg shadow-red-900/40 transition duration-200 btn-glow flex items-center gap-1.5">
         <i class="fa-solid fa-bolt"></i>
         <span>اشترك الآن</span>
       </button>
@@ -322,11 +322,11 @@ function renderCourses() {
         ${course.image ? `
           <div class="h-40 w-full overflow-hidden relative bg-black/60">
             <img src="${course.image}" onerror="this.src='assets/logo.png'" alt="${course.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-            <div class="absolute inset-0 bg-gradient-to-t from-[#140609] via-transparent to-black/20"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-black/20"></div>
             <span class="absolute top-3 right-3 text-xs font-semibold px-3 py-1 rounded-full border ${course.badgeColor} backdrop-blur-md">
               ${course.badge}
             </span>
-            <span class="absolute top-3 left-3 text-xs text-white bg-black/60 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-blue-900/60/50">
+            <span class="absolute top-3 left-3 text-xs text-slate-900 bg-black/60 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-blue-900/60/50">
               <i class="fa-solid fa-graduation-cap text-blue-400 ml-1"></i>
               ${course.gradeName}
             </span>
@@ -335,21 +335,21 @@ function renderCourses() {
 
         <div class="p-6">
           <div class="flex items-start gap-3 mb-3">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-br ${course.color} flex items-center justify-center text-white text-lg shadow-lg shadow-red-900/40 shrink-0">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br ${course.color} flex items-center justify-center text-slate-900 text-lg shadow-lg shadow-red-900/40 shrink-0">
               <i class="fa-solid ${course.icon}"></i>
             </div>
-            <h3 class="text-base sm:text-lg font-bold text-white hover:text-blue-400 transition-colors leading-snug">
+            <h3 class="text-base sm:text-lg font-bold text-slate-900 hover:text-blue-400 transition-colors leading-snug">
               ${course.title}
             </h3>
           </div>
 
-          <p class="text-slate-300 text-xs sm:text-sm mb-4 leading-relaxed line-clamp-2">
+          <p class="text-slate-600 text-xs sm:text-sm mb-4 leading-relaxed line-clamp-2">
             ${course.description}
           </p>
 
           <div class="bg-slate-900/30 rounded-xl p-3 mb-2 border border-blue-900/60/40">
             <span class="text-xs text-blue-300 block mb-1.5 font-semibold">أبرز المحتويات:</span>
-            <ul class="space-y-1 text-xs text-slate-300">
+            <ul class="space-y-1 text-xs text-slate-600">
               ${(course.topics || []).slice(0, 3).map(t => `
                 <li class="flex items-center gap-1.5">
                   <i class="fa-solid fa-circle-check text-blue-400 text-[10px]"></i>
@@ -370,11 +370,11 @@ function renderCourses() {
 
         <div class="grid grid-cols-2 gap-2">
           <!-- Direct to Payment Gateway -->
-          <button onclick="goToCheckout('${course.title}', '${course.price}')" class="w-full bg-blue-600 hover:bg-red-700 text-white font-bold py-2.5 px-3 rounded-xl text-xs transition duration-200 flex items-center justify-center gap-1.5 shadow-md shadow-red-600/30">
+          <button onclick="goToCheckout('${course.title}', '${course.price}')" class="w-full bg-blue-600 hover:bg-red-700 text-slate-900 font-bold py-2.5 px-3 rounded-xl text-xs transition duration-200 flex items-center justify-center gap-1.5 shadow-md shadow-red-600/30">
             <i class="fa-solid fa-credit-card"></i>
             <span>حجز ودفع</span>
           </button>
-          <button onclick="openVideoModal('${course.title}', '${course.gradeName}')" class="w-full bg-[#1e0d12] hover:bg-slate-900/70 border border-blue-900/60/50 text-slate-200 font-bold py-2.5 px-3 rounded-xl text-xs transition duration-200 flex items-center justify-center gap-1.5">
+          <button onclick="openVideoModal('${course.title}', '${course.gradeName}')" class="w-full bg-slate-100 hover:bg-red-50 text-slate-800 hover:bg-slate-900/70 border border-blue-900/60/50 text-slate-200 font-bold py-2.5 px-3 rounded-xl text-xs transition duration-200 flex items-center justify-center gap-1.5">
             <i class="fa-solid fa-play text-blue-400"></i>
             <span>معاينة حصة</span>
           </button>
@@ -390,11 +390,11 @@ function initFilterButtons() {
   buttons.forEach(btn => {
     btn.addEventListener("click", () => {
       buttons.forEach(b => {
-        b.classList.remove("bg-blue-600", "text-white");
-        b.classList.add("bg-[#1a0a0f]", "text-slate-300");
+        b.classList.remove("bg-blue-600", "text-slate-900");
+        b.classList.add("bg-[#1a0a0f]", "text-slate-600");
       });
-      btn.classList.add("bg-blue-600", "text-white");
-      btn.classList.remove("bg-[#1a0a0f]", "text-slate-300");
+      btn.classList.add("bg-blue-600", "text-slate-900");
+      btn.classList.remove("bg-[#1a0a0f]", "text-slate-600");
       currentFilter = btn.getAttribute("data-filter");
       renderCourses();
     });
@@ -462,7 +462,7 @@ function renderQuizQuestion() {
         </div>
       </div>
 
-      <h4 class="text-base md:text-lg font-bold text-white mb-5 leading-relaxed">
+      <h4 class="text-base md:text-lg font-bold text-slate-900 mb-5 leading-relaxed">
         ${q.question}
       </h4>
 
@@ -473,18 +473,18 @@ function renderQuizQuestion() {
       ${explanationHtml}
 
       <div class="flex items-center justify-between mt-6 pt-4 border-t border-blue-950/70">
-        <button onclick="prevQuizQuestion()" ${currentQuizIndex === 0 ? 'disabled' : ''} class="px-4 py-2 rounded-xl text-xs font-bold text-slate-300 bg-[#1c0c11] hover:bg-slate-900/60 disabled:opacity-40 disabled:cursor-not-allowed transition border border-blue-900/60/30">
+        <button onclick="prevQuizQuestion()" ${currentQuizIndex === 0 ? 'disabled' : ''} class="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 bg-[#1c0c11] hover:bg-slate-900/60 disabled:opacity-40 disabled:cursor-not-allowed transition border border-blue-900/60/30">
           <i class="fa-solid fa-arrow-right ml-1"></i> السابق
         </button>
 
         ${currentQuizIndex < total - 1 ? `
-          <button onclick="nextQuizQuestion()" class="px-5 py-2 rounded-xl text-xs font-bold text-white bg-blue-600 hover:bg-red-700 transition flex items-center gap-1 shadow-md shadow-red-600/30">
+          <button onclick="nextQuizQuestion()" class="px-5 py-2 rounded-xl text-xs font-bold text-slate-900 bg-blue-600 hover:bg-red-700 transition flex items-center gap-1 shadow-md shadow-red-600/30">
             <span>التالي</span>
             <i class="fa-solid fa-arrow-left mr-1"></i>
           </button>
         ` : `
           ${!quizSubmitted ? `
-            <button onclick="submitQuiz()" class="px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-blue-600 hover:bg-red-700 transition flex items-center gap-1.5 shadow-lg shadow-red-600/40">
+            <button onclick="submitQuiz()" class="px-6 py-2.5 rounded-xl text-xs font-bold text-slate-900 bg-blue-600 hover:bg-red-700 transition flex items-center gap-1.5 shadow-lg shadow-red-600/40">
               <i class="fa-solid fa-flag-checkered"></i>
               <span>تسليم الاختبار وحساب النتيجة</span>
             </button>
@@ -548,9 +548,9 @@ function submitQuiz() {
       <div class="glass-panel p-4 rounded-xl border border-red-500/40 bg-slate-900/30 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-right">
         <div>
           <h5 class="text-blue-300 font-bold text-sm">نتيجة الاختبار: ${correctCount} / ${quizQuestions.length} (${percentage}%)</h5>
-          <p class="text-xs text-slate-300 mt-0.5">${percentage >= 80 ? 'مستوى عبقري! أنت جاهز للحصول على الدرجة النهائية 60/60 في الكيمياء' : 'مجهود ممتاز! راجع التفسيرات بالأسفل لتقوية نقاط ضعفك.'}</p>
+          <p class="text-xs text-slate-600 mt-0.5">${percentage >= 80 ? 'مستوى عبقري! أنت جاهز للحصول على الدرجة النهائية 60/60 في الكيمياء' : 'مجهود ممتاز! راجع التفسيرات بالأسفل لتقوية نقاط ضعفك.'}</p>
         </div>
-        <button onclick="goToCheckout('كورس مراجعة بنك الأسئلة الشامل', '200 ج.م')" class="bg-blue-600 hover:bg-red-700 text-white text-xs font-bold px-4 py-2 rounded-lg transition shrink-0 shadow-md shadow-red-600/30">
+        <button onclick="goToCheckout('كورس مراجعة بنك الأسئلة الشامل', '200 ج.م')" class="bg-blue-600 hover:bg-red-700 text-slate-900 text-xs font-bold px-4 py-2 rounded-lg transition shrink-0 shadow-md shadow-red-600/30">
           تفعيل باقي بنك الأسئلة الوزارية
         </button>
       </div>
@@ -579,7 +579,7 @@ function renderElementsCards() {
         <span class="text-2xl font-black text-blue-400 font-mono">${elem.symbol}</span>
         <span class="text-xs font-bold px-2 py-0.5 rounded bg-red-500/15 text-blue-300 border border-red-500/30">${elem.atomicNumber}</span>
       </div>
-      <h4 class="font-bold text-white text-sm mb-1">${elem.name}</h4>
+      <h4 class="font-bold text-slate-900 text-sm mb-1">${elem.name}</h4>
       <p class="text-slate-400 text-xs leading-relaxed line-clamp-2">${elem.note}</p>
     </div>
   `).join("");
