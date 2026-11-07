@@ -108,9 +108,9 @@
             <div>
               <label class="block text-xs font-semibold text-slate-600 mb-1.5">
                 <i class="fa-solid fa-envelope ml-1 text-red-600"></i>
-                البريد الإلكتروني أو رقم الهاتف *
+                رقم الهاتف أو البريد الإلكتروني *
               </label>
-              <input type="text" id="login-identifier" required placeholder="student@abaqera.com أو 01xxxxxxxxx" class="w-full bg-white border border-slate-100 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 transition" dir="ltr" value="ahmed.chem2026@gmail.com">
+              <input type="text" id="login-identifier" required placeholder="مثال: 01012345678 أو البريد الإلكتروني" class="w-full bg-white border border-slate-100 rounded-xl px-4 py-3 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-red-500 transition" dir="ltr" value="">
             </div>
 
             <div>
@@ -122,8 +122,8 @@
                 <a href="javascript:void(0)" onclick="openForgotPassPrompt()" class="text-[11px] text-red-600 hover:underline">نسيت كلمة المرور؟</a>
               </div>
               <div class="relative">
-                <input type="password" id="login-password" required placeholder="••••••••" class="w-full bg-white border border-slate-100 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 transition" dir="ltr" value="123456">
-                <button type="button" onclick="togglePasswordVisibility('login-password', this)" class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white text-xs">
+                <input type="password" id="login-password" required placeholder="أدخل كلمة المرور الخاصة بحسابك" class="w-full bg-white border border-slate-100 rounded-xl px-4 py-3 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-red-500 transition" dir="ltr" value="">
+                <button type="button" onclick="togglePasswordVisibility('login-password', this)" class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-900 text-xs">
                   <i class="fa-solid fa-eye"></i>
                 </button>
               </div>
@@ -136,19 +136,11 @@
               </label>
             </div>
 
-            <button type="submit" class="w-full bg-red-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl text-xs sm:text-sm transition duration-200 shadow-lg shadow-blue-600/30 btn-glow flex items-center justify-center gap-2">
+            <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3.5 rounded-xl text-xs sm:text-sm transition duration-200 shadow-lg shadow-red-600/30 btn-glow flex items-center justify-center gap-2">
               <i class="fa-solid fa-right-to-bracket"></i>
               <span>تسجيل الدخول وفتح لوحة الطالب</span>
             </button>
           </form>
-
-          <!-- Quick Demo Login Button for easy testing -->
-          <div class="text-center pt-2 border-t border-slate-100">
-            <button onclick="demoQuickLogin()" class="w-full bg-[#1d090e] hover:bg-[#2c0d15] text-red-500 border border-red-100/40 text-xs font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-2">
-              <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i>
-              <span>دخول سريع تجريبي كطالب مشترك (تجربة مباشرة)</span>
-            </button>
-          </div>
 
           <!-- Quick WhatsApp Help -->
           <div class="p-3.5 rounded-2xl bg-white border border-red-100/40 text-xs text-slate-600 flex items-center justify-between">

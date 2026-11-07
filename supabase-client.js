@@ -96,52 +96,50 @@ const SupabaseAPI = {
     return { success: false };
   },
 
-  // 3.1 Authenticate Student by Phone or Code and Password
-  async loginStudent(phoneOrCode, password) {
+  // 3.1 Authenticate Student by Phone, Email, or Code and Password
+  async loginStudent(identifier, password) {
     if (db) {
       try {
-        const cleanIdentifier = phoneOrCode.trim();
-        // Query student by phone or student_code
+        const cleanIdentifier = identifier.trim();
+        // Query student strictly by phone or student_code in Supabase
         const { data, error } = await db.from("students")
           .select("*")
-          .or(`phone.eq.${cleanIdentifier},student_code.eq.${cleanIdentifier}`)
+          .or(`phone.eq."${cleanIdentifier}",student_code.eq."${cleanIdentifier}"`)
           .limit(1);
 
-        if (error) {
-          console.warn("Supabase query error:", error);
-        } else if (data && data.length > 0) {
+        if (!error && data && data.length > 0) {
           const user = data[0];
-          // Strict password verification
-          if (user.password === password.trim()) {
+          // Strict Password Verification
+          if (user.password && user.password.toString().trim() === password.toString().trim()) {
             return { success: true, user: user };
           } else {
-            return { success: false, error: "wrong_password", message: "كلمة المرور غير صحيحة، يرجى المحاولة مرة أخرى." };
+            return { success: false, error: "wrong_password", message: "كلمة المرور غير صحيحة، يرجى إعادة المحاولة!" };
           }
         } else {
-          return { success: false, error: "user_not_found", message: "الحساب غير مسجل في المنصة، يرجى إنشاء حساب جديد." };
+          return { success: false, error: "user_not_found", message: "هذا الحساب غير مسجل في قاعدة البيانات، يرجى إنشاء حساب جديد أولاً." };
         }
       } catch (err) {
         console.warn("Supabase loginStudent exception:", err);
       }
     }
 
-    // Local fallback if Supabase is offline
+    // Strict local check only if user was registered on this device
     const local = localStorage.getItem("abaqera_registered_students");
     if (local) {
       try {
         const studentsList = JSON.parse(local);
-        const user = studentsList.find(s => s.phone === phoneOrCode.trim() || s.id === phoneOrCode.trim());
+        const user = studentsList.find(s => s.phone === identifier.trim() || s.email === identifier.trim() || s.id === identifier.trim());
         if (user) {
-          if (user.password === password.trim()) {
+          if (user.password && user.password.toString().trim() === password.toString().trim()) {
             return { success: true, user: user };
           } else {
-            return { success: false, error: "wrong_password", message: "كلمة المرور غير صحيحة." };
+            return { success: false, error: "wrong_password", message: "كلمة المرور غير صحيحة!" };
           }
         }
       } catch(e) {}
     }
 
-    return { success: false, error: "user_not_found", message: "الحساب غير مسجل أو البيانات غير صحيحة." };
+    return { success: false, error: "user_not_found", message: "هذا الحساب غير مسجل في المنصة!" };
   },
 
   // 3.2 Get Subscribed courses for a student from Supabase

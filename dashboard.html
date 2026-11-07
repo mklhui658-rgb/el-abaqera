@@ -444,17 +444,24 @@
 
     function loadStudentProfile() {
       const storedUser = localStorage.getItem("abaqera_student");
-      if (storedUser) {
-        try {
-          const user = JSON.parse(storedUser);
-          if (user.name) document.getElementById("student-name-display").innerText = user.name;
-          if (user.grade) document.getElementById("student-grade-display").innerText = user.grade;
-          if (user.governorate) document.getElementById("student-gov-display").innerText = "محافظة " + user.governorate;
-          if (user.phone) document.getElementById("student-phone-display").innerText = user.phone;
-          if (user.id) document.getElementById("badge-student-id").innerText = user.id;
-        } catch (e) {
-          console.error("Error reading stored user profile", e);
-        }
+      const isAuth = localStorage.getItem("abaqera_logged_in") === "true";
+      
+      if (!isAuth || !storedUser) {
+        // If not logged in, redirect to login page immediately
+        alert("يرجى تسجيل الدخول أولاً للوصول إلى لوحة الطالب الخاصة بك.");
+        window.location.href = "auth.html";
+        return;
+      }
+
+      try {
+        const user = JSON.parse(storedUser);
+        if (user.name) document.getElementById("student-name-display").innerText = user.name;
+        if (user.grade) document.getElementById("student-grade-display").innerText = user.grade;
+        if (user.governorate) document.getElementById("student-gov-display").innerText = "محافظة " + (user.governorate || "العامة");
+        if (user.phone) document.getElementById("student-phone-display").innerText = user.phone;
+        if (user.id) document.getElementById("badge-student-id").innerText = user.id;
+      } catch (e) {
+        console.error("Error reading stored user profile", e);
       }
     }
 
@@ -465,13 +472,7 @@
           return JSON.parse(stored);
         } catch(e) {}
       }
-      return {
-        name: "أحمد محمود إبراهيم",
-        phone: "019624723742",
-        grade: "الصف الثالث الثانوي (علمي علوم)",
-        governorate: "القاهرة",
-        id: "#ALB-2026-8492"
-      };
+      return null;
     }
 
     // Render Subscribed Courses dynamically from localStorage
