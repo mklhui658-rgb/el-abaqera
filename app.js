@@ -196,27 +196,34 @@ function renderNavbarAuthState() {
   if (!authContainer) return;
 
   if (isLoggedIn) {
-    let studentName = "أحمد محمود";
+    let studentName = "";
     const stored = localStorage.getItem("abaqera_student");
     if (stored) {
       try {
         const u = JSON.parse(stored);
-        if (u.name) studentName = u.name.split(" ").slice(0, 2).join(" ");
+        if (u && u.name) studentName = u.name.split(" ").slice(0, 2).join(" ");
       } catch(e) {}
+    }
+
+    if (!studentName) {
+      // If no valid student object exists, force clear invalid login state
+      localStorage.removeItem("abaqera_logged_in");
+      renderNavbarAuthState();
+      return;
     }
 
     // Replace header buttons with student dashboard link and logout
     authContainer.innerHTML = `
       <div class="flex items-center gap-2">
         <a href="dashboard.html" class="flex items-center gap-2 bg-[#1f0910] hover:bg-slate-900 border border-red-800/60 text-slate-200 px-3.5 py-2 rounded-xl text-xs font-bold transition shadow-md">
-          <div class="w-6 h-6 rounded-lg bg-blue-600 text-slate-900 flex items-center justify-center text-[10px]">
+          <div class="w-6 h-6 rounded-lg bg-red-600 text-white flex items-center justify-center text-[10px]">
             <i class="fa-solid fa-user-graduate"></i>
           </div>
-          <span class="text-slate-900">${studentName}</span>
+          <span class="text-white">${studentName}</span>
           <span class="text-amber-400 text-[10px] bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/20">لوحة الطالب</span>
         </a>
 
-        <button onclick="logoutFromHome()" title="تسجيل الخروج" class="w-9 h-9 rounded-xl bg-slate-900/40 hover:bg-blue-600 text-blue-300 hover:text-slate-900 border border-blue-900/60/50 flex items-center justify-center text-xs transition">
+        <button onclick="logoutFromHome()" title="تسجيل الخروج" class="w-9 h-9 rounded-xl bg-slate-900/40 hover:bg-red-600 text-red-300 hover:text-white border border-red-800/50 flex items-center justify-center text-xs transition">
           <i class="fa-solid fa-right-from-bracket"></i>
         </button>
       </div>
@@ -238,16 +245,27 @@ function renderNavbarAuthState() {
   } else {
     // Guest state
     authContainer.innerHTML = `
-      <a href="auth.html" class="flex items-center gap-2 bg-[#1f0a10] hover:bg-slate-900 border border-blue-900/60/50 text-blue-200 px-3.5 py-2.5 rounded-xl text-xs font-bold transition shadow-sm">
-        <i class="fa-solid fa-user-lock text-blue-400"></i>
+      <a href="auth.html" class="flex items-center gap-2 bg-[#1f0a10] hover:bg-slate-900 border border-red-800/50 text-red-200 px-3.5 py-2.5 rounded-xl text-xs font-bold transition shadow-sm">
+        <i class="fa-solid fa-user-lock text-red-400"></i>
         <span>دخول / تسجيل</span>
       </a>
 
-      <button onclick="goToCheckout('كورس كيمياء الثانوية العامة', '250 ج.م')" class="bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-500 hover:to-rose-600 text-slate-900 font-bold px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-lg shadow-red-900/40 transition duration-200 btn-glow flex items-center gap-1.5">
+      <button onclick="goToCheckout('كورس كيمياء الثانوية العامة', '250 ج.م')" class="bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-500 hover:to-rose-600 text-white font-bold px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-lg shadow-red-900/40 transition duration-200 btn-glow flex items-center gap-1.5">
         <i class="fa-solid fa-bolt"></i>
         <span>اشترك الآن</span>
       </button>
     `;
+
+    if (topAuthContainer) {
+      topAuthContainer.innerHTML = `
+        <a href="auth.html" class="hover:text-red-300 transition font-bold text-red-400 flex items-center gap-1">
+          <i class="fa-solid fa-user-circle"></i>
+          <span>تسجيل الدخول / حساب جديد</span>
+        </a>
+      `;
+    }
+  }
+}
 
     if (topAuthContainer) {
       topAuthContainer.innerHTML = `
