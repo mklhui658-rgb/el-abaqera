@@ -824,6 +824,8 @@
     function handleDashboardLogout() {
       if (confirm("هل تريد بالتأكيد تسجيل الخروج من حسابك؟")) {
         localStorage.removeItem("abaqera_logged_in");
+        localStorage.removeItem("abaqera_student");
+        localStorage.removeItem("abaqera_subscribed_courses");
         window.location.href = "auth.html";
       }
     }
