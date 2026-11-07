@@ -40,6 +40,10 @@
 
   <!-- Custom Stylesheet (Dark Red Theme) -->
   <link rel="stylesheet" href="styles.css">
+
+  <!-- Supabase CDN and Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-client.js"></script>
 </head>
 <body class="bg-[#f8fafc] text-slate-900 min-h-screen relative bg-grid-pattern selection:bg-red-600 selection:text-white flex flex-col justify-between">
 
@@ -532,6 +536,22 @@
       subs.unshift(newSub);
       localStorage.setItem("abaqera_subscribed_courses", JSON.stringify(subs));
 
+      // Save student in Supabase if API available
+      if (typeof SupabaseAPI !== "undefined") {
+        SupabaseAPI.saveStudent(student);
+        SupabaseAPI.saveSubscription({
+          invoiceCode: inv,
+          studentName: student.name,
+          studentPhone: student.phone,
+          courseId: fullCourse ? fullCourse.id : null,
+          courseTitle: currentCourseName,
+          price: currentPrice,
+          paymentMethod: methodName,
+          senderNumber: student.phone,
+          status: "approved"
+        });
+      }
+
       setTimeout(() => {
         const inv = "#INV-" + Math.floor(10000 + Math.random() * 90000);
         document.getElementById("receipt-invoice-code").innerText = inv;
@@ -569,6 +589,22 @@
       `;
 
       container.appendChild(toast);
+      // Save student in Supabase if API available
+      if (typeof SupabaseAPI !== "undefined") {
+        SupabaseAPI.saveStudent(student);
+        SupabaseAPI.saveSubscription({
+          invoiceCode: inv,
+          studentName: student.name,
+          studentPhone: student.phone,
+          courseId: fullCourse ? fullCourse.id : null,
+          courseTitle: currentCourseName,
+          price: currentPrice,
+          paymentMethod: methodName,
+          senderNumber: student.phone,
+          status: "approved"
+        });
+      }
+
       setTimeout(() => {
         toast.style.opacity = "0";
         toast.style.transform = "translateX(100%)";
