@@ -79,16 +79,37 @@ const SupabaseAPI = {
   async saveStudent(student) {
     if (db) {
       try {
-        const { data, error } = await db.from("students").upsert({
+        const studentPayload = {
           student_code: student.id || student.student_code,
           name: student.name,
-          phone: student.phone,
+          phone: student.phone.trim(),
           grade: student.grade,
           governorate: student.governorate,
           password: student.password || ""
-        }, { onConflict: "phone" });
-        console.log("Student saved to Supabase:", student.name);
-        return { success: true, data };
+        };
+
+        // Check if student with this phone already exists
+        const { data: existing } = await db.from("students")
+          .select("id")
+          .eq("phone", student.phone.trim())
+          .limit(1);
+
+        if (existing && existing.length > 0) {
+          // Update existing student
+          const { data, error } = await db.from("students")
+            .update(studentPayload)
+            .eq("phone", student.phone.trim())
+            .select();
+          if (error) console.warn("Supabase update error:", error);
+          return { success: !error, data };
+        } else {
+          // Insert new student
+          const { data, error } = await db.from("students")
+            .insert([studentPayload])
+            .select();
+          if (error) console.warn("Supabase insert error:", error);
+          return { success: !error, data };
+        }
       } catch (err) {
         console.warn("Failed to save student in Supabase:", err);
       }
@@ -101,11 +122,22 @@ const SupabaseAPI = {
     if (db) {
       try {
         const cleanIdentifier = identifier.trim();
-        // Query student strictly by phone or student_code in Supabase
-        const { data, error } = await db.from("students")
+        
+        // Search by phone first
+        let { data, error } = await db.from("students")
           .select("*")
-          .or(`phone.eq."${cleanIdentifier}",student_code.eq."${cleanIdentifier}"`)
+          .eq("phone", cleanIdentifier)
           .limit(1);
+
+        // If not found by phone, search by student_code
+        if (!data || data.length === 0) {
+          const res = await db.from("students")
+            .select("*")
+            .eq("student_code", cleanIdentifier)
+            .limit(1);
+          data = res.data;
+          error = res.error;
+        }
 
         if (!error && data && data.length > 0) {
           const user = data[0];
