@@ -75,23 +75,104 @@ const SupabaseAPI = {
     }
   },
 
-  // 3. Register Student in Supabase
+  // 3. Register or Update Student in Supabase
   async saveStudent(student) {
     if (db) {
       try {
-        await db.from("students").upsert({
+        const { data, error } = await db.from("students").upsert({
           student_code: student.id || student.student_code,
           name: student.name,
           phone: student.phone,
           grade: student.grade,
           governorate: student.governorate,
           password: student.password || ""
-        }, { onConflict: "student_code" });
+        }, { onConflict: "phone" });
         console.log("Student saved to Supabase:", student.name);
+        return { success: true, data };
       } catch (err) {
         console.warn("Failed to save student in Supabase:", err);
       }
     }
+    return { success: false };
+  },
+
+  // 3.1 Authenticate Student by Phone or Code and Password
+  async loginStudent(phoneOrCode, password) {
+    if (db) {
+      try {
+        const cleanIdentifier = phoneOrCode.trim();
+        // Query student by phone or student_code
+        const { data, error } = await db.from("students")
+          .select("*")
+          .or(`phone.eq.${cleanIdentifier},student_code.eq.${cleanIdentifier}`)
+          .limit(1);
+
+        if (error) {
+          console.warn("Supabase query error:", error);
+        } else if (data && data.length > 0) {
+          const user = data[0];
+          // Strict password verification
+          if (user.password === password.trim()) {
+            return { success: true, user: user };
+          } else {
+            return { success: false, error: "wrong_password", message: "كلمة المرور غير صحيحة، يرجى المحاولة مرة أخرى." };
+          }
+        } else {
+          return { success: false, error: "user_not_found", message: "الحساب غير مسجل في المنصة، يرجى إنشاء حساب جديد." };
+        }
+      } catch (err) {
+        console.warn("Supabase loginStudent exception:", err);
+      }
+    }
+
+    // Local fallback if Supabase is offline
+    const local = localStorage.getItem("abaqera_registered_students");
+    if (local) {
+      try {
+        const studentsList = JSON.parse(local);
+        const user = studentsList.find(s => s.phone === phoneOrCode.trim() || s.id === phoneOrCode.trim());
+        if (user) {
+          if (user.password === password.trim()) {
+            return { success: true, user: user };
+          } else {
+            return { success: false, error: "wrong_password", message: "كلمة المرور غير صحيحة." };
+          }
+        }
+      } catch(e) {}
+    }
+
+    return { success: false, error: "user_not_found", message: "الحساب غير مسجل أو البيانات غير صحيحة." };
+  },
+
+  // 3.2 Get Subscribed courses for a student from Supabase
+  async getStudentSubscriptions(studentPhone) {
+    if (db) {
+      try {
+        const { data, error } = await db.from("subscriptions")
+          .select("*")
+          .eq("student_phone", studentPhone.trim())
+          .eq("status", "approved");
+        
+        if (!error && data && data.length > 0) {
+          return data.map(sub => ({
+            id: sub.course_id || sub.id,
+            title: sub.course_title,
+            grade: "الصف الثالث الثانوي",
+            price: sub.price,
+            image: "assets/logo.png",
+            youtubeUrl: "https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ",
+            description: "شرح تفصيلي للمنهج مع حل أفكار ومسائل الثانوية العامة ونواتج التعلم.",
+            lecturesCount: 20,
+            pdfUrl: "",
+            subscribedAt: new Date(sub.created_at).toLocaleDateString("ar-EG"),
+            status: "كورس نشط ومفعل ✓"
+          }));
+        }
+      } catch (err) {
+        console.warn("Supabase fetch student subscriptions failed:", err);
+      }
+    }
+    return [];
   },
 
   // 4. Save Subscription order

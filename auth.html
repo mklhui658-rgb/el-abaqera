@@ -343,61 +343,61 @@
       }
     }
 
-    function handleLogin(e) {
+    async function handleLogin(e) {
       e.preventDefault();
       const identifier = document.getElementById("login-identifier").value.trim();
       const pass = document.getElementById("login-password").value;
 
       if (!identifier || !pass) {
-        showToast("يرجى إدخال البريد الإلكتروني أو رقم الهاتف وكلمة المرور.");
+        showToast("يرجى إدخال رقم الهاتف أو كود الطالب وكلمة المرور.");
         return;
       }
 
-      // Check if student profile exists in storage or create default
-      let student = {
-        name: identifier.includes("@") ? identifier.split("@")[0] : "أحمد محمود إبراهيم",
-        email: identifier,
-        phone: "019624723742",
-        grade: "الصف الثالث الثانوي (علمي علوم)",
-        governorate: "القاهرة",
-        id: "#ALB-2026-8492"
-      };
+      showToast("جاري التحقق من بياناتك في قاعدة البيانات...");
 
-      const existing = localStorage.getItem("abaqera_student");
-      if (existing) {
-        try {
-          student = JSON.parse(existing);
-        } catch(e) {}
+      // Supabase Authentication Check
+      if (typeof SupabaseAPI !== "undefined") {
+        const result = await SupabaseAPI.loginStudent(identifier, pass);
+        
+        if (!result.success) {
+          // Password wrong or student not found -> BLOCK ACCESS STRICTLY
+          alert(result.message || "عفواً، كلمة المرور غير صحيحة أو الحساب غير مسجل!");
+          showToast(result.message || "كلمة المرور غير صحيحة!");
+          return;
+        }
+
+        // Login Succeeded: Load real student account data from Supabase
+        const dbUser = result.user;
+        const student = {
+          name: dbUser.name,
+          phone: dbUser.phone,
+          grade: dbUser.grade || "الصف الثالث الثانوي (علمي علوم)",
+          governorate: dbUser.governorate || "القاهرة",
+          id: dbUser.student_code || ("#ALB-2026-" + dbUser.phone.slice(-4)),
+          password: dbUser.password
+        };
+
+        localStorage.setItem("abaqera_student", JSON.stringify(student));
+        localStorage.setItem("abaqera_logged_in", "true");
+
+        // Fetch their real subscriptions from database
+        const subs = await SupabaseAPI.getStudentSubscriptions(dbUser.phone);
+        if (subs && subs.length > 0) {
+          localStorage.setItem("abaqera_subscribed_courses", JSON.stringify(subs));
+        }
+
+        showToast(`أهلاً بك يا ${student.name}! تم تسجيل الدخول بنجاح.`);
+        setTimeout(() => {
+          window.location.href = "dashboard.html";
+        }, 800);
+        return;
       }
 
-      localStorage.setItem("abaqera_student", JSON.stringify(student));
-      localStorage.setItem("abaqera_logged_in", "true");
-
-      showToast("تم تسجيل الدخول بنجاح! جاري تحويلك إلى لوحة الطالب والمحتوى المشترك فيه...");
-      setTimeout(() => {
-        window.location.href = "dashboard.html";
-      }, 900);
+      // Offline Fallback Check
+      showToast("خطأ في الاتصال بالخادم، يرجى المحاولة لاحقاً.");
     }
 
-    function demoQuickLogin() {
-      const student = {
-        name: "أحمد محمود إبراهيم",
-        email: "ahmed.chem2026@gmail.com",
-        phone: "019624723742",
-        grade: "الصف الثالث الثانوي (علمي علوم)",
-        governorate: "القاهرة",
-        id: "#ALB-2026-8492"
-      };
-      localStorage.setItem("abaqera_student", JSON.stringify(student));
-      localStorage.setItem("abaqera_logged_in", "true");
-
-      showToast("مرحباً بك يا أحمد! جاري فتح لوحة الطالب والمحتوى المشترك فيه...");
-      setTimeout(() => {
-        window.location.href = "dashboard.html";
-      }, 700);
-    }
-
-    function handleRegister(e) {
+    async function handleRegister(e) {
       e.preventDefault();
       const name = document.getElementById("reg-name").value.trim();
       const email = document.getElementById("reg-email").value.trim();
@@ -414,6 +414,11 @@
         return;
       }
 
+      if (pass.length < 4) {
+        alert("كلمة المرور يجب أن لا تقل عن 4 خانات.");
+        return;
+      }
+
       const randomId = "#ALB-2026-" + Math.floor(1000 + Math.random() * 9000);
       const student = {
         name: name,
@@ -422,13 +427,32 @@
         parentPhone: pPhone,
         grade: `${grade} (${branch})`,
         governorate: gov,
-        id: randomId
+        id: randomId,
+        password: pass
       };
 
+      showToast("جاري إنشاء وحفظ حسابك الجديد في قاعدة البيانات...");
+
+      // Save into Supabase Database permanently
+      if (typeof SupabaseAPI !== "undefined") {
+        await SupabaseAPI.saveStudent(student);
+      }
+
+      // Save into localStorage for current session
       localStorage.setItem("abaqera_student", JSON.stringify(student));
       localStorage.setItem("abaqera_logged_in", "true");
 
-      showToast("تم إنشاء حسابك وتفعيله بنجاح! جاري الانتقال للوحة الطالب...");
+      // Save into local list fallback
+      let registeredList = [];
+      const storedList = localStorage.getItem("abaqera_registered_students");
+      if (storedList) {
+        try { registeredList = JSON.parse(storedList); } catch(err) {}
+      }
+      registeredList = registeredList.filter(s => s.phone !== sPhone);
+      registeredList.push(student);
+      localStorage.setItem("abaqera_registered_students", JSON.stringify(registeredList));
+
+      showToast("تم إنشاء وتأمين حسابك بنجاح! جاري تحويلك إلى لوحتك...");
       setTimeout(() => {
         window.location.href = "dashboard.html";
       }, 900);

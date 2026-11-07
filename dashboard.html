@@ -425,8 +425,20 @@
     const PLATFORM_PHONE = "019624723742";
     const WHATSAPP_INTL = "2019624723742";
 
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", async () => {
       loadStudentProfile();
+      
+      // Sync real subscriptions from Supabase for this logged in student
+      const student = getStudentData();
+      if (student && student.phone && typeof SupabaseAPI !== "undefined") {
+        try {
+          const remoteSubs = await SupabaseAPI.getStudentSubscriptions(student.phone);
+          if (remoteSubs && remoteSubs.length > 0) {
+            localStorage.setItem("abaqera_subscribed_courses", JSON.stringify(remoteSubs));
+          }
+        } catch(e) {}
+      }
+
       renderStudentSubscribedCourses();
     });
 
