@@ -88,28 +88,39 @@ const SupabaseAPI = {
           password: student.password || ""
         };
 
+        if (student.email && student.email.trim()) {
+          studentPayload.email = student.email.trim().toLowerCase();
+        }
+
         // Check if student with this phone already exists
+        let existingId = null;
         const { data: existing } = await db.from("students")
           .select("id")
           .eq("phone", student.phone.trim())
           .limit(1);
 
         if (existing && existing.length > 0) {
-          // Update existing student
-          const { data, error } = await db.from("students")
-            .update(studentPayload)
-            .eq("phone", student.phone.trim())
-            .select();
-          if (error) console.warn("Supabase update error:", error);
-          return { success: !error, data };
-        } else {
-          // Insert new student
-          const { data, error } = await db.from("students")
-            .insert([studentPayload])
-            .select();
-          if (error) console.warn("Supabase insert error:", error);
-          return { success: !error, data };
+          existingId = existing[0].id;
         }
+
+        const runSave = async (payload) => {
+          if (existingId) {
+            return await db.from("students").update(payload).eq("id", existingId).select();
+          } else {
+            return await db.from("students").insert([payload]).select();
+          }
+        };
+
+        let res = await runSave(studentPayload);
+        // If it failed because the 'email' column does not exist yet in postgres, retry without email
+        if (res.error && studentPayload.email) {
+          console.warn("Column email might not exist yet, falling back to payload without email:", res.error);
+          delete studentPayload.email;
+          res = await runSave(studentPayload);
+        }
+
+        if (res.error) console.warn("Supabase saveStudent error:", res.error);
+        return { success: !res.error, data: res.data };
       } catch (err) {
         console.warn("Failed to save student in Supabase:", err);
       }
@@ -122,24 +133,44 @@ const SupabaseAPI = {
     if (db) {
       try {
         const cleanIdentifier = identifier.trim();
-        
-        // Search by phone first
-        let { data, error } = await db.from("students")
-          .select("*")
-          .eq("phone", cleanIdentifier)
-          .limit(1);
+        let data = null;
 
-        // If not found by phone, search by student_code
+        // 1. If identifier contains '@', search by email
+        if (cleanIdentifier.includes("@")) {
+          try {
+            const res = await db.from("students")
+              .select("*")
+              .eq("email", cleanIdentifier.toLowerCase())
+              .limit(1);
+            if (!res.error && res.data && res.data.length > 0) {
+              data = res.data;
+            }
+          } catch(e) {}
+        }
+
+        // 2. Search by phone
+        if (!data || data.length === 0) {
+          const res = await db.from("students")
+            .select("*")
+            .eq("phone", cleanIdentifier)
+            .limit(1);
+          if (!res.error && res.data && res.data.length > 0) {
+            data = res.data;
+          }
+        }
+
+        // 3. If not found by phone, search by student_code
         if (!data || data.length === 0) {
           const res = await db.from("students")
             .select("*")
             .eq("student_code", cleanIdentifier)
             .limit(1);
-          data = res.data;
-          error = res.error;
+          if (!res.error && res.data && res.data.length > 0) {
+            data = res.data;
+          }
         }
 
-        if (!error && data && data.length > 0) {
+        if (data && data.length > 0) {
           const user = data[0];
           // Strict Password Verification
           if (user.password && user.password.toString().trim() === password.toString().trim()) {
