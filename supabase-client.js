@@ -11,13 +11,33 @@ if (typeof supabase !== "undefined") {
 }
 
 const SupabaseAPI = {
-  // 1. Fetch all courses from Supabase with fallback to localStorage
+  // Helper: Clean YouTube/Drive embed URL
+  formatVideoEmbed(url) {
+    if (!url) return { type: "none", src: "" };
+    const clean = url.trim();
+    if (clean.startsWith("data:video") || /\.(mp4|webm|ogg)(\?.*)?$/i.test(clean)) {
+      return { type: "video", src: clean };
+    }
+    const ytMatch = clean.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|shorts\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+    if (ytMatch && ytMatch[1]) {
+      return { type: "iframe", src: `https://www.youtube-nocookie.com/embed/${ytMatch[1]}` };
+    }
+    const driveMatch = clean.match(/drive\.google\.com\/file\/d\/([^/]+)/);
+    if (driveMatch && driveMatch[1]) {
+      return { type: "iframe", src: `https://drive.google.com/file/d/${driveMatch[1]}/preview` };
+    }
+    return { type: "iframe", src: clean };
+  },
+
+  // 1. Fetch all real courses (excluding system_ban, site_video, site_review)
   async getCourses() {
     if (db) {
       try {
-        const { data, error } = await db.from("courses").select("*");
+        const { data, error } = await db
+          .from("courses")
+          .select("*")
+          .not("grade", "in", '("site_video","site_review","system_ban")');
         if (!error && data && data.length > 0) {
-          // Normalize field names
           return data.map(c => ({
             id: c.id,
             grade: c.grade,
@@ -42,18 +62,15 @@ const SupabaseAPI = {
 
   // 2. Save/Update course in Supabase & localStorage
   async saveCourse(course) {
-    // Save to local storage first for instant feedback
-    let courses = [];
     try {
       const local = localStorage.getItem("abaqera_courses");
-      courses = local ? JSON.parse(local) : [];
+      let courses = local ? JSON.parse(local) : [];
       const idx = courses.findIndex(c => c.id === course.id);
       if (idx >= 0) courses[idx] = Object.assign(courses[idx], course);
       else courses.unshift(course);
       localStorage.setItem("abaqera_courses", JSON.stringify(courses));
-    } catch(e) {}
+    } catch (e) {}
 
-    // Save to Supabase
     if (db) {
       try {
         await db.from("courses").upsert({
@@ -62,15 +79,33 @@ const SupabaseAPI = {
           grade: course.grade,
           grade_name: course.gradeName,
           price: course.price,
-          lectures_count: course.lecturesCount,
-          image: course.image,
-          youtube_url: course.youtubeUrl,
-          description: course.description,
-          pdf_url: course.pdfUrl
+          lectures_count: course.lecturesCount || 20,
+          image: course.image || "assets/logo.png",
+          youtube_url: course.youtubeUrl || "",
+          description: course.description || "",
+          pdf_url: course.pdfUrl || ""
         });
-        console.log("Course saved to Supabase:", course.title);
       } catch (err) {
         console.warn("Failed to upsert course to Supabase:", err);
+      }
+    }
+  },
+
+  // 2.1 Delete course
+  async deleteCourse(courseId) {
+    try {
+      const local = localStorage.getItem("abaqera_courses");
+      if (local) {
+        const courses = JSON.parse(local).filter(c => c.id !== courseId);
+        localStorage.setItem("abaqera_courses", JSON.stringify(courses));
+      }
+    } catch (e) {}
+
+    if (db) {
+      try {
+        await db.from("courses").delete().eq("id", courseId);
+      } catch (err) {
+        console.warn("Failed to delete course:", err);
       }
     }
   },
@@ -92,7 +127,6 @@ const SupabaseAPI = {
           studentPayload.email = student.email.trim().toLowerCase();
         }
 
-        // Check if student with this phone already exists
         let existingId = null;
         const { data: existing } = await db.from("students")
           .select("id")
@@ -112,9 +146,7 @@ const SupabaseAPI = {
         };
 
         let res = await runSave(studentPayload);
-        // If it failed because the 'email' column does not exist yet in postgres, retry without email
         if (res.error && studentPayload.email) {
-          console.warn("Column email might not exist yet, falling back to payload without email:", res.error);
           delete studentPayload.email;
           res = await runSave(studentPayload);
         }
@@ -128,14 +160,13 @@ const SupabaseAPI = {
     return { success: false };
   },
 
-  // 3.1 Authenticate Student by Phone, Email, or Code and Password
+  // 3.1 Authenticate Student (with Ban check)
   async loginStudent(identifier, password) {
     if (db) {
       try {
         const cleanIdentifier = identifier.trim();
         let data = null;
 
-        // 1. If identifier contains '@', search by email
         if (cleanIdentifier.includes("@")) {
           try {
             const res = await db.from("students")
@@ -145,10 +176,9 @@ const SupabaseAPI = {
             if (!res.error && res.data && res.data.length > 0) {
               data = res.data;
             }
-          } catch(e) {}
+          } catch (e) {}
         }
 
-        // 2. Search by phone
         if (!data || data.length === 0) {
           const res = await db.from("students")
             .select("*")
@@ -159,7 +189,6 @@ const SupabaseAPI = {
           }
         }
 
-        // 3. If not found by phone, search by student_code
         if (!data || data.length === 0) {
           const res = await db.from("students")
             .select("*")
@@ -172,7 +201,28 @@ const SupabaseAPI = {
 
         if (data && data.length > 0) {
           const user = data[0];
-          // Strict Password Verification
+
+          // Check if student is banned (via column or system_ban marker)
+          let isBanned = user.is_banned === true;
+          if (!isBanned) {
+            try {
+              const { data: banRows } = await db
+                .from("courses")
+                .select("id")
+                .eq("id", `ban-${user.id}`)
+                .limit(1);
+              if (banRows && banRows.length > 0) isBanned = true;
+            } catch (e) {}
+          }
+
+          if (isBanned) {
+            return {
+              success: false,
+              error: "banned",
+              message: "تم حظر هذا الحساب من دخول المنصة من قبل الإدارة. يرجى التواصل مع الدعم الفني."
+            };
+          }
+
           if (user.password && user.password.toString().trim() === password.toString().trim()) {
             return { success: true, user: user };
           } else {
@@ -186,26 +236,71 @@ const SupabaseAPI = {
       }
     }
 
-    // Strict local check only if user was registered on this device
     const local = localStorage.getItem("abaqera_registered_students");
     if (local) {
       try {
         const studentsList = JSON.parse(local);
         const user = studentsList.find(s => s.phone === identifier.trim() || s.email === identifier.trim() || s.id === identifier.trim());
         if (user) {
+          if (user.is_banned) {
+            return { success: false, error: "banned", message: "تم حظر هذا الحساب من دخول المنصة." };
+          }
           if (user.password && user.password.toString().trim() === password.toString().trim()) {
             return { success: true, user: user };
           } else {
             return { success: false, error: "wrong_password", message: "كلمة المرور غير صحيحة!" };
           }
         }
-      } catch(e) {}
+      } catch (e) {}
     }
 
     return { success: false, error: "user_not_found", message: "هذا الحساب غير مسجل في المنصة!" };
   },
 
-  // 3.2 Get Subscribed courses for a student from Supabase
+  // 3.2 Ban / Unban Student
+  async toggleBanStudent(studentId, phone, email, shouldBan) {
+    if (!db) return { success: false };
+    try {
+      const banId = `ban-${studentId}`;
+      if (shouldBan) {
+        await db.from("courses").upsert({
+          id: banId,
+          title: phone || studentId,
+          grade: "system_ban",
+          grade_name: "محظور",
+          price: "banned",
+          description: email || ""
+        });
+      } else {
+        await db.from("courses").delete().eq("id", banId);
+      }
+      // Also attempt updating column if present
+      try {
+        await db.from("students").update({ is_banned: shouldBan }).eq("id", studentId);
+      } catch (e) {}
+      return { success: true };
+    } catch (err) {
+      console.warn("toggleBanStudent error:", err);
+      return { success: false, error: err };
+    }
+  },
+
+  // 3.3 Delete Student permanently
+  async deleteStudent(studentId) {
+    if (!db) return { success: false };
+    try {
+      const { error } = await db.from("students").delete().eq("id", studentId);
+      try {
+        await db.from("courses").delete().eq("id", `ban-${studentId}`);
+      } catch (e) {}
+      return { success: !error, error };
+    } catch (err) {
+      console.warn("deleteStudent error:", err);
+      return { success: false, error: err };
+    }
+  },
+
+  // 3.4 Get Subscribed courses for a student from Supabase
   async getStudentSubscriptions(studentPhone) {
     if (db) {
       try {
@@ -213,7 +308,7 @@ const SupabaseAPI = {
           .select("*")
           .eq("student_phone", studentPhone.trim())
           .eq("status", "approved");
-        
+
         if (!error && data && data.length > 0) {
           return data.map(sub => ({
             id: sub.course_id || sub.id,
@@ -251,10 +346,20 @@ const SupabaseAPI = {
           sender_number: sub.senderNumber || sub.sender_number || "",
           status: sub.status || "approved"
         }]);
-        console.log("Subscription saved to Supabase:", sub.courseTitle);
       } catch (err) {
         console.warn("Failed to save subscription in Supabase:", err);
       }
+    }
+  },
+
+  // 4.1 Update Subscription status
+  async updateSubscriptionStatus(subId, newStatus) {
+    if (!db) return { success: false };
+    try {
+      const { error } = await db.from("subscriptions").update({ status: newStatus }).eq("id", subId);
+      return { success: !error, error };
+    } catch (err) {
+      return { success: false, error: err };
     }
   },
 
@@ -263,7 +368,7 @@ const SupabaseAPI = {
     if (db) {
       try {
         const { data, error } = await db.from("subscriptions").select("*").order("created_at", { ascending: false });
-        if (!error && data && data.length > 0) return data;
+        if (!error && data) return data;
       } catch (err) {
         console.warn("Failed to get subscriptions from Supabase:", err);
       }
@@ -271,16 +376,224 @@ const SupabaseAPI = {
     return [];
   },
 
-  // 6. Get all Students for Admin
+  // 6. Get all Students for Admin (with ban flags merged)
   async getStudents() {
     if (db) {
       try {
-        const { data, error } = await db.from("students").select("*").order("created_at", { ascending: false });
-        if (!error && data && data.length > 0) return data;
+        const [stuRes, banRes] = await Promise.all([
+          db.from("students").select("*").order("created_at", { ascending: false }),
+          db.from("courses").select("id").eq("grade", "system_ban")
+        ]);
+        const bannedSet = new Set((banRes.data || []).map(b => b.id.replace(/^ban-/, "")));
+        if (!stuRes.error && stuRes.data) {
+          return stuRes.data.map(s => ({
+            ...s,
+            is_banned: s.is_banned === true || bannedSet.has(String(s.id))
+          }));
+        }
       } catch (err) {
         console.warn("Failed to get students from Supabase:", err);
       }
     }
     return [];
+  },
+
+  // 7. Homepage Videos (stored in Supabase courses table with grade = 'site_video' + localStorage)
+  async getSiteVideos() {
+    if (db) {
+      try {
+        const { data, error } = await db
+          .from("courses")
+          .select("*")
+          .eq("grade", "site_video")
+          .order("created_at", { ascending: false });
+        if (!error && data) {
+          const videos = data.map(v => ({
+            id: v.id,
+            title: v.title,
+            gradeName: v.grade_name || "عام لجميع الصفوف",
+            videoUrl: v.youtube_url || "",
+            thumbnail: v.image || "assets/logo.png",
+            description: v.description || "",
+            createdAt: v.created_at
+          }));
+          localStorage.setItem("abaqera_site_videos", JSON.stringify(videos));
+          return videos;
+        }
+      } catch (err) {
+        console.warn("getSiteVideos failed:", err);
+      }
+    }
+    const local = localStorage.getItem("abaqera_site_videos");
+    return local ? JSON.parse(local) : [];
+  },
+
+  async saveSiteVideo(video) {
+    const id = video.id || ("video-" + Date.now());
+    const payload = {
+      id,
+      title: video.title,
+      grade: "site_video",
+      grade_name: video.gradeName || "الصف الثالث الثانوي",
+      price: "مجاني",
+      lectures_count: 1,
+      image: video.thumbnail || "assets/logo.png",
+      youtube_url: video.videoUrl,
+      description: video.description || ""
+    };
+
+    try {
+      const local = localStorage.getItem("abaqera_site_videos");
+      let list = local ? JSON.parse(local) : [];
+      list = list.filter(item => item.id !== id);
+      list.unshift({
+        id,
+        title: payload.title,
+        gradeName: payload.grade_name,
+        videoUrl: payload.youtube_url,
+        thumbnail: payload.image,
+        description: payload.description
+      });
+      localStorage.setItem("abaqera_site_videos", JSON.stringify(list));
+    } catch (e) {}
+
+    if (db) {
+      const { error } = await db.from("courses").upsert(payload);
+      return { success: !error, error };
+    }
+    return { success: true };
+  },
+
+  async deleteSiteVideo(videoId) {
+    try {
+      const local = localStorage.getItem("abaqera_site_videos");
+      if (local) {
+        const list = JSON.parse(local).filter(v => v.id !== videoId);
+        localStorage.setItem("abaqera_site_videos", JSON.stringify(list));
+      }
+    } catch (e) {}
+
+    if (db) {
+      const { error } = await db.from("courses").delete().eq("id", videoId);
+      return { success: !error, error };
+    }
+    return { success: true };
+  },
+
+  // 8. Student Reviews / Testimonials (stored in Supabase courses table with grade = 'site_review' + localStorage)
+  async getReviews() {
+    if (db) {
+      try {
+        const { data, error } = await db
+          .from("courses")
+          .select("*")
+          .eq("grade", "site_review")
+          .order("created_at", { ascending: false });
+        if (!error && data) {
+          const reviews = data.map(r => ({
+            id: r.id,
+            studentName: r.title,
+            subtitle: r.grade_name || "طالب ثانوية عامة",
+            rating: r.lectures_count || 5,
+            text: r.description || "",
+            image: r.image || "",
+            createdAt: r.created_at
+          }));
+          localStorage.setItem("abaqera_reviews", JSON.stringify(reviews));
+          return reviews;
+        }
+      } catch (err) {
+        console.warn("getReviews failed:", err);
+      }
+    }
+    const local = localStorage.getItem("abaqera_reviews");
+    return local ? JSON.parse(local) : [];
+  },
+
+  async saveReview(review) {
+    const id = review.id || ("review-" + Date.now());
+    const payload = {
+      id,
+      title: review.studentName,
+      grade: "site_review",
+      grade_name: review.subtitle || "الصف الثالث الثانوي • 60/60",
+      price: "approved",
+      lectures_count: parseInt(review.rating) || 5,
+      image: review.image || "",
+      youtube_url: "",
+      description: review.text
+    };
+
+    try {
+      const local = localStorage.getItem("abaqera_reviews");
+      let list = local ? JSON.parse(local) : [];
+      list = list.filter(item => item.id !== id);
+      list.unshift({
+        id,
+        studentName: payload.title,
+        subtitle: payload.grade_name,
+        rating: payload.lectures_count,
+        text: payload.description,
+        image: payload.image
+      });
+      localStorage.setItem("abaqera_reviews", JSON.stringify(list));
+    } catch (e) {}
+
+    if (db) {
+      const { error } = await db.from("courses").upsert(payload);
+      return { success: !error, error };
+    }
+    return { success: true };
+  },
+
+  async deleteReview(reviewId) {
+    try {
+      const local = localStorage.getItem("abaqera_reviews");
+      if (local) {
+        const list = JSON.parse(local).filter(r => r.id !== reviewId);
+        localStorage.setItem("abaqera_reviews", JSON.stringify(list));
+      }
+    } catch (e) {}
+
+    if (db) {
+      const { error } = await db.from("courses").delete().eq("id", reviewId);
+      return { success: !error, error };
+    }
+    return { success: true };
+  },
+
+  // 9. Activation Codes
+  async getActivationCodes() {
+    if (db) {
+      try {
+        const { data, error } = await db.from("activation_codes").select("*").order("created_at", { ascending: false });
+        if (!error && data) return data;
+      } catch (e) {}
+    }
+    return [];
+  },
+
+  async createActivationCode(code, courseTitle) {
+    if (db) {
+      try {
+        const { data, error } = await db.from("activation_codes").insert([{
+          code,
+          course_title: courseTitle || "كود باقة العباقرة الشامل",
+          is_used: false
+        }]).select();
+        return { success: !error, data, error };
+      } catch (e) {
+        return { success: false, error: e };
+      }
+    }
+    return { success: false };
+  },
+
+  async deleteActivationCode(code) {
+    if (db) {
+      try {
+        await db.from("activation_codes").delete().eq("code", code);
+      } catch (e) {}
+    }
   }
 };

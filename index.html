@@ -101,12 +101,12 @@
       </a>
 
       <!-- Desktop Nav Links -->
-      <nav class="hidden md:flex items-center gap-7 text-sm font-semibold text-slate-600">
+      <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-600">
         <a href="#hero" class="hover:text-red-600 transition">الرئيسية</a>
-        <a href="#stages" class="hover:text-red-600 transition">المراحل الدراسية</a>
         <a href="#courses" class="hover:text-red-600 transition">الكورسات</a>
-        <a href="#quiz-section" class="hover:text-red-600 transition">بنك الأسئلة والامتحان</a>
-        <a href="#features" class="hover:text-red-600 transition">لماذا العباقرة؟</a>
+        <a href="#videos-showcase" class="hover:text-red-600 transition">فيديوهات الشرح</a>
+        <a href="#quiz-section" class="hover:text-red-600 transition">الامتحان التجريبي</a>
+        <a href="#reviews-section" class="hover:text-red-600 transition">آراء الطلاب</a>
         <a href="#pricing" class="hover:text-red-600 transition">باقات الاشتراك</a>
         <a href="#contact" class="hover:text-red-600 transition">تواصل معنا</a>
       </nav>
@@ -421,6 +421,27 @@
     </div>
   </section>
 
+  <!-- Main Page Videos Showcase Section (Managed from Admin Panel) -->
+  <section id="videos-showcase" class="py-16 relative z-10 bg-white border-y border-slate-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <span class="text-xs font-bold text-red-600 bg-red-50 px-3 py-1 rounded-full border border-red-200">
+          فيديوهات وشروحات مجانية 🎥
+        </span>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 mt-3">
+          شاهد محاضرات الشرح التوضيحية
+        </h2>
+        <p class="text-slate-500 text-sm mt-2">
+          مكتبة الفيديوهات المختارة من الإدارة لطلاب الثانوية العامة
+        </p>
+      </div>
+
+      <div id="site-videos-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Dynamically rendered by app.js from Supabase -->
+      </div>
+    </div>
+  </section>
+
   <!-- Interactive Quiz & Test Simulator Section -->
   <section id="quiz-section" class="py-20 relative z-10 bg-[#120508]/80 border-y border-slate-100">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -663,8 +684,29 @@
     </div>
   </section>
 
+  <!-- Student Reviews Section (Managed from Admin Panel) -->
+  <section id="reviews-section" class="py-20 relative z-10 bg-red-50/40 border-t border-slate-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <span class="text-xs font-bold text-red-600 bg-white px-3 py-1 rounded-full border border-red-200 shadow-sm">
+          آراء وتجارب طلابنا ⭐
+        </span>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 mt-3">
+          ماذا يقول طلاب العباقرة عن المنصة؟
+        </h2>
+        <p class="text-slate-500 text-sm mt-2">
+          تقييمات حقيقية من طلابنا في مختلف محافظات مصر
+        </p>
+      </div>
+
+      <div id="site-reviews-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Dynamically rendered by app.js from Supabase -->
+      </div>
+    </div>
+  </section>
+
   <!-- Contact & Registration Section -->
-  <section id="contact" class="py-20 relative z-10 bg-[#120508]/80 border-t border-slate-100">
+  <section id="contact" class="py-20 relative z-10 bg-white border-t border-slate-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
@@ -729,19 +771,19 @@
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label class="block text-xs font-semibold text-slate-600 mb-1.5">اسم الطالب ثلاثي *</label>
-                  <input type="text" id="quick-name" required placeholder="مثال: أحمد محمود إبراهيم" class="w-full bg-white border border-slate-100 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-blue-500">
+                  <input type="text" id="quick-name" required placeholder="مثال: أحمد محمود إبراهيم" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-red-500 focus:bg-white">
                 </div>
 
                 <div>
                   <label class="block text-xs font-semibold text-slate-600 mb-1.5">رقم هاتف الطالب / ولي الأمر *</label>
-                  <input type="tel" id="quick-phone" required placeholder="01xxxxxxxxx" class="w-full bg-white border border-slate-100 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-blue-500" dir="ltr">
+                  <input type="tel" id="quick-phone" required placeholder="01xxxxxxxxx" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-red-500 focus:bg-white" dir="ltr">
                 </div>
               </div>
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label class="block text-xs font-semibold text-slate-600 mb-1.5">الصف الدراسي *</label>
-                  <select id="quick-grade" class="w-full bg-white border border-slate-100 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-blue-500">
+                  <select id="quick-grade" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-red-500 focus:bg-white">
                     <option value="تالتة ثانوي">الصف الثالث الثانوي (تالتة ثانوي)</option>
                     <option value="تانية ثانوي">الصف الثاني الثانوي (تانية ثانوي)</option>
                     <option value="أولى ثانوي">الصف الأول الثانوي (أولى ثانوي)</option>
@@ -750,16 +792,16 @@
 
                 <div>
                   <label class="block text-xs font-semibold text-slate-600 mb-1.5">المحافظة</label>
-                  <input type="text" placeholder="مثال: القاهرة / الإسكندرية / المنصورة" class="w-full bg-white border border-slate-100 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-blue-500">
+                  <input type="text" placeholder="مثال: القاهرة / الإسكندرية / المنصورة" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-red-500 focus:bg-white">
                 </div>
               </div>
 
               <div>
                 <label class="block text-xs font-semibold text-slate-600 mb-1.5">ملاحظات أو أسئلة إضافية</label>
-                <textarea rows="3" placeholder="هل لديك استفسار عن مواعيد الحصص أو طريقة الدفع؟" class="w-full bg-white border border-slate-100 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-blue-500"></textarea>
+                <textarea rows="3" placeholder="هل لديك استفسار عن مواعيد الحصص أو طريقة الدفع؟" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-red-500 focus:bg-white"></textarea>
               </div>
 
-              <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-blue-600 hover:from-red-500 hover:to-rose-600 text-white font-bold py-3.5 rounded-xl text-xs sm:text-sm transition shadow-lg shadow-blue-600/30 flex items-center justify-center gap-2 btn-glow">
+              <button type="submit" class="w-full bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-bold py-3.5 rounded-xl text-xs sm:text-sm transition shadow-lg shadow-red-600/30 flex items-center justify-center gap-2 btn-glow">
                 <i class="fa-brands fa-whatsapp text-lg text-emerald-300"></i>
                 <span>إرسال الطلب والتواصل عبر واتساب (019624723742)</span>
               </button>
@@ -774,7 +816,7 @@
   </section>
 
   <!-- Footer -->
-  <footer class="border-t border-slate-100 bg-[#060a13] py-12 relative z-10 text-xs text-slate-500">
+  <footer class="border-t border-slate-200 bg-white py-12 relative z-10 text-xs text-slate-500">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
@@ -873,49 +915,27 @@
 
 
   <!-- Video Lecture Sample Modal -->
-  <div id="video-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
-    <div class="glass-panel bg-white rounded-3xl p-6 max-w-3xl w-full border border-red-100/60 shadow-2xl relative animate-in fade-in zoom-in duration-200">
+  <div id="video-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-5 sm:p-6 max-w-3xl w-full border border-red-100 shadow-2xl relative">
       
       <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-4">
         <div>
-          <span class="text-[11px] text-red-600 font-bold block">معاينة حصة مجانية</span>
+          <span class="text-[11px] text-red-600 font-bold block" id="video-modal-subtitle">مشاهدة الفيديو</span>
           <h4 id="video-modal-title" class="text-base font-bold text-slate-900">محاضرة كيمياء نموذجية</h4>
         </div>
-        <button onclick="closeVideoModal()" class="text-slate-500 hover:text-white text-xl">
+        <button onclick="closeVideoModal()" class="text-slate-400 hover:text-red-600 text-xl transition">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
 
-      <!-- Video Player Simulation Container -->
-      <div class="aspect-video w-full rounded-2xl bg-black overflow-hidden relative border border-slate-100 flex items-center justify-center group">
-        
-        <div class="text-center p-6 space-y-4">
-          <div class="w-16 h-16 rounded-full bg-red-600/90 text-white flex items-center justify-center text-2xl mx-auto shadow-xl shadow-blue-900/50 group-hover:scale-110 transition cursor-pointer">
-            <i class="fa-solid fa-play ml-1"></i>
-          </div>
-          <div>
-            <h5 class="text-white font-bold text-sm">شرح أسرار مسائل الكيمياء الكهربية والتحليل الوزاري</h5>
-            <p class="text-slate-500 text-xs mt-1">جودة 1080p | تدريبات مباشرة ونواتج تعلم</p>
-          </div>
-        </div>
-
-        <!-- Custom Player Mock Controls -->
-        <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/90 to-transparent p-4 flex items-center justify-between text-xs text-white">
-          <div class="flex items-center gap-3">
-            <i class="fa-solid fa-play cursor-pointer text-red-600"></i>
-            <span class="font-mono text-[11px]">12:45 / 45:00</span>
-          </div>
-          <div class="flex items-center gap-3">
-            <span class="bg-red-600 text-white text-[10px] px-1.5 py-0.5 rounded font-mono">HD</span>
-            <i class="fa-solid fa-volume-high cursor-pointer"></i>
-            <i class="fa-solid fa-expand cursor-pointer"></i>
-          </div>
-        </div>
+      <!-- Real Dynamic Video Player Container -->
+      <div id="video-modal-player" class="aspect-video w-full rounded-2xl bg-black overflow-hidden relative border border-slate-200 flex items-center justify-center">
+        <!-- Populated dynamically by app.js -->
       </div>
 
       <div class="mt-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
         <span class="text-slate-500">للحصول على المحاضرة كاملة وملزمة الشرح بصيغة PDF:</span>
-        <button onclick="closeVideoModal(); goToCheckout('كورس الكيمياء الشامل', '250 ج.م')" class="bg-red-600 hover:bg-red-500 text-white font-bold px-4 py-2 rounded-xl transition flex items-center gap-2">
+        <button onclick="closeVideoModal(); goToCheckout('كورس الكيمياء الشامل', '250 ج.م')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2.5 rounded-xl transition flex items-center gap-2">
           <i class="fa-solid fa-arrow-left"></i>
           <span>اشترك لمشاهدة بقية الكورس</span>
         </button>

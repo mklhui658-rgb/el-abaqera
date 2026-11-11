@@ -180,6 +180,8 @@ let quizSubmitted = false;
 document.addEventListener("DOMContentLoaded", () => {
   renderNavbarAuthState();
   renderCourses();
+  renderSiteVideos();
+  renderSiteReviews();
   initFilterButtons();
   renderQuizQuestion();
   renderElementsCards();
@@ -283,19 +285,17 @@ function goToCheckout(courseTitle, coursePrice) {
   window.location.href = `checkout.html?course=${encTitle}&price=${encPrice}`;
 }
 
-// Render Courses (Synchronized with Admin customizations)
-function renderCourses() {
+// Render Courses (Synchronized with Admin customizations & Supabase)
+async function renderCourses() {
   const container = document.getElementById("courses-grid");
   if (!container) return;
 
   let allCourses = coursesData;
-  const stored = localStorage.getItem("abaqera_courses");
-  if (stored) {
+  if (typeof SupabaseAPI !== "undefined") {
     try {
-      const parsed = JSON.parse(stored);
-      if (Array.isArray(parsed) && parsed.length > 0) {
-        // Merge or replace
-        allCourses = parsed.map(c => {
+      const dbCourses = await SupabaseAPI.getCourses();
+      if (Array.isArray(dbCourses) && dbCourses.length > 0) {
+        allCourses = dbCourses.map(c => {
           const original = coursesData.find(o => o.id === c.id) || {};
           return {
             id: c.id,
@@ -304,38 +304,41 @@ function renderCourses() {
             title: c.title || original.title,
             description: c.description || original.description || "شرح مفصل وتدريبات عملية على نواتج التعلم.",
             badge: c.badge || original.badge || "كورس متميز ⭐",
-            badgeColor: c.badgeColor || original.badgeColor || "bg-blue-500/20 text-blue-300 border-blue-500/30",
+            badgeColor: "bg-red-600/90 text-white border-red-500",
             lecturesCount: c.lecturesCount || original.lecturesCount || 20,
             hours: c.hours || original.hours || 40,
             price: c.price || original.price || "250 ج.م / شهر",
             topics: c.topics || original.topics || ["شرح تفصيلي للمنهج", "تدريبات وتطبيقات عملية", "حل نماذج امتحانات الوزارة"],
             icon: c.icon || original.icon || "fa-flask-vial",
-            color: c.color || original.color || "from-blue-600 to-indigo-900",
+            color: "from-red-600 to-rose-700",
             image: c.image || original.image || "assets/logo.png",
             youtubeUrl: c.youtubeUrl || original.youtubeUrl || ""
           };
         });
       }
-    } catch(e) {}
+    } catch (e) {}
   }
 
-  const filtered = currentFilter === "all" 
-    ? allCourses 
+  const filtered = currentFilter === "all"
+    ? allCourses
     : allCourses.filter(c => c.grade === currentFilter);
 
-  container.innerHTML = filtered.map(course => `
-    <div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between relative border border-blue-900/60/40 transition-all duration-300 group">
+  container.innerHTML = filtered.map(course => {
+    const safeTitle = (course.title || "").replace(/'/g, "\\'");
+    const safeGrade = (course.gradeName || "").replace(/'/g, "\\'");
+    const safeVid = (course.youtubeUrl || "").replace(/'/g, "\\'");
+    return `
+    <div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between relative border border-slate-200 transition-all duration-300 group bg-white">
       <div>
-        <!-- Course Thumbnail Banner -->
         ${course.image ? `
-          <div class="h-40 w-full overflow-hidden relative bg-black/60">
+          <div class="h-44 w-full overflow-hidden relative bg-slate-100">
             <img src="${course.image}" onerror="this.src='assets/logo.png'" alt="${course.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-            <div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-black/20"></div>
-            <span class="absolute top-3 right-3 text-xs font-semibold px-3 py-1 rounded-full border ${course.badgeColor} backdrop-blur-md">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+            <span class="absolute top-3 right-3 text-[11px] font-bold px-3 py-1 rounded-full bg-red-600 text-white shadow">
               ${course.badge}
             </span>
-            <span class="absolute top-3 left-3 text-xs text-slate-900 bg-black/60 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-blue-900/60/50">
-              <i class="fa-solid fa-graduation-cap text-blue-400 ml-1"></i>
+            <span class="absolute top-3 left-3 text-[11px] font-bold text-slate-900 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-full shadow">
+              <i class="fa-solid fa-graduation-cap text-red-600 ml-1"></i>
               ${course.gradeName}
             </span>
           </div>
@@ -343,10 +346,10 @@ function renderCourses() {
 
         <div class="p-6">
           <div class="flex items-start gap-3 mb-3">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-br ${course.color} flex items-center justify-center text-slate-900 text-lg shadow-lg shadow-red-900/40 shrink-0">
-              <i class="fa-solid ${course.icon}"></i>
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600 to-rose-700 flex items-center justify-center text-white text-lg shadow-md shrink-0">
+              <i class="fa-solid ${course.icon || 'fa-flask-vial'}"></i>
             </div>
-            <h3 class="text-base sm:text-lg font-bold text-slate-900 hover:text-blue-400 transition-colors leading-snug">
+            <h3 class="text-base sm:text-lg font-bold text-slate-900 group-hover:text-red-600 transition-colors leading-snug">
               ${course.title}
             </h3>
           </div>
@@ -355,12 +358,12 @@ function renderCourses() {
             ${course.description}
           </p>
 
-          <div class="bg-slate-900/30 rounded-xl p-3 mb-2 border border-blue-900/60/40">
-            <span class="text-xs text-blue-300 block mb-1.5 font-semibold">أبرز المحتويات:</span>
+          <div class="bg-slate-50 rounded-xl p-3 mb-2 border border-slate-100">
+            <span class="text-xs text-red-600 block mb-1.5 font-bold">أبرز المحتويات:</span>
             <ul class="space-y-1 text-xs text-slate-600">
               ${(course.topics || []).slice(0, 3).map(t => `
                 <li class="flex items-center gap-1.5">
-                  <i class="fa-solid fa-circle-check text-blue-400 text-[10px]"></i>
+                  <i class="fa-solid fa-circle-check text-red-600 text-[10px]"></i>
                   <span>${t}</span>
                 </li>
               `).join("")}
@@ -370,23 +373,137 @@ function renderCourses() {
       </div>
 
       <div class="p-6 pt-0">
-        <div class="flex items-center justify-between py-3 border-t border-blue-950/70 text-xs text-slate-400 mb-4">
-          <span><i class="fa-solid fa-video ml-1 text-blue-400"></i> ${course.lecturesCount} محاضرة</span>
-          <span><i class="fa-solid fa-clock ml-1 text-amber-400"></i> ${course.hours || 35} ساعة</span>
-          <span class="text-emerald-400 font-bold font-mono text-sm">${course.price}</span>
+        <div class="flex items-center justify-between py-3 border-t border-slate-100 text-xs text-slate-500 mb-4">
+          <span><i class="fa-solid fa-video ml-1 text-red-600"></i> ${course.lecturesCount} محاضرة</span>
+          <span><i class="fa-solid fa-clock ml-1 text-amber-500"></i> ${course.hours || 35} ساعة</span>
+          <span class="text-emerald-600 font-black font-mono text-sm">${course.price}</span>
         </div>
 
         <div class="grid grid-cols-2 gap-2">
-          <!-- Direct to Payment Gateway -->
-          <button onclick="goToCheckout('${course.title}', '${course.price}')" class="w-full bg-blue-600 hover:bg-red-700 text-slate-900 font-bold py-2.5 px-3 rounded-xl text-xs transition duration-200 flex items-center justify-center gap-1.5 shadow-md shadow-red-600/30">
+          <button onclick="goToCheckout('${safeTitle}', '${course.price}')" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2.5 px-3 rounded-xl text-xs transition duration-200 flex items-center justify-center gap-1.5 shadow-md shadow-red-600/20">
             <i class="fa-solid fa-credit-card"></i>
             <span>حجز ودفع</span>
           </button>
-          <button onclick="openVideoModal('${course.title}', '${course.gradeName}')" class="w-full bg-slate-100 hover:bg-red-50 text-slate-800 hover:bg-slate-900/70 border border-blue-900/60/50 text-slate-200 font-bold py-2.5 px-3 rounded-xl text-xs transition duration-200 flex items-center justify-center gap-1.5">
-            <i class="fa-solid fa-play text-blue-400"></i>
+          <button onclick="openVideoModal('${safeTitle}', '${safeGrade}', '${safeVid}')" class="w-full bg-slate-100 hover:bg-red-50 text-slate-800 hover:text-red-600 border border-slate-200 font-bold py-2.5 px-3 rounded-xl text-xs transition duration-200 flex items-center justify-center gap-1.5">
+            <i class="fa-solid fa-play text-red-600"></i>
             <span>معاينة حصة</span>
           </button>
         </div>
+      </div>
+    </div>
+    `;
+  }).join("");
+}
+
+// Render Main Page Videos Showcase (Uploaded via Admin)
+async function renderSiteVideos() {
+  const container = document.getElementById("site-videos-grid");
+  if (!container) return;
+
+  let videos = [];
+  if (typeof SupabaseAPI !== "undefined") {
+    videos = await SupabaseAPI.getSiteVideos();
+  }
+
+  if (!videos || videos.length === 0) {
+    videos = [
+      {
+        id: "default-vid-1",
+        title: "مقدمة الكيمياء العضوية وأفكار الامتحان",
+        gradeName: "الصف الثالث الثانوي",
+        videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        thumbnail: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=600&q=80",
+        description: "شرح مبسط لتأسيس الكيمياء العضوية ونواتج التعلم الأساسية."
+      }
+    ];
+  }
+
+  container.innerHTML = videos.map(v => {
+    const safeTitle = (v.title || "").replace(/'/g, "\\'");
+    const safeGrade = (v.gradeName || "").replace(/'/g, "\\'");
+    const safeUrl = (v.videoUrl || "").replace(/'/g, "\\'");
+    return `
+      <div class="glass-card rounded-2xl overflow-hidden border border-slate-200 bg-white flex flex-col justify-between group cursor-pointer"
+           onclick="openVideoModal('${safeTitle}', '${safeGrade}', '${safeUrl}')">
+        <div>
+          <div class="h-48 w-full relative overflow-hidden bg-slate-900">
+            <img src="${v.thumbnail || 'assets/logo.png'}" onerror="this.src='assets/logo.png'" alt="${v.title}"
+                 class="w-full h-full object-cover opacity-90 group-hover:scale-105 transition duration-500">
+            <div class="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/20 transition">
+              <div class="w-14 h-14 rounded-full bg-red-600 text-white flex items-center justify-center text-xl shadow-xl group-hover:scale-110 transition">
+                <i class="fa-solid fa-play ml-0.5"></i>
+              </div>
+            </div>
+            <span class="absolute top-3 right-3 text-[11px] font-bold bg-white/95 text-red-600 px-2.5 py-1 rounded-full shadow">
+              ${v.gradeName || 'فيديو تعليمي'}
+            </span>
+          </div>
+          <div class="p-5">
+            <h4 class="font-bold text-slate-900 text-sm sm:text-base group-hover:text-red-600 transition">${v.title}</h4>
+            <p class="text-xs text-slate-500 mt-1.5 line-clamp-2">${v.description || 'شاهد الشرح الكامل والتركيز على نواتج التعلم.'}</p>
+          </div>
+        </div>
+        <div class="px-5 pb-4">
+          <span class="text-xs font-bold text-red-600 inline-flex items-center gap-1.5">
+            <i class="fa-solid fa-circle-play"></i>
+            <span>مشاهدة الفيديو الآن</span>
+          </span>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+// Render Student Reviews (Managed via Admin)
+async function renderSiteReviews() {
+  const container = document.getElementById("site-reviews-grid");
+  if (!container) return;
+
+  let reviews = [];
+  if (typeof SupabaseAPI !== "undefined") {
+    reviews = await SupabaseAPI.getReviews();
+  }
+
+  if (!reviews || reviews.length === 0) {
+    reviews = [
+      {
+        studentName: "أحمد محمود إبراهيم",
+        subtitle: "الصف الثالث الثانوي • 60/60 كيمياء",
+        rating: 5,
+        text: "بصراحة شرح الكيمياء العضوية والتحويلات على المنصة حول الكيمياء من أصعب مادة عندي لأمتع مادة وقفلتها في امتحان آخر السنة."
+      },
+      {
+        studentName: "مريم خالد عبد الله",
+        subtitle: "الصف الثالث الثانوي • القاهرة",
+        rating: 5,
+        text: "بنك الأسئلة والمتابعة الأسبوعية مع المساعدين فرقوا معايا جداً في حل أفكار النظام الجديد والتعامل مع مسائل الكهربية."
+      },
+      {
+        studentName: "يوسف طارق حسن",
+        subtitle: "الصف الثاني الثانوي • الدقهلية",
+        rating: 5,
+        text: "المذكرات ملخصة بشكل ممتاز والفيديوهات واضحة جداً وبدون أي تعقيد. أنصح أي طالب ثانوية عامة يشترك في العباقرة."
+      }
+    ];
+  }
+
+  container.innerHTML = reviews.map(r => `
+    <div class="glass-card rounded-2xl p-6 border border-slate-200 bg-white flex flex-col justify-between gap-4">
+      <div class="space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-red-50 text-red-600 font-black flex items-center justify-center border border-red-100">
+              ${(r.studentName || 'ط').charAt(0)}
+            </div>
+            <div>
+              <h4 class="text-sm font-black text-slate-900">${r.studentName}</h4>
+              <span class="text-[11px] font-semibold text-red-600">${r.subtitle || 'طالب ثانوية عامة'}</span>
+            </div>
+          </div>
+          <div class="text-amber-500 text-xs">${"★".repeat(r.rating || 5)}</div>
+        </div>
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">"${r.text}"</p>
+        ${r.image ? `<img src="${r.image}" alt="${r.studentName}" class="w-full max-h-52 object-cover rounded-xl border border-slate-200">` : ''}
       </div>
     </div>
   `).join("");
@@ -582,22 +699,39 @@ function renderElementsCards() {
   if (!container) return;
 
   container.innerHTML = elementsData.map(elem => `
-    <div class="p-4 rounded-2xl bg-[#180a0e] border border-blue-950/70/80 hover:border-red-500/50 transition group cursor-pointer" onclick="showToast('عنصر ${elem.name} (${elem.symbol}) - العدد الذري ${elem.atomicNumber}')">
+    <div class="p-4 rounded-2xl bg-white border border-slate-200 hover:border-red-300 shadow-sm transition group cursor-pointer" onclick="showToast('عنصر ${elem.name} (${elem.symbol}) - العدد الذري ${elem.atomicNumber}')">
       <div class="flex items-center justify-between mb-2">
-        <span class="text-2xl font-black text-blue-400 font-mono">${elem.symbol}</span>
-        <span class="text-xs font-bold px-2 py-0.5 rounded bg-red-500/15 text-blue-300 border border-red-500/30">${elem.atomicNumber}</span>
+        <span class="text-2xl font-black text-red-600 font-mono">${elem.symbol}</span>
+        <span class="text-xs font-bold px-2 py-0.5 rounded bg-red-50 text-red-600 border border-red-200">${elem.atomicNumber}</span>
       </div>
       <h4 class="font-bold text-slate-900 text-sm mb-1">${elem.name}</h4>
-      <p class="text-slate-400 text-xs leading-relaxed line-clamp-2">${elem.note}</p>
+      <p class="text-slate-500 text-xs leading-relaxed line-clamp-2">${elem.note}</p>
     </div>
   `).join("");
 }
 
-// Video Preview Modal
-function openVideoModal(title, grade) {
+// Video Preview Modal (Plays real YouTube, Drive, or MP4 videos)
+function openVideoModal(title, grade, videoUrl) {
   const modal = document.getElementById("video-modal");
   const titleElem = document.getElementById("video-modal-title");
-  if (titleElem) titleElem.innerText = `${title} (${grade})`;
+  const subtitleElem = document.getElementById("video-modal-subtitle");
+  const playerBox = document.getElementById("video-modal-player");
+
+  if (titleElem) titleElem.innerText = title || "فيديو تعليمي";
+  if (subtitleElem) subtitleElem.innerText = grade || "منصة العباقرة";
+
+  if (playerBox) {
+    const url = videoUrl || "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+    const embed = (typeof SupabaseAPI !== "undefined")
+      ? SupabaseAPI.formatVideoEmbed(url)
+      : { type: "iframe", src: url };
+
+    if (embed.type === "video") {
+      playerBox.innerHTML = `<video src="${embed.src}" controls autoplay class="w-full h-full"></video>`;
+    } else {
+      playerBox.innerHTML = `<iframe src="${embed.src}" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+    }
+  }
 
   if (modal) {
     modal.classList.remove("hidden");
@@ -607,6 +741,8 @@ function openVideoModal(title, grade) {
 
 function closeVideoModal() {
   const modal = document.getElementById("video-modal");
+  const playerBox = document.getElementById("video-modal-player");
+  if (playerBox) playerBox.innerHTML = "";
   if (modal) {
     modal.classList.add("hidden");
     modal.classList.remove("flex");
