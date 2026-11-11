@@ -1,6 +1,8 @@
 const crypto = require("crypto");
 
+const DEFAULT_KASHIER_MERCHANT_ID = "MID-43119-740";
 const DEFAULT_KASHIER_API_KEY = "ded74f2b-df3b-4a8e-92a4-3198ee0a18c7";
+const DEFAULT_KASHIER_MODE = "test";
 
 function formatKashierAmount(rawAmount) {
   const num = parseFloat(String(rawAmount || "0").replace(/[^0-9.]/g, ""));
@@ -23,10 +25,10 @@ module.exports = async function handler(req, res) {
 
   try {
     const body = typeof req.body === "string" ? JSON.parse(req.body || "{}") : (req.body || {});
-    const merchantId = String(process.env.KASHIER_MERCHANT_ID || body.merchantId || "").trim();
+    const merchantId = String(process.env.KASHIER_MERCHANT_ID || body.merchantId || DEFAULT_KASHIER_MERCHANT_ID).trim();
     const apiKey = String(process.env.KASHIER_API_KEY || body.apiKey || DEFAULT_KASHIER_API_KEY).trim();
     const secretKey = String(process.env.KASHIER_SECRET_KEY || body.secretKey || "").trim();
-    const mode = String(process.env.KASHIER_MODE || body.mode || "test").trim().toLowerCase() === "live" ? "live" : "test";
+    const mode = String(process.env.KASHIER_MODE || body.mode || DEFAULT_KASHIER_MODE).trim().toLowerCase() === "live" ? "live" : "test";
     const currency = String(body.currency || "EGP").trim().toUpperCase();
     const orderId = String(body.orderId || `ABQ-${Date.now()}`).trim();
     const amount = formatKashierAmount(body.amount);

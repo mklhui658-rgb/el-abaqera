@@ -750,13 +750,15 @@ const SupabaseAPI = {
   },
 
   // 10. Kashier Payment Gateway Configuration (stored cleanly via system_config + localStorage)
+  KASHIER_DEFAULT_MERCHANT_ID: "MID-43119-740",
   KASHIER_DEFAULT_API_KEY: "ded74f2b-df3b-4a8e-92a4-3198ee0a18c7",
+  KASHIER_DEFAULT_MODE: "test",
 
   async getKashierConfig() {
     const defaults = {
-      merchantId: "",
+      merchantId: this.KASHIER_DEFAULT_MERCHANT_ID,
       apiKey: this.KASHIER_DEFAULT_API_KEY,
-      mode: "test",
+      mode: this.KASHIER_DEFAULT_MODE,
       enabled: true,
       updatedAt: null
     };
@@ -780,7 +782,9 @@ const SupabaseAPI = {
             ...defaults,
             ...(localCfg || {}),
             ...parsed,
-            apiKey: parsed.apiKey || (localCfg && localCfg.apiKey) || defaults.apiKey
+            merchantId: parsed.merchantId || (localCfg && localCfg.merchantId) || defaults.merchantId,
+            apiKey: parsed.apiKey || (localCfg && localCfg.apiKey) || defaults.apiKey,
+            mode: parsed.mode || (localCfg && localCfg.mode) || defaults.mode
           };
           try {
             localStorage.setItem("abaqera_kashier_config", JSON.stringify(merged));
@@ -792,14 +796,20 @@ const SupabaseAPI = {
       }
     }
 
-    return { ...defaults, ...(localCfg || {}) };
+    return {
+      ...defaults,
+      ...(localCfg || {}),
+      merchantId: (localCfg && localCfg.merchantId) || defaults.merchantId,
+      apiKey: (localCfg && localCfg.apiKey) || defaults.apiKey,
+      mode: (localCfg && localCfg.mode) || defaults.mode
+    };
   },
 
   async saveKashierConfig(cfg) {
     const clean = {
-      merchantId: String((cfg && cfg.merchantId) || "").trim(),
+      merchantId: String((cfg && cfg.merchantId) || this.KASHIER_DEFAULT_MERCHANT_ID).trim(),
       apiKey: String((cfg && cfg.apiKey) || this.KASHIER_DEFAULT_API_KEY).trim(),
-      mode: String((cfg && cfg.mode) || "test").trim().toLowerCase() === "live" ? "live" : "test",
+      mode: String((cfg && cfg.mode) || this.KASHIER_DEFAULT_MODE).trim().toLowerCase() === "live" ? "live" : "test",
       enabled: cfg && typeof cfg.enabled === "boolean" ? cfg.enabled : true,
       updatedAt: new Date().toISOString()
     };

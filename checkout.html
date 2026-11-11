@@ -463,6 +463,7 @@
   <script>
     const PLATFORM_PHONE = "019624723742";
     const WHATSAPP_INTL = "2019624723742";
+    const KASHIER_FALLBACK_MERCHANT_ID = "MID-43119-740";
     const KASHIER_FALLBACK_KEY = "ded74f2b-df3b-4a8e-92a4-3198ee0a18c7";
     let selectedMethod = "kashier";
     let currentCourseName = "الكيمياء العضوية الشاملة للثانوية العامة";
@@ -603,8 +604,11 @@
       try {
         const cfg = (typeof SupabaseAPI !== "undefined" && SupabaseAPI.getKashierConfig)
           ? await SupabaseAPI.getKashierConfig()
-          : { merchantId: "", apiKey: KASHIER_FALLBACK_KEY, mode: "test" };
+          : { merchantId: KASHIER_FALLBACK_MERCHANT_ID, apiKey: KASHIER_FALLBACK_KEY, mode: "test" };
 
+        const effectiveMid = cfg.merchantId || KASHIER_FALLBACK_MERCHANT_ID;
+        const effectiveApiKey = cfg.apiKey || KASHIER_FALLBACK_KEY;
+        const effectiveMode = cfg.mode || "test";
         const redirectUrl = window.location.origin + window.location.pathname;
         let checkoutUrl = "";
 
@@ -620,9 +624,9 @@
             customerName: studentName,
             customerPhone: studentPhone,
             customerEmail: storedStudent.email || "",
-            merchantId: cfg.merchantId || "",
-            apiKey: cfg.apiKey || KASHIER_FALLBACK_KEY,
-            mode: cfg.mode || "test"
+            merchantId: effectiveMid,
+            apiKey: effectiveApiKey,
+            mode: effectiveMode
           })
         }).catch(() => null);
 
@@ -639,20 +643,15 @@
           throw new Error(errData.error || "تعذر تجهيز جلسة الدفع");
         } else {
           // Local static server fallback (when /api/* Serverless runtime isn't active)
-          if (!cfg.merchantId) {
-            const notice = document.getElementById("kashier-config-notice");
-            if (notice) notice.classList.remove("hidden");
-            throw new Error("يرجى إضافة Merchant ID (MID-...) من لوحة الأدمن > الإعدادات أولاً.");
-          }
-          const path = `/?payment=${cfg.merchantId}.${orderId}.${amountStr}.EGP`;
-          const hash = await computeClientHmacSha256(cfg.apiKey || KASHIER_FALLBACK_KEY, path);
+          const path = `/?payment=${effectiveMid}.${orderId}.${amountStr}.EGP`;
+          const hash = await computeClientHmacSha256(effectiveApiKey, path);
           const qp = new URLSearchParams({
-            merchantId: cfg.merchantId,
+            merchantId: effectiveMid,
             orderId,
             amount: amountStr,
             currency: "EGP",
             hash,
-            mode: cfg.mode || "test",
+            mode: effectiveMode,
             merchantRedirect: redirectUrl,
             allowedMethods: "card,wallet,bank_installments",
             defaultMethod: "card",
