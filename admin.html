@@ -17,9 +17,13 @@
   <!-- FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+  <!-- Custom Stylesheet (Light & Dark Black Theme) -->
+  <link rel="stylesheet" href="styles.css">
+
   <!-- Supabase CDN & Client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-client.js"></script>
+  <script src="theme-lang.js"></script>
 
   <style>
     * { font-family: 'Cairo', sans-serif; }
@@ -139,6 +143,16 @@
         </div>
 
         <div class="flex items-center gap-2">
+          <button type="button" onclick="toggleTheme()" data-theme-toggle class="bg-slate-100 hover:bg-red-50 text-slate-800 border border-slate-200 hover:border-red-200 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5" title="تبديل الثيم الأسود">
+            <span class="theme-icon"></span>
+            <span class="theme-label hidden sm:inline">أسود</span>
+          </button>
+
+          <button type="button" onclick="toggleLanguage()" data-lang-toggle class="bg-slate-100 hover:bg-red-50 text-slate-800 border border-slate-200 hover:border-red-200 px-2.5 py-2 rounded-xl text-xs font-black transition flex items-center gap-1" title="AR / EN">
+            <i class="fa-solid fa-globe text-red-600 text-xs"></i>
+            <span class="lang-label">EN</span>
+          </button>
+
           <a href="index.html" target="_blank"
             class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
             <i class="fa-solid fa-eye text-red-600"></i>

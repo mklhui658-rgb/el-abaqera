@@ -44,6 +44,7 @@
   <!-- Supabase CDN and Client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-client.js"></script>
+  <script src="theme-lang.js"></script>
 </head>
 <body class="bg-[#f8fafc] text-slate-900 min-h-screen relative bg-grid-pattern selection:bg-red-600 selection:text-white flex flex-col justify-between">
 
@@ -56,23 +57,35 @@
   <header class="glass-nav py-4 px-4 sm:px-8 border-b border-slate-100/80 relative z-30">
     <div class="max-w-7xl mx-auto flex items-center justify-between">
       <a href="index.html" class="flex items-center gap-3 group">
-        <div class="w-11 h-11 rounded-2xl bg-white p-0.5 shadow-lg shadow-blue-900/40 group-hover:scale-105 transition duration-300 overflow-hidden border border-blue-500/40">
+        <div class="w-11 h-11 rounded-2xl bg-white p-0.5 shadow-md shadow-red-600/15 group-hover:scale-105 transition duration-300 overflow-hidden border border-red-200">
           <img src="assets/logo.png" alt="لوجو منصة العباقرة" class="w-full h-full object-cover">
         </div>
         <div class="flex flex-col">
-          <span class="text-xl font-black text-slate-900">الـعـبـاقـرة</span>
-          <span class="text-[10px] text-red-600 font-semibold -mt-1">بوابة الدفع والتفعيل الآمن</span>
+          <span class="text-xl font-black text-slate-900" data-i18n="brand_name">الـعـبـاقـرة</span>
+          <span class="text-[10px] text-red-600 font-semibold -mt-1" data-i18n="brand_sub">مستر أبانوب فيكتور</span>
         </div>
       </a>
 
-      <div class="flex items-center gap-3">
-        <a href="dashboard.html" class="text-xs font-bold text-amber-300 hover:text-white bg-[#1f0910] border border-red-100/40 px-3.5 py-2 rounded-xl transition flex items-center gap-1.5">
-          <i class="fa-solid fa-graduation-cap text-amber-400"></i>
-          <span>لوحة الطالب</span>
+      <div class="flex items-center gap-2 sm:gap-2.5">
+        <!-- Theme Toggle Button -->
+        <button type="button" onclick="toggleTheme()" data-theme-toggle class="bg-slate-100 hover:bg-red-50 text-slate-800 border border-slate-200 hover:border-red-200 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5" title="تبديل الثيم الأسود">
+          <span class="theme-icon"></span>
+          <span class="theme-label hidden sm:inline">أسود</span>
+        </button>
+
+        <!-- Language Toggle Button -->
+        <button type="button" onclick="toggleLanguage()" data-lang-toggle class="bg-slate-100 hover:bg-red-50 text-slate-800 border border-slate-200 hover:border-red-200 px-2.5 py-2 rounded-xl text-xs font-black transition flex items-center gap-1" title="AR / EN">
+          <i class="fa-solid fa-globe text-red-600 text-xs"></i>
+          <span class="lang-label">EN</span>
+        </button>
+
+        <a href="dashboard.html" class="text-xs font-bold text-red-600 hover:bg-red-600 hover:text-white bg-red-50 border border-red-200 px-3.5 py-2 rounded-xl transition flex items-center gap-1.5">
+          <i class="fa-solid fa-graduation-cap"></i>
+          <span data-i18n="nav_dashboard">لوحة الطالب</span>
         </a>
-        <a href="index.html" class="text-xs font-bold text-slate-600 hover:text-white bg-white border border-red-100/40 px-3.5 py-2 rounded-xl transition flex items-center gap-1.5">
+        <a href="index.html" class="text-xs font-bold text-slate-700 hover:text-red-600 bg-white border border-slate-200 hover:border-red-200 px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm">
           <i class="fa-solid fa-house text-red-600"></i>
-          <span>الرئيسية</span>
+          <span class="hidden sm:inline" data-i18n="nav_home">الرئيسية</span>
         </a>
       </div>
     </div>
@@ -82,13 +95,13 @@
   <main class="flex-grow max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full relative z-10">
     
     <div class="text-center max-w-2xl mx-auto mb-8">
-      <span class="text-xs font-bold text-red-600 uppercase tracking-widest bg-red-500/10 px-3 py-1 rounded-full border border-blue-500/20">
+      <span class="text-xs font-bold text-red-600 uppercase tracking-widest bg-red-50 px-3 py-1 rounded-full border border-red-200">
         خطوة واحدة لتأكيد الاشتراك
       </span>
-      <h1 class="text-2xl sm:text-3xl font-black text-slate-900 mt-2">
-        بوابة دفع وتفعيل اشتراك الكيمياء
+      <h1 class="text-2xl sm:text-3xl font-black text-slate-900 mt-2" data-i18n="chk_title">
+        إتمام الاشتراك وتفعيل الكورس
       </h1>
-      <p class="text-xs sm:text-sm text-slate-500 mt-1">
+      <p class="text-xs sm:text-sm text-slate-500 mt-1" data-i18n="chk_subtitle">
         اختر وسيلة الدفع المناسبة لك، وسيتم تفعيل المحتوى وفتح المحاضرات فوراً في حسابك
       </p>
     </div>
@@ -96,41 +109,41 @@
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
       
       <!-- Left / Top: Order Summary Card -->
-      <div class="lg:col-span-5 glass-card rounded-3xl p-6 sm:p-7 border border-red-100/60 bg-white/90 space-y-5">
+      <div class="lg:col-span-5 glass-card rounded-3xl p-6 sm:p-7 border border-slate-200 bg-white space-y-5">
         
         <div class="flex items-center justify-between pb-4 border-b border-slate-100">
           <div class="flex items-center gap-2">
             <i class="fa-solid fa-receipt text-red-600"></i>
-            <h3 class="text-sm font-bold text-slate-900">تفاصيل الاشتراك المطلوب</h3>
+            <h3 class="text-sm font-bold text-slate-900" data-i18n="chk_summary">ملخص الطلب</h3>
           </div>
-          <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-red-500/20 text-red-500 border border-blue-500/30">
+          <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-red-50 text-red-600 border border-red-200">
             دفعة 2026
           </span>
         </div>
 
         <div class="space-y-3 text-xs">
           <div>
-            <span class="text-slate-500 block mb-1">الكورس / الباقة المختارة:</span>
-            <div class="p-3 rounded-xl bg-white border border-red-100/50 flex items-center justify-between">
+            <span class="text-slate-500 block mb-1" data-i18n="chk_selected_course">الكورس المختار:</span>
+            <div class="p-3 rounded-xl bg-red-50/60 border border-red-200 flex items-center justify-between theme-surface">
               <span class="font-bold text-slate-900" id="summary-course-title">الكيمياء العضوية الشاملة للثانوية العامة</span>
-              <i class="fa-solid fa-check-circle text-emerald-400 text-sm"></i>
+              <i class="fa-solid fa-check-circle text-emerald-500 text-sm"></i>
             </div>
           </div>
 
-          <div class="flex justify-between text-slate-600 py-1 border-b border-slate-100/60">
+          <div class="flex justify-between text-slate-600 py-1 border-b border-slate-100">
             <span>سعر الكورس الأصلي:</span>
-            <span class="line-through text-slate-500" id="summary-original-price">350 ج.م</span>
+            <span class="line-through text-slate-400" id="summary-original-price">350 ج.م</span>
           </div>
 
-          <div class="flex justify-between text-slate-600 py-1 border-b border-slate-100/60">
+          <div class="flex justify-between text-slate-600 py-1 border-b border-slate-100">
             <span>خصم المنصة المباشر:</span>
-            <span class="text-emerald-400 font-bold" id="summary-discount">- 100 ج.م</span>
+            <span class="text-emerald-600 font-bold" id="summary-discount">- 100 ج.م</span>
           </div>
 
           <div class="flex justify-between items-baseline pt-2">
-            <span class="text-sm font-bold text-slate-900">المبلغ المطلوب للدفع:</span>
+            <span class="text-sm font-bold text-slate-900" data-i18n="chk_total">المبلغ المطلوب للدفع:</span>
             <div class="text-left">
-              <span class="text-2xl font-black text-amber-400 font-mono" id="summary-final-price">250</span>
+              <span class="text-2xl font-black text-red-600 font-mono" id="summary-final-price">250</span>
               <span class="text-xs text-slate-500">جنيه مصري</span>
             </div>
           </div>
@@ -140,7 +153,7 @@
         <div class="pt-4 border-t border-slate-100 space-y-2 text-xs">
           <div class="flex items-center justify-between">
             <span class="text-slate-500">اسم الطالب المسجل:</span>
-            <span class="text-white font-bold" id="summary-student-name">أحمد محمود إبراهيم</span>
+            <span class="text-slate-900 font-bold" id="summary-student-name">أحمد محمود إبراهيم</span>
           </div>
           <div class="flex items-center justify-between">
             <span class="text-slate-500">رقم الهاتف:</span>
@@ -148,40 +161,40 @@
           </div>
           <div class="flex items-center justify-between">
             <span class="text-slate-500">حالة التفعيل:</span>
-            <span class="text-amber-400 font-bold">بانتظار تأكيد الدفع ⏳</span>
+            <span class="text-amber-600 font-bold">بانتظار تأكيد الدفع ⏳</span>
           </div>
         </div>
 
-        <div class="p-3.5 rounded-2xl bg-emerald-950/30 border border-emerald-800/40 text-[11px] text-emerald-300 flex items-center gap-2.5">
-          <i class="fa-solid fa-shield-halved text-base shrink-0"></i>
+        <div class="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-[11px] text-emerald-700 flex items-center gap-2.5">
+          <i class="fa-solid fa-shield-halved text-base shrink-0 text-emerald-600"></i>
           <span>تفعيل فوري وآمن للمحاضرات ومذكرات الـ PDF فور إتمام العملية.</span>
         </div>
 
       </div>
 
       <!-- Right: Payment Methods Tabs & Form -->
-      <div class="lg:col-span-7 glass-card rounded-3xl p-6 sm:p-8 border border-red-100/60 bg-white/90 shadow-2xl">
+      <div class="lg:col-span-7 glass-card rounded-3xl p-6 sm:p-8 border border-slate-200 bg-white shadow-2xl">
         
         <h3 class="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
           <i class="fa-solid fa-wallet text-red-600"></i>
-          <span>اختر طريقة الدفع المناسبة لك:</span>
+          <span data-i18n="chk_method_title">اختر طريقة الدفع المناسبة:</span>
         </h3>
 
         <!-- Payment Method Tabs -->
-        <div class="grid grid-cols-3 gap-2 p-1.5 bg-[#0d1527] rounded-2xl border border-slate-100 mb-6">
+        <div class="grid grid-cols-3 gap-2 p-1.5 bg-slate-100 rounded-2xl border border-slate-200 mb-6 theme-surface">
           
-          <button id="tab-btn-wallet" onclick="selectPaymentMethod('wallet')" class="py-3 px-2 rounded-xl text-xs font-bold transition flex flex-col sm:flex-row items-center justify-center gap-1.5 bg-red-600 text-white shadow-md shadow-blue-600/30">
+          <button id="tab-btn-wallet" onclick="selectPaymentMethod('wallet')" class="py-3 px-2 rounded-xl text-xs font-bold transition flex flex-col sm:flex-row items-center justify-center gap-1.5 bg-red-600 text-white shadow-md shadow-red-600/25">
             <i class="fa-solid fa-mobile-screen-button text-base"></i>
             <span>محفظة كاش</span>
           </button>
 
-          <button id="tab-btn-instapay" onclick="selectPaymentMethod('instapay')" class="py-3 px-2 rounded-xl text-xs font-bold transition flex flex-col sm:flex-row items-center justify-center gap-1.5 text-slate-600 hover:text-white">
-            <i class="fa-solid fa-bolt text-amber-400 text-base"></i>
+          <button id="tab-btn-instapay" onclick="selectPaymentMethod('instapay')" class="py-3 px-2 rounded-xl text-xs font-bold transition flex flex-col sm:flex-row items-center justify-center gap-1.5 text-slate-600 hover:text-red-600">
+            <i class="fa-solid fa-bolt text-amber-500 text-base"></i>
             <span>إنستاباي InstaPay</span>
           </button>
 
-          <button id="tab-btn-code" onclick="selectPaymentMethod('code')" class="py-3 px-2 rounded-xl text-xs font-bold transition flex flex-col sm:flex-row items-center justify-center gap-1.5 text-slate-600 hover:text-white">
-            <i class="fa-solid fa-key text-emerald-400 text-base"></i>
+          <button id="tab-btn-code" onclick="selectPaymentMethod('code')" class="py-3 px-2 rounded-xl text-xs font-bold transition flex flex-col sm:flex-row items-center justify-center gap-1.5 text-slate-600 hover:text-red-600">
+            <i class="fa-solid fa-key text-emerald-500 text-base"></i>
             <span>كود التفعيل</span>
           </button>
 
@@ -190,15 +203,15 @@
         <!-- ================= METHOD 1: WALLET CASH ================= -->
         <div id="method-wallet" class="space-y-5">
           
-          <div class="p-4 rounded-2xl bg-white border border-red-100/50 space-y-3">
-            <div class="flex items-center justify-between">
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 theme-surface">
+            <div class="flex items-center justify-between flex-wrap gap-2">
               <span class="text-xs text-slate-600 font-semibold">رقم محفظة المنصة المعتمدة:</span>
-              <span class="text-[11px] bg-red-500/20 text-red-500 px-2 py-0.5 rounded font-bold">فودافون كاش / أورنج / وي / اتصالات</span>
+              <span class="text-[11px] bg-red-50 text-red-600 border border-red-200 px-2 py-0.5 rounded font-bold">فودافون كاش / أورنج / وي / اتصالات</span>
             </div>
 
-            <div class="flex items-center justify-between bg-[#0d1527] p-3 rounded-xl border border-slate-100">
-              <span class="text-lg sm:text-xl font-black text-amber-400 font-mono tracking-wider" dir="ltr" id="platform-wallet-number">019624723742</span>
-              <button onclick="copyWalletNumber()" class="bg-red-600 hover:bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition flex items-center gap-1">
+            <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 theme-surface">
+              <span class="text-lg sm:text-xl font-black text-red-600 font-mono tracking-wider" dir="ltr" id="platform-wallet-number">019624723742</span>
+              <button onclick="copyWalletNumber()" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition flex items-center gap-1">
                 <i class="fa-solid fa-copy"></i>
                 <span>نسخ الرقم</span>
               </button>
@@ -211,18 +224,18 @@
 
           <form onsubmit="handleWalletSubmit(event)" class="space-y-4">
             <div>
-              <label class="block text-xs font-semibold text-slate-600 mb-1.5">رقم المحفظة المُحوَّل منها *</label>
-              <input type="tel" id="wallet-sender-number" required placeholder="01xxxxxxxxx (الرقم الذي أرسلت منه)" class="w-full bg-white border border-slate-100 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-blue-500" dir="ltr">
+              <label class="block text-xs font-semibold text-slate-700 mb-1.5">رقم المحفظة المُحوَّل منها *</label>
+              <input type="tel" id="wallet-sender-number" required placeholder="01xxxxxxxxx (الرقم الذي أرسلت منه)" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-red-500 focus:bg-white" dir="ltr">
             </div>
 
             <div>
-              <label class="block text-xs font-semibold text-slate-600 mb-1.5">رقم العملية أو اسم صاحب المحفظة (اختياري)</label>
-              <input type="text" id="wallet-tx-id" placeholder="مثال: تم التحويل باسم أحمد أو كود العملية" class="w-full bg-white border border-slate-100 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-blue-500">
+              <label class="block text-xs font-semibold text-slate-700 mb-1.5">رقم العملية أو اسم صاحب المحفظة (اختياري)</label>
+              <input type="text" id="wallet-tx-id" placeholder="مثال: تم التحويل باسم أحمد أو كود العملية" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-red-500 focus:bg-white">
             </div>
 
-            <button type="submit" class="w-full bg-red-600 hover:bg-red-500 text-white font-bold py-3.5 rounded-xl text-xs sm:text-sm transition duration-200 shadow-lg shadow-blue-600/40 btn-glow flex items-center justify-center gap-2">
+            <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3.5 rounded-xl text-xs sm:text-sm transition duration-200 shadow-lg shadow-red-600/30 btn-glow flex items-center justify-center gap-2">
               <i class="fa-solid fa-check-double"></i>
-              <span>تأكيد التحويل وتفعيل الكورس فوراً</span>
+              <span data-i18n="chk_confirm_btn">تأكيد وإرسال طلب التفعيل</span>
             </button>
           </form>
 
@@ -231,30 +244,30 @@
         <!-- ================= METHOD 2: INSTAPAY ================= -->
         <div id="method-instapay" class="space-y-5 hidden">
           
-          <div class="p-4 rounded-2xl bg-white border border-red-100/50 space-y-3">
-            <div class="flex items-center justify-between">
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 theme-surface">
+            <div class="flex items-center justify-between flex-wrap gap-2">
               <span class="text-xs text-slate-600 font-semibold">التحويل عبر تطبيق إنستاباي InstaPay:</span>
-              <span class="text-[11px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded font-bold">لحظي وبدون رسوم ⚡</span>
+              <span class="text-[11px] bg-amber-50 text-amber-700 border border-amber-200 px-2 py-0.5 rounded font-bold">لحظي وبدون رسوم ⚡</span>
             </div>
 
             <div class="space-y-2">
-              <div class="flex items-center justify-between bg-[#0d1527] p-3 rounded-xl border border-slate-100">
+              <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 theme-surface">
                 <div>
                   <span class="text-[10px] text-slate-500 block">رقم الهاتف المسجل بإنستاباي:</span>
-                  <span class="text-base sm:text-lg font-black text-amber-400 font-mono" dir="ltr">019624723742</span>
+                  <span class="text-base sm:text-lg font-black text-red-600 font-mono" dir="ltr">019624723742</span>
                 </div>
-                <button onclick="copyWalletNumber()" class="bg-red-600 hover:bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition flex items-center gap-1">
+                <button onclick="copyWalletNumber()" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition flex items-center gap-1">
                   <i class="fa-solid fa-copy"></i>
                   <span>نسخ</span>
                 </button>
               </div>
 
-              <div class="flex items-center justify-between bg-[#0d1527] p-3 rounded-xl border border-slate-100">
+              <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 theme-surface">
                 <div>
                   <span class="text-[10px] text-slate-500 block">معرف إنستاباي (IPA Address):</span>
                   <span class="text-sm font-bold text-slate-900 font-mono" dir="ltr">al-abaqera@instapay</span>
                 </div>
-                <button onclick="copyText('al-abaqera@instapay', 'معرف إنستاباي')" class="bg-[#1f0910] hover:bg-slate-900 border border-red-100/50 text-slate-800 text-xs font-bold px-3 py-1.5 rounded-lg transition flex items-center gap-1">
+                <button onclick="copyText('al-abaqera@instapay', 'معرف إنستاباي')" class="bg-slate-100 hover:bg-red-600 hover:text-white border border-slate-200 text-slate-800 text-xs font-bold px-3 py-1.5 rounded-lg transition flex items-center gap-1">
                   <i class="fa-solid fa-copy"></i>
                   <span>نسخ المعرف</span>
                 </button>
@@ -268,11 +281,11 @@
 
           <form onsubmit="handleInstapaySubmit(event)" class="space-y-4">
             <div>
-              <label class="block text-xs font-semibold text-slate-600 mb-1.5">اسم الحساب في إنستاباي أو رقم الهاتف المحول منه *</label>
-              <input type="text" id="instapay-sender" required placeholder="مثال: Mohamed Ali أو 01xxxxxxxxx" class="w-full bg-white border border-slate-100 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-blue-500">
+              <label class="block text-xs font-semibold text-slate-700 mb-1.5">اسم الحساب في إنستاباي أو رقم الهاتف المحول منه *</label>
+              <input type="text" id="instapay-sender" required placeholder="مثال: Mohamed Ali أو 01xxxxxxxxx" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-red-500 focus:bg-white">
             </div>
 
-            <button type="submit" class="w-full bg-red-600 hover:bg-red-500 text-white font-bold py-3.5 rounded-xl text-xs sm:text-sm transition duration-200 shadow-lg shadow-blue-600/40 btn-glow flex items-center justify-center gap-2">
+            <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3.5 rounded-xl text-xs sm:text-sm transition duration-200 shadow-lg shadow-red-600/30 btn-glow flex items-center justify-center gap-2">
               <i class="fa-solid fa-bolt"></i>
               <span>تأكيد دفع إنستاباي وتفعيل الحساب</span>
             </button>
@@ -283,14 +296,14 @@
         <!-- ================= METHOD 3: ACTIVATION CODE ================= -->
         <div id="method-code" class="space-y-5 hidden">
           
-          <div class="p-4 rounded-2xl bg-white border border-red-100/50 space-y-2">
-            <span class="text-xs text-slate-600 font-semibold block">كروت التفعيل وأكواد السناتر والمكتبات:</span>
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 theme-surface">
+            <span class="text-xs text-slate-700 font-semibold block">كروت التفعيل وأكواد السناتر والمكتبات:</span>
             <p class="text-[11px] text-slate-500 leading-relaxed">
               إذا قمت بشراء كارت الاشتراك من السنتر أو المكتبة المعتمدة، قم بكشط الكارت وإدخال كود التفعيل المكون من حروف وأرقام بالأسفل لتفعيل المحتوى في ثانية واحدة!
             </p>
 
             <div class="pt-1">
-              <span class="text-[11px] text-amber-400 bg-amber-500/10 px-2 py-1 rounded border border-amber-500/20 inline-block">
+              <span class="text-[11px] text-amber-700 bg-amber-50 px-2.5 py-1 rounded border border-amber-200 inline-block">
                 💡 كود تجريبي للاختبار: <strong>CHEM-2026-VIP</strong>
               </span>
             </div>
@@ -298,11 +311,11 @@
 
           <form onsubmit="handleCodeSubmit(event)" class="space-y-4">
             <div>
-              <label class="block text-xs font-semibold text-slate-600 mb-1.5">أدخل كود التفعيل *</label>
-              <input type="text" id="activation-code-input" required placeholder="CHEM-XXXX-YYYY" class="w-full bg-white border border-slate-100 rounded-xl px-4 py-3 text-sm text-center text-amber-300 font-mono tracking-widest focus:outline-none focus:border-blue-500 uppercase" dir="ltr" value="CHEM-2026-VIP">
+              <label class="block text-xs font-semibold text-slate-700 mb-1.5">أدخل كود التفعيل *</label>
+              <input type="text" id="activation-code-input" required placeholder="CHEM-XXXX-YYYY" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-center text-red-600 font-bold font-mono tracking-widest focus:outline-none focus:border-red-500 focus:bg-white uppercase" dir="ltr" value="CHEM-2026-VIP">
             </div>
 
-            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 rounded-xl text-xs sm:text-sm transition duration-200 shadow-lg shadow-emerald-600/40 btn-glow flex items-center justify-center gap-2">
+            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl text-xs sm:text-sm transition duration-200 shadow-lg shadow-emerald-600/30 btn-glow flex items-center justify-center gap-2">
               <i class="fa-solid fa-key"></i>
               <span>تفعيل الكورس فوراً بالكود</span>
             </button>
@@ -318,9 +331,9 @@
 
   <!-- Success Payment / Activation Modal -->
   <div id="payment-success-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
-    <div class="glass-panel bg-white rounded-3xl p-6 sm:p-8 max-w-lg w-full border border-emerald-500/50 shadow-2xl relative text-center space-y-5 animate-in fade-in zoom-in duration-200">
+    <div class="glass-panel bg-white rounded-3xl p-6 sm:p-8 max-w-lg w-full border border-emerald-200 shadow-2xl relative text-center space-y-5 animate-in fade-in zoom-in duration-200 theme-surface">
       
-      <div class="w-20 h-20 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-4xl mx-auto border-2 border-emerald-500/40 animate-bounce">
+      <div class="w-20 h-20 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center text-4xl mx-auto border-2 border-emerald-200 animate-bounce">
         <i class="fa-solid fa-circle-check"></i>
       </div>
 
@@ -331,28 +344,28 @@
         </p>
       </div>
 
-      <div class="bg-[#0d1527] p-4 rounded-2xl border border-slate-100 text-xs text-right space-y-2">
-        <div class="flex justify-between border-b border-slate-100 pb-2">
+      <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs text-right space-y-2 theme-surface">
+        <div class="flex justify-between border-b border-slate-200 pb-2">
           <span class="text-slate-500">كود الفاتورة:</span>
-          <span class="text-white font-mono font-bold" id="receipt-invoice-code">#INV-89241</span>
+          <span class="text-slate-900 font-mono font-bold" id="receipt-invoice-code">#INV-89241</span>
         </div>
-        <div class="flex justify-between border-b border-slate-100 pb-2">
+        <div class="flex justify-between border-b border-slate-200 pb-2">
           <span class="text-slate-500">طريقة الدفع:</span>
-          <span class="text-amber-400 font-bold" id="receipt-payment-method">فودافون كاش</span>
+          <span class="text-amber-600 font-bold" id="receipt-payment-method">فودافون كاش</span>
         </div>
         <div class="flex justify-between">
           <span class="text-slate-500">حالة الكورس:</span>
-          <span class="text-emerald-400 font-bold">متاح للمشاهدة الآن ✓</span>
+          <span class="text-emerald-600 font-bold">متاح للمشاهدة الآن ✓</span>
         </div>
       </div>
 
       <div class="flex flex-col sm:flex-row gap-3 pt-2">
-        <a href="dashboard.html" class="flex-1 bg-red-600 hover:bg-red-500 text-white font-bold py-3.5 rounded-xl text-xs sm:text-sm transition flex items-center justify-center gap-2 shadow-lg shadow-blue-600/40 btn-glow">
+        <a href="dashboard.html" class="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-3.5 rounded-xl text-xs sm:text-sm transition flex items-center justify-center gap-2 shadow-lg shadow-red-600/30 btn-glow">
           <i class="fa-solid fa-graduation-cap"></i>
           <span>فتح لوحة الطالب والمحاضرات الآن</span>
         </a>
 
-        <button onclick="sendReceiptWhatsapp()" class="bg-emerald-600/20 hover:bg-emerald-600 text-emerald-300 hover:text-white border border-emerald-500/40 py-3.5 px-4 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2">
+        <button onclick="sendReceiptWhatsapp()" class="bg-emerald-50 hover:bg-emerald-600 text-emerald-700 hover:text-white border border-emerald-200 py-3.5 px-4 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2">
           <i class="fa-brands fa-whatsapp text-base"></i>
           <span>إرسال إشعار للإدارة</span>
         </button>
@@ -365,10 +378,10 @@
   <div class="toast-container"></div>
 
   <!-- Footer -->
-  <footer class="border-t border-slate-100 bg-[#060a13] py-6 relative z-10 text-xs text-slate-500 text-center">
+  <footer class="border-t border-slate-200 bg-white py-6 relative z-10 text-xs text-slate-500 text-center theme-surface">
     <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-      <p>منصة العباقرة في الكيمياء | خط الدعم والاشتراكات المعتمد: <span class="text-red-600 font-mono font-bold" dir="ltr">019624723742</span></p>
-      <a href="index.html" class="text-red-600 hover:underline">العودة للرئيسية</a>
+      <p data-i18n="footer_rights">© 2026 منصة العباقرة في الكيمياء - مستر أبانوب فيكتور. جميع الحقوق محفوظة.</p>
+      <a href="index.html" class="text-red-600 font-bold hover:underline" data-i18n="nav_back_home">العودة للرئيسية</a>
     </div>
   </footer>
 
@@ -424,10 +437,10 @@
         const btn = document.getElementById(`tab-btn-${m}`);
         const div = document.getElementById(`method-${m}`);
         if (m === method) {
-          btn.className = "py-3 px-2 rounded-xl text-xs font-bold transition flex flex-col sm:flex-row items-center justify-center gap-1.5 bg-red-600 text-white shadow-md shadow-blue-600/30";
+          btn.className = "py-3 px-2 rounded-xl text-xs font-bold transition flex flex-col sm:flex-row items-center justify-center gap-1.5 bg-red-600 text-white shadow-md shadow-red-600/25";
           div.classList.remove("hidden");
         } else {
-          btn.className = "py-3 px-2 rounded-xl text-xs font-bold transition flex flex-col sm:flex-row items-center justify-center gap-1.5 text-slate-600 hover:text-white";
+          btn.className = "py-3 px-2 rounded-xl text-xs font-bold transition flex flex-col sm:flex-row items-center justify-center gap-1.5 text-slate-600 hover:text-red-600";
           div.classList.add("hidden");
         }
       });

@@ -197,6 +197,18 @@ function renderNavbarAuthState() {
 
   if (!authContainer) return;
 
+  const t = (k, fb) => (window.ThemeLang ? window.ThemeLang.t(k, fb) : fb);
+  const themeBtnHtml = `
+    <button type="button" onclick="toggleTheme()" data-theme-toggle class="bg-slate-100 hover:bg-red-50 text-slate-800 border border-slate-200 hover:border-red-200 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5" title="تبديل الثيم الأسود">
+      <span class="theme-icon"></span>
+      <span class="theme-label hidden sm:inline">أسود</span>
+    </button>
+    <button type="button" onclick="toggleLanguage()" data-lang-toggle class="bg-slate-100 hover:bg-red-50 text-slate-800 border border-slate-200 hover:border-red-200 px-2.5 py-2 rounded-xl text-xs font-black transition flex items-center gap-1" title="AR / EN">
+      <i class="fa-solid fa-globe text-red-600 text-xs"></i>
+      <span class="lang-label">EN</span>
+    </button>
+  `;
+
   if (isLoggedIn) {
     let studentName = "";
     const stored = localStorage.getItem("abaqera_student");
@@ -213,18 +225,19 @@ function renderNavbarAuthState() {
       return;
     }
 
-    // Student is logged in: show dashboard button & logout
+    // Student is logged in: show Theme/Lang toggle right next to dashboard button & logout
     authContainer.innerHTML = `
       <div class="flex items-center gap-2">
-        <a href="dashboard.html" class="flex items-center gap-2 bg-white hover:bg-slate-50 border border-red-200 text-slate-800 px-3.5 py-2 rounded-xl text-xs font-bold transition shadow-sm">
+        ${themeBtnHtml}
+        <a href="dashboard.html" class="flex items-center gap-2 bg-white hover:bg-red-50 border border-red-200 text-slate-800 px-3 sm:px-3.5 py-2 rounded-xl text-xs font-bold transition shadow-sm">
           <div class="w-6 h-6 rounded-lg bg-red-600 text-white flex items-center justify-center text-[10px]">
             <i class="fa-solid fa-user-graduate"></i>
           </div>
-          <span class="text-slate-900">${studentName}</span>
-          <span class="text-red-600 text-[10px] bg-red-50 px-1.5 py-0.5 rounded border border-red-200">لوحة الطالب</span>
+          <span class="text-slate-900 hidden md:inline">${studentName}</span>
+          <span class="text-red-600 text-[10px] sm:text-xs bg-red-50 px-1.5 py-0.5 rounded border border-red-200">${t('nav_dashboard', 'لوحة الطالب')}</span>
         </a>
 
-        <button onclick="logoutFromHome()" title="تسجيل الخروج" class="w-9 h-9 rounded-xl bg-white hover:bg-red-600 text-slate-500 hover:text-white border border-slate-200 hover:border-red-600 flex items-center justify-center text-xs transition shadow-sm">
+        <button onclick="logoutFromHome()" title="${t('nav_logout', 'خروج')}" class="w-9 h-9 rounded-xl bg-white hover:bg-red-600 text-slate-500 hover:text-white border border-slate-200 hover:border-red-600 flex items-center justify-center text-xs transition shadow-sm">
           <i class="fa-solid fa-right-from-bracket"></i>
         </button>
       </div>
@@ -232,41 +245,52 @@ function renderNavbarAuthState() {
 
     if (topAuthContainer) {
       topAuthContainer.innerHTML = `
-        <span class="text-emerald-600 font-bold flex items-center gap-1">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span>مرحباً، ${studentName}</span>
+        <span class="text-emerald-200 font-bold inline-flex items-center gap-1">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-300 animate-pulse"></span>
+          <span>${t('dash_welcome', 'مرحباً،')} ${studentName}</span>
         </span>
-        <span class="text-slate-300">|</span>
-        <a href="dashboard.html" class="text-red-600 hover:text-red-700 font-bold flex items-center gap-1">
+        <span class="text-red-300">|</span>
+        <a href="dashboard.html" class="text-white hover:text-amber-200 font-bold inline-flex items-center gap-1 underline decoration-red-300/60">
           <i class="fa-solid fa-graduation-cap"></i>
-          <span>لوحة الطالب والمحتوى المشترك فيه</span>
+          <span>${t('nav_dashboard', 'لوحة الطالب')}</span>
         </a>
       `;
     }
   } else {
-    // Guest state
+    // Guest state: Theme/Lang toggles sit right next to Login button
     authContainer.innerHTML = `
-      <a href="auth.html" class="flex items-center gap-2 bg-white hover:bg-slate-50 border border-slate-200 text-red-600 px-3.5 py-2.5 rounded-xl text-xs font-bold transition shadow-sm">
-        <i class="fa-solid fa-user-lock text-red-600"></i>
-        <span>دخول / تسجيل</span>
-      </a>
+      <div class="flex items-center gap-2">
+        ${themeBtnHtml}
+        <a href="auth.html" class="flex items-center gap-2 bg-white hover:bg-red-50 border border-red-200 text-red-600 px-3 sm:px-3.5 py-2 rounded-xl text-xs font-bold transition shadow-sm">
+          <i class="fa-solid fa-user-lock text-red-600"></i>
+          <span>${t('nav_login', 'دخول / تسجيل')}</span>
+        </a>
 
-      <button onclick="goToCheckout('كورس كيمياء الثانوية العامة', '250 ج.م')" class="bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-bold px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-md shadow-red-600/30 transition duration-200 btn-glow flex items-center gap-1.5">
-        <i class="fa-solid fa-bolt"></i>
-        <span>اشترك الآن</span>
-      </button>
+        <button onclick="goToCheckout('كورس كيمياء الثانوية العامة', '250 ج.م')" class="bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-bold px-3.5 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-md shadow-red-600/30 transition duration-200 btn-glow flex items-center gap-1.5">
+          <i class="fa-solid fa-bolt"></i>
+          <span class="hidden sm:inline">${t('nav_subscribe', 'اشترك الآن')}</span>
+        </button>
+      </div>
     `;
 
     if (topAuthContainer) {
       topAuthContainer.innerHTML = `
-        <a href="auth.html" class="hover:text-red-600 transition font-bold text-slate-600 flex items-center gap-1">
+        <a href="auth.html" class="hover:text-white transition font-bold text-red-50 inline-flex items-center gap-1">
           <i class="fa-solid fa-user-circle"></i>
-          <span>تسجيل الدخول / حساب جديد</span>
+          <span>${t('nav_login', 'دخول / تسجيل')}</span>
         </a>
       `;
     }
   }
+
+  if (window.ThemeLang && window.ThemeLang.updateToggleButtons) {
+    window.ThemeLang.updateToggleButtons();
+  }
 }
+
+window.onLanguageChange = function () {
+  if (typeof renderNavbarAuthState === "function") renderNavbarAuthState();
+};
 
 function logoutFromHome() {
   if (confirm("هل تريد تسجيل الخروج؟")) {
@@ -515,11 +539,11 @@ function initFilterButtons() {
   buttons.forEach(btn => {
     btn.addEventListener("click", () => {
       buttons.forEach(b => {
-        b.classList.remove("bg-blue-600", "text-slate-900");
-        b.classList.add("bg-[#1a0a0f]", "text-slate-600");
+        b.classList.remove("active", "bg-red-600", "text-white", "bg-blue-600", "text-slate-900");
+        b.classList.add("bg-white", "text-slate-600");
       });
-      btn.classList.add("bg-blue-600", "text-slate-900");
-      btn.classList.remove("bg-[#1a0a0f]", "text-slate-600");
+      btn.classList.add("active", "bg-red-600", "text-white");
+      btn.classList.remove("bg-white", "text-slate-600");
       currentFilter = btn.getAttribute("data-filter");
       renderCourses();
     });
@@ -536,7 +560,7 @@ function renderQuizQuestion() {
   const currentAnswer = userAnswers[q.id];
 
   let optionsHtml = q.options.map((opt, idx) => {
-    let classes = "quiz-option p-4 rounded-xl border border-blue-950/70/80 bg-[#16080b]/80 text-slate-200 text-sm font-medium flex items-center justify-between";
+    let classes = "quiz-option p-4 rounded-xl border border-slate-200 bg-white text-slate-800 text-sm font-medium flex items-center justify-between";
     if (quizSubmitted) {
       if (idx === q.correctAnswer) {
         classes += " correct";
@@ -550,13 +574,13 @@ function renderQuizQuestion() {
     return `
       <div class="${classes}" onclick="selectQuizOption(${q.id}, ${idx})">
         <div class="flex items-center gap-3">
-          <span class="w-7 h-7 rounded-lg bg-slate-900/80 border border-red-800/40 flex items-center justify-center text-xs font-bold text-blue-300">
+          <span class="w-7 h-7 rounded-lg bg-red-50 border border-red-200 flex items-center justify-center text-xs font-bold text-red-600">
             ${['أ', 'ب', 'ج', 'د'][idx]}
           </span>
           <span>${opt}</span>
         </div>
-        ${quizSubmitted && idx === q.correctAnswer ? '<i class="fa-solid fa-check text-emerald-400 text-base"></i>' : ''}
-        ${quizSubmitted && currentAnswer === idx && idx !== q.correctAnswer ? '<i class="fa-solid fa-xmark text-blue-400 text-base"></i>' : ''}
+        ${quizSubmitted && idx === q.correctAnswer ? '<i class="fa-solid fa-check text-emerald-500 text-base"></i>' : ''}
+        ${quizSubmitted && currentAnswer === idx && idx !== q.correctAnswer ? '<i class="fa-solid fa-xmark text-red-500 text-base"></i>' : ''}
       </div>
     `;
   }).join("");
@@ -597,24 +621,24 @@ function renderQuizQuestion() {
 
       ${explanationHtml}
 
-      <div class="flex items-center justify-between mt-6 pt-4 border-t border-blue-950/70">
-        <button onclick="prevQuizQuestion()" ${currentQuizIndex === 0 ? 'disabled' : ''} class="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 bg-[#1c0c11] hover:bg-slate-900/60 disabled:opacity-40 disabled:cursor-not-allowed transition border border-blue-900/60/30">
+      <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-200">
+        <button onclick="prevQuizQuestion()" ${currentQuizIndex === 0 ? 'disabled' : ''} class="px-4 py-2 rounded-xl text-xs font-bold text-slate-700 bg-slate-100 hover:bg-red-50 hover:text-red-600 disabled:opacity-40 disabled:cursor-not-allowed transition border border-slate-200">
           <i class="fa-solid fa-arrow-right ml-1"></i> السابق
         </button>
 
         ${currentQuizIndex < total - 1 ? `
-          <button onclick="nextQuizQuestion()" class="px-5 py-2 rounded-xl text-xs font-bold text-slate-900 bg-blue-600 hover:bg-red-700 transition flex items-center gap-1 shadow-md shadow-red-600/30">
+          <button onclick="nextQuizQuestion()" class="px-5 py-2 rounded-xl text-xs font-bold text-white bg-red-600 hover:bg-red-700 transition flex items-center gap-1 shadow-md shadow-red-600/30">
             <span>التالي</span>
             <i class="fa-solid fa-arrow-left mr-1"></i>
           </button>
         ` : `
           ${!quizSubmitted ? `
-            <button onclick="submitQuiz()" class="px-6 py-2.5 rounded-xl text-xs font-bold text-slate-900 bg-blue-600 hover:bg-red-700 transition flex items-center gap-1.5 shadow-lg shadow-red-600/40">
+            <button onclick="submitQuiz()" class="px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-red-600 hover:bg-red-700 transition flex items-center gap-1.5 shadow-lg shadow-red-600/35 btn-glow">
               <i class="fa-solid fa-flag-checkered"></i>
               <span>تسليم الاختبار وحساب النتيجة</span>
             </button>
           ` : `
-            <button onclick="resetQuiz()" class="px-5 py-2 rounded-xl text-xs font-bold text-slate-200 bg-[#1c0c11] hover:bg-slate-900/60 border border-blue-900/60/40 transition flex items-center gap-1">
+            <button onclick="resetQuiz()" class="px-5 py-2 rounded-xl text-xs font-bold text-slate-800 bg-slate-100 hover:bg-red-600 hover:text-white border border-slate-200 transition flex items-center gap-1">
               <i class="fa-solid fa-rotate-right ml-1"></i>
               <span>إعادة الاختبار</span>
             </button>
@@ -670,12 +694,12 @@ function submitQuiz() {
   if (scoreBanner) {
     scoreBanner.classList.remove("hidden");
     scoreBanner.innerHTML = `
-      <div class="glass-panel p-4 rounded-xl border border-red-500/40 bg-slate-900/30 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-right">
+      <div class="glass-panel p-4 rounded-xl border border-red-200 bg-red-50 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-right theme-surface">
         <div>
-          <h5 class="text-blue-300 font-bold text-sm">نتيجة الاختبار: ${correctCount} / ${quizQuestions.length} (${percentage}%)</h5>
+          <h5 class="text-red-700 font-bold text-sm">نتيجة الاختبار: ${correctCount} / ${quizQuestions.length} (${percentage}%)</h5>
           <p class="text-xs text-slate-600 mt-0.5">${percentage >= 80 ? 'مستوى عبقري! أنت جاهز للحصول على الدرجة النهائية 60/60 في الكيمياء' : 'مجهود ممتاز! راجع التفسيرات بالأسفل لتقوية نقاط ضعفك.'}</p>
         </div>
-        <button onclick="goToCheckout('كورس مراجعة بنك الأسئلة الشامل', '200 ج.م')" class="bg-blue-600 hover:bg-red-700 text-slate-900 text-xs font-bold px-4 py-2 rounded-lg transition shrink-0 shadow-md shadow-red-600/30">
+        <button onclick="goToCheckout('كورس مراجعة بنك الأسئلة الشامل', '200 ج.م')" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-4 py-2 rounded-lg transition shrink-0 shadow-md shadow-red-600/30">
           تفعيل باقي بنك الأسئلة الوزارية
         </button>
       </div>

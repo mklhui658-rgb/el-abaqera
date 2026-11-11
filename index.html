@@ -44,6 +44,7 @@
   <!-- Supabase CDN and Client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-client.js"></script>
+  <script src="theme-lang.js"></script>
 </head>
 <body class="bg-[#f8fafc] text-slate-900 min-h-screen relative bg-grid-pattern selection:bg-red-600 selection:text-white">
 
@@ -53,27 +54,27 @@
   <div class="glow-orb glow-orb-3"></div>
 
   <!-- Top Announcement Bar -->
-  <div class="bg-gradient-to-r from-red-600 via-rose-600 to-red-700 text-white border-b border-red-100/40 text-xs py-2 px-4 relative z-50">
+  <div class="bg-gradient-to-r from-red-700 via-red-600 to-rose-700 text-white border-b border-red-500/30 text-xs py-2 px-4 relative z-50">
     <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
       <div class="flex items-center gap-2">
-        <span class="bg-red-600 text-white font-black px-2 py-0.5 rounded text-[11px] animate-pulse">جديد</span>
-        <span class="text-slate-800">فتح باب التسجيل في معسكر الكيمياء العضوية وبنك الأسئلة للعام الدراسي الجديد!</span>
+        <span class="bg-white text-red-700 font-black px-2 py-0.5 rounded text-[11px] shadow-sm animate-pulse">جديد</span>
+        <span class="text-white font-semibold" data-i18n="hero_badge">المنصة الأقوى لتدريس الكيمياء للثانوية العامة — باب التسجيل مفتوح الآن!</span>
       </div>
-      <div class="flex items-center gap-4 text-slate-600">
-        <a href="tel:019624723742" class="hover:text-red-500 transition flex items-center gap-1.5 font-bold">
-          <i class="fa-solid fa-phone text-red-600"></i>
+      <div class="flex items-center gap-4 text-red-50">
+        <a href="tel:019624723742" class="hover:text-white transition flex items-center gap-1.5 font-bold">
+          <i class="fa-solid fa-phone text-white"></i>
           <span dir="ltr">019624723742</span>
         </a>
-        <span class="text-red-200">|</span>
-        <a href="https://wa.me/2019624723742" target="_blank" class="hover:text-emerald-300 transition flex items-center gap-1.5 font-bold">
-          <i class="fa-brands fa-whatsapp text-emerald-400"></i>
-          <span>واتساب الاستفسارات</span>
+        <span class="text-red-300">|</span>
+        <a href="https://wa.me/2019624723742" target="_blank" class="hover:text-emerald-200 transition flex items-center gap-1.5 font-bold">
+          <i class="fa-brands fa-whatsapp text-emerald-300"></i>
+          <span data-i18n="nav_contact">واتساب الاستفسارات</span>
         </a>
-        <span class="text-red-200 hidden sm:inline">|</span>
+        <span class="text-red-300 hidden sm:inline">|</span>
         <div id="top-auth-container" class="inline-flex items-center gap-2">
-          <a href="auth.html" class="hover:text-red-500 transition font-bold text-red-600 hidden sm:inline flex items-center gap-1">
+          <a href="auth.html" class="hover:text-white transition font-bold text-white hidden sm:inline-flex items-center gap-1">
             <i class="fa-solid fa-user-circle"></i>
-            <span>تسجيل الدخول / حساب جديد</span>
+            <span data-i18n="nav_login">دخول / تسجيل</span>
           </a>
         </div>
       </div>
@@ -86,43 +87,55 @@
       
       <!-- Brand Logo -->
       <a href="#" class="flex items-center gap-3 group">
-        <div class="w-13 h-13 rounded-2xl bg-gradient-to-tr from-blue-600 via-amber-500 to-blue-600 p-0.5 shadow-xl shadow-blue-900/50 group-hover:scale-105 transition duration-300 overflow-hidden">
+        <div class="w-13 h-13 rounded-2xl bg-gradient-to-tr from-red-600 via-rose-500 to-amber-500 p-0.5 shadow-lg shadow-red-600/25 group-hover:scale-105 transition duration-300 overflow-hidden">
           <div class="w-12 h-12 bg-white rounded-[14px] flex items-center justify-center p-0.5 overflow-hidden">
             <img src="assets/logo.png" alt="لوجو منصة العباقرة" class="w-full h-full object-cover">
           </div>
         </div>
         <div class="flex flex-col">
           <div class="flex items-center gap-1.5">
-            <span class="text-2xl font-black tracking-tight text-slate-900">الـعـبـاقـرة</span>
+            <span class="text-2xl font-black tracking-tight text-slate-900" data-i18n="brand_name">الـعـبـاقـرة</span>
             <span class="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span>
           </div>
-          <span class="text-[11px] font-semibold text-red-600 -mt-1 tracking-wider">منصة كيمياء الثانوية العامة</span>
+          <span class="text-[11px] font-semibold text-red-600 -mt-1 tracking-wider" data-i18n="brand_sub">مستر أبانوب فيكتور</span>
         </div>
       </a>
 
       <!-- Desktop Nav Links -->
       <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-600">
-        <a href="#hero" class="hover:text-red-600 transition">الرئيسية</a>
-        <a href="#courses" class="hover:text-red-600 transition">الكورسات</a>
-        <a href="#videos-showcase" class="hover:text-red-600 transition">فيديوهات الشرح</a>
-        <a href="#quiz-section" class="hover:text-red-600 transition">الامتحان التجريبي</a>
-        <a href="#reviews-section" class="hover:text-red-600 transition">آراء الطلاب</a>
-        <a href="#pricing" class="hover:text-red-600 transition">باقات الاشتراك</a>
-        <a href="#contact" class="hover:text-red-600 transition">تواصل معنا</a>
+        <a href="#hero" class="hover:text-red-600 transition" data-i18n="nav_home">الرئيسية</a>
+        <a href="#courses" class="hover:text-red-600 transition" data-i18n="nav_courses">الكورسات</a>
+        <a href="#videos-showcase" class="hover:text-red-600 transition" data-i18n="nav_videos">فيديوهات الشرح</a>
+        <a href="#quiz-section" class="hover:text-red-600 transition" data-i18n="nav_quiz">اختبر مستواك</a>
+        <a href="#reviews-section" class="hover:text-red-600 transition" data-i18n="nav_reviews">آراء الطلاب</a>
+        <a href="#pricing" class="hover:text-red-600 transition" data-i18n="nav_pricing">الباقات</a>
+        <a href="#contact" class="hover:text-red-600 transition" data-i18n="nav_contact">تواصل معنا</a>
       </nav>
 
       <!-- Action Buttons Container (State managed by app.js) -->
-      <div id="nav-auth-container" class="flex items-center gap-2 sm:gap-3">
+      <div id="nav-auth-container" class="flex items-center gap-2 sm:gap-2.5">
+        <!-- Theme Toggle Button -->
+        <button type="button" onclick="toggleTheme()" data-theme-toggle class="bg-slate-100 hover:bg-red-50 text-slate-800 border border-slate-200 hover:border-red-200 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5" title="تبديل الثيم الأسود">
+          <span class="theme-icon"></span>
+          <span class="theme-label hidden sm:inline">أسود</span>
+        </button>
+
+        <!-- Language Toggle Button -->
+        <button type="button" onclick="toggleLanguage()" data-lang-toggle class="bg-slate-100 hover:bg-red-50 text-slate-800 border border-slate-200 hover:border-red-200 px-2.5 py-2 rounded-xl text-xs font-black transition flex items-center gap-1" title="AR / EN">
+          <i class="fa-solid fa-globe text-red-600 text-xs"></i>
+          <span class="lang-label">EN</span>
+        </button>
+
         <!-- Auth Button -->
-        <a href="auth.html" class="flex items-center gap-2 bg-white hover:bg-slate-900 border border-red-100/50 text-red-600 px-3.5 py-2.5 rounded-xl text-xs font-bold transition shadow-sm">
+        <a href="auth.html" class="flex items-center gap-2 bg-white hover:bg-red-50 border border-red-200 text-red-600 px-3.5 py-2.5 rounded-xl text-xs font-bold transition shadow-sm">
           <i class="fa-solid fa-user-lock text-red-600"></i>
-          <span>دخول / تسجيل</span>
+          <span data-i18n="nav_login">دخول / تسجيل</span>
         </a>
 
         <!-- Booking CTA -->
-        <button onclick="goToCheckout('كورس كيمياء الثانوية العامة', '250 ج.م')" class="bg-gradient-to-r from-blue-600 to-blue-600 hover:from-red-500 hover:to-rose-600 text-white font-bold px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-lg shadow-blue-900/40 transition duration-200 btn-glow flex items-center gap-1.5">
+        <button onclick="goToCheckout('كورس كيمياء الثانوية العامة', '250 ج.م')" class="bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-bold px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-lg shadow-red-600/30 transition duration-200 btn-glow flex items-center gap-1.5">
           <i class="fa-solid fa-bolt"></i>
-          <span>اشترك الآن</span>
+          <span data-i18n="nav_subscribe">اشترك الآن</span>
         </button>
       </div>
 
@@ -137,66 +150,66 @@
         <!-- Hero Text -->
         <div class="lg:col-span-7 space-y-6 text-center lg:text-right">
           
-          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-500/10 border border-blue-500/30 text-red-500 text-xs font-bold">
-            <span class="flex h-2 w-2 rounded-full bg-red-400 animate-ping"></span>
-            <span>المنصة الأولى المعتمدة لتدريس الكيمياء بالنظام الحديث 2026</span>
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-50 border border-red-200 text-red-600 text-xs font-bold">
+            <span class="flex h-2 w-2 rounded-full bg-red-500 animate-ping"></span>
+            <span data-i18n="hero_badge">المنصة الأولى المعتمدة لتدريس الكيمياء بالنظام الحديث 2026</span>
           </div>
 
           <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 leading-tight md:leading-tight">
-            طريقك للدرجة النهائية <span class="gradient-text-gold">60 / 60</span><br>
-            في <span class="gradient-text-blue">كيمياء الثانوية العامة</span> يبدأ هنا!
+            <span data-i18n="hero_title_1">افهم الكيمياء بعمق مع</span> <span class="gradient-text-red" data-i18n="hero_title_2">العباقرة</span><br>
+            <span class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-red-600" data-i18n="hero_teacher">مع مستر أبانوب فيكتور</span>
           </h1>
 
-          <p class="text-slate-600 text-base md:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
-            مع منصة <strong>العباقرة</strong>، الكيمياء لم تعد مادة حفظ ومعادلات جافة، بل تجارب تفاعلية ومحاكاة معملية ثلاثية الأبعاد وشرح وافٍ لأدق أفكار نواتج التعلم لنظام التابلت والأسئلة المقالية والموضوعية.
+          <p class="text-slate-600 text-base md:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal" data-i18n="hero_desc">
+            نحو الدرجة النهائية في الكيمياء للمرحلة الثانوية! شرح مبسط وربط للأفكار، تدريبات مكثفة على النظام الحديث، امتحانات دورية إلكترونية، ومتابعة دقيقة لمستواك.
           </p>
 
           <!-- Key Highlights Bullet Badges -->
-          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2 text-xs font-semibold text-slate-600">
-            <div class="glass-panel p-2.5 rounded-xl flex items-center gap-2 border border-red-100/30">
-              <i class="fa-solid fa-shield-halved text-emerald-400 text-base"></i>
-              <span>متابعة أسبوعية دقيقة</span>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2 text-xs font-semibold text-slate-700">
+            <div class="glass-panel p-2.5 rounded-xl flex items-center gap-2 border border-red-100">
+              <i class="fa-solid fa-shield-halved text-emerald-500 text-base"></i>
+              <span data-i18n="hero_stat_students">+15,000 طالب متفوق</span>
             </div>
-            <div class="glass-panel p-2.5 rounded-xl flex items-center gap-2 border border-red-100/30">
+            <div class="glass-panel p-2.5 rounded-xl flex items-center gap-2 border border-red-100">
               <i class="fa-solid fa-vial-circle-check text-red-600 text-base"></i>
-              <span>معمل كيمياء افتراضي</span>
+              <span data-i18n="hero_stat_hours">+300 ساعة شرح</span>
             </div>
-            <div class="glass-panel p-2.5 rounded-xl flex items-center gap-2 col-span-2 sm:col-span-1 border border-red-100/30">
-              <i class="fa-solid fa-award text-amber-400 text-base"></i>
-              <span>أوائل الجمهورية كل عام</span>
+            <div class="glass-panel p-2.5 rounded-xl flex items-center gap-2 col-span-2 sm:col-span-1 border border-red-100">
+              <i class="fa-solid fa-award text-amber-500 text-base"></i>
+              <span data-i18n="hero_stat_rating">تقييم 4.9 / 5</span>
             </div>
           </div>
 
           <!-- Hero Action Buttons -->
           <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
-            <a href="auth.html" class="w-full sm:w-auto bg-red-600 hover:bg-red-500 text-white font-bold px-7 py-3.5 rounded-xl text-sm transition duration-200 shadow-xl shadow-blue-600/30 flex items-center justify-center gap-2 btn-glow">
+            <a href="auth.html" class="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-bold px-7 py-3.5 rounded-xl text-sm transition duration-200 shadow-xl shadow-red-600/25 flex items-center justify-center gap-2 btn-glow">
               <i class="fa-solid fa-user-plus"></i>
-              <span>إنشاء حساب طالب جديد</span>
+              <span data-i18n="hero_cta_start">ابدأ رحلتك الآن</span>
             </a>
 
-            <a href="#courses" class="w-full sm:w-auto bg-white hover:bg-[#250d15] text-slate-800 border border-red-100/60 font-bold px-7 py-3.5 rounded-xl text-sm transition duration-200 flex items-center justify-center gap-2">
+            <a href="#courses" class="w-full sm:w-auto bg-white hover:bg-red-50 text-slate-800 border border-slate-200 hover:border-red-300 font-bold px-7 py-3.5 rounded-xl text-sm transition duration-200 flex items-center justify-center gap-2 shadow-sm">
               <i class="fa-solid fa-layer-group text-red-600"></i>
-              <span>استكشف الكورسات المتاحة</span>
+              <span data-i18n="nav_courses">استكشف الكورسات</span>
             </a>
 
-            <a href="https://wa.me/2019624723742" target="_blank" class="w-full sm:w-auto glass-panel hover:bg-white text-slate-800 border border-emerald-500/40 hover:border-emerald-400 font-bold px-5 py-3.5 rounded-xl text-sm transition duration-200 flex items-center justify-center gap-2">
-              <i class="fa-brands fa-whatsapp text-emerald-400 text-lg"></i>
-              <span>واتساب: <span dir="ltr">019624723742</span></span>
+            <a href="#quiz-section" class="w-full sm:w-auto glass-panel hover:bg-red-50 text-slate-800 border border-red-200 hover:border-red-400 font-bold px-5 py-3.5 rounded-xl text-sm transition duration-200 flex items-center justify-center gap-2">
+              <i class="fa-solid fa-flask text-red-600 text-base"></i>
+              <span data-i18n="hero_cta_quiz">اختبر مستواك مجاناً</span>
             </a>
           </div>
 
           <!-- Trust stats -->
-          <div class="pt-6 border-t border-slate-100 flex items-center justify-center lg:justify-start gap-8 text-slate-500 text-xs">
+          <div class="pt-6 border-t border-slate-200 flex items-center justify-center lg:justify-start gap-8 text-slate-500 text-xs">
             <div>
               <span class="block text-xl font-black text-slate-900">+15,000</span>
               <span>طالب وطالبة</span>
             </div>
-            <div class="h-8 w-px bg-slate-900"></div>
+            <div class="h-8 w-px bg-slate-200"></div>
             <div>
-              <span class="block text-xl font-black text-amber-400">98.4%</span>
+              <span class="block text-xl font-black text-amber-500">98.4%</span>
               <span>نسبة التفوق والدرجات العالية</span>
             </div>
-            <div class="h-8 w-px bg-slate-900"></div>
+            <div class="h-8 w-px bg-slate-200"></div>
             <div>
               <span class="block text-xl font-black text-red-600">+5000</span>
               <span>سؤال ومسألة محلولة</span>
@@ -208,22 +221,22 @@
         <!-- Hero Visual Showcase -->
         <div class="lg:col-span-5 relative">
           
-          <div class="relative mx-auto max-w-md">
+          <div class="relative mx-auto max-w-md animate-float-smooth">
             
             <!-- Floating Chemistry Card 1 -->
-            <div class="absolute -top-6 -right-6 z-20 glass-panel p-3.5 rounded-2xl border border-blue-500/40 shadow-2xl floating-elem hidden sm:flex items-center gap-3">
-              <div class="w-10 h-10 rounded-xl bg-red-600/30 border border-blue-500/50 flex items-center justify-center text-red-600 text-lg">
+            <div class="absolute -top-6 -right-6 z-20 glass-panel p-3.5 rounded-2xl border border-red-200 shadow-xl floating-elem hidden sm:flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-red-50 border border-red-200 flex items-center justify-center text-red-600 text-lg">
                 <i class="fa-solid fa-atom"></i>
               </div>
               <div>
                 <span class="text-xs font-bold text-slate-900 block">تحويلات الحديد والعضوية</span>
-                <span class="text-[10px] text-emerald-400 font-semibold">مخطط ذهبي بضغطة زر</span>
+                <span class="text-[10px] text-emerald-600 font-semibold">مخطط ذهبي بضغطة زر</span>
               </div>
             </div>
 
             <!-- Floating Chemistry Card 2 -->
-            <div class="absolute -bottom-6 -left-6 z-20 glass-panel p-3.5 rounded-2xl border border-emerald-500/40 shadow-2xl floating-elem-delayed hidden sm:flex items-center gap-3">
-              <div class="w-10 h-10 rounded-xl bg-emerald-600/30 border border-emerald-500/50 flex items-center justify-center text-emerald-400 text-lg">
+            <div class="absolute -bottom-6 -left-6 z-20 glass-panel p-3.5 rounded-2xl border border-emerald-200 shadow-xl floating-elem-delayed hidden sm:flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 text-lg">
                 <i class="fa-solid fa-circle-check"></i>
               </div>
               <div>
@@ -232,33 +245,33 @@
               </div>
             </div>
 
-            <!-- Main Platform Card in Dark Red -->
-            <div class="glass-card rounded-3xl p-6 border border-red-100/50 shadow-2xl relative overflow-hidden bg-gradient-to-b from-[#111c38] to-[#0f0406]">
+            <!-- Main Platform Card in Crisp Light Red / Dark Black Theme -->
+            <div class="glass-card rounded-3xl p-6 border border-red-200/70 shadow-2xl relative overflow-hidden">
               
               <div class="flex items-center justify-between pb-4 border-b border-slate-100">
                 <div class="flex items-center gap-2">
-                  <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
-                  <span class="w-3 h-3 rounded-full bg-amber-500/80"></span>
-                  <span class="w-3 h-3 rounded-full bg-emerald-500/80"></span>
+                  <span class="w-3 h-3 rounded-full bg-red-500"></span>
+                  <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+                  <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
                 </div>
-                <span class="text-xs text-red-600/80 font-mono">al-abaqera-chem-lms v3.5</span>
+                <span class="text-xs text-red-600 font-mono font-bold">al-abaqera-chem v4.0</span>
               </div>
 
               <!-- Chemistry Graphic & Official Platform Mascot Display -->
-              <div class="my-6 rounded-2xl bg-gradient-to-br from-slate-900/70 via-[#180a0e] to-slate-950/70 border border-red-100/60 p-6 text-center relative overflow-hidden">
+              <div class="my-6 rounded-2xl bg-gradient-to-br from-red-50 via-white to-rose-50 border border-red-100 p-6 text-center relative overflow-hidden theme-surface">
                 <div class="relative z-10 space-y-3">
-                  <div class="w-32 h-32 mx-auto rounded-3xl bg-white p-2 shadow-2xl shadow-red-950/80 border-2 border-blue-600/60 overflow-hidden transform hover:scale-105 transition duration-300">
+                  <div class="w-32 h-32 mx-auto rounded-3xl bg-white p-2 shadow-xl shadow-red-600/15 border-2 border-red-500 overflow-hidden transform hover:scale-105 transition duration-300">
                     <img src="assets/logo.png" alt="شعار وشخصية منصة العباقرة" class="w-full h-full object-contain">
                   </div>
-                  <h3 class="text-lg font-black text-slate-900">منظومة العباقرة في الكيمياء</h3>
-                  <p class="text-xs text-slate-600 max-w-xs mx-auto">
+                  <h3 class="text-lg font-black text-slate-900" data-i18n="hero_card_title">ربط المفاهيم والمعادلات بذكاء</h3>
+                  <p class="text-xs text-slate-600 max-w-xs mx-auto" data-i18n="hero_card_sub">
                     بث مباشر أسبوعي + بنك أسئلة رقمي + كراسة مفاهيم مجانية لكل طالب
                   </p>
                   
-                  <div class="pt-2 flex justify-center gap-2">
-                    <span class="text-[11px] bg-white text-red-500 px-2.5 py-1 rounded-lg border border-blue-800/60/40">تالتة ثانوي</span>
-                    <span class="text-[11px] bg-white text-rose-300 px-2.5 py-1 rounded-lg border border-blue-800/60/40">تانية ثانوي</span>
-                    <span class="text-[11px] bg-white text-amber-300 px-2.5 py-1 rounded-lg border border-blue-800/60/40">أولى ثانوي</span>
+                  <div class="pt-2 flex justify-center gap-2 flex-wrap">
+                    <span class="text-[11px] bg-red-50 text-red-700 font-bold px-2.5 py-1 rounded-lg border border-red-200" data-i18n="filter_3sec">تالتة ثانوي</span>
+                    <span class="text-[11px] bg-rose-50 text-rose-700 font-bold px-2.5 py-1 rounded-lg border border-rose-200" data-i18n="filter_2sec">تانية ثانوي</span>
+                    <span class="text-[11px] bg-amber-50 text-amber-700 font-bold px-2.5 py-1 rounded-lg border border-amber-200" data-i18n="filter_1sec">أولى ثانوي</span>
                   </div>
                 </div>
               </div>
@@ -290,17 +303,17 @@
   </section>
 
   <!-- Educational Stages (صفوف الثانوية العامة) -->
-  <section id="stages" class="py-16 relative z-10 border-t border-slate-100 bg-[#120508]/60">
+  <section id="stages" class="py-16 relative z-10 border-t border-slate-100 bg-red-50/30 theme-surface">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <div class="text-center max-w-3xl mx-auto mb-14">
-        <span class="text-xs font-bold text-red-600 uppercase tracking-widest bg-red-500/10 px-3 py-1 rounded-full border border-blue-500/20">
+        <span class="text-xs font-bold text-red-600 uppercase tracking-widest bg-red-50 px-3 py-1 rounded-full border border-red-200" data-i18n="stages_badge">
           المراحل التعليمية
         </span>
-        <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 mt-3">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 mt-3" data-i18n="stages_title">
           مناهج كيمياء متكاملة لجميع صفوف الثانوية العامة
         </h2>
-        <p class="text-slate-500 text-sm mt-3">
+        <p class="text-slate-500 text-sm mt-3" data-i18n="stages_desc">
           تم تصميم كل منهج ليتناسب مع فلسفة امتحانات وزارة التربية والتعليم والتقييم المستمر
         </p>
       </div>
@@ -310,12 +323,12 @@
         <!-- Stage 1 -->
         <div class="glass-card rounded-2xl p-6 border border-slate-100 flex flex-col justify-between">
           <div>
-            <div class="w-12 h-12 rounded-xl bg-red-500/20 border border-blue-500/30 text-red-600 flex items-center justify-center text-2xl mb-4 font-bold">
+            <div class="w-12 h-12 rounded-xl bg-red-50 border border-red-200 text-red-600 flex items-center justify-center text-2xl mb-4 font-bold">
               ١
             </div>
-            <span class="text-xs font-bold text-red-600 block mb-1">الصف الأول الثانوي</span>
-            <h3 class="text-xl font-bold text-slate-900 mb-3">كورس التأسيس الشامل</h3>
-            <p class="text-slate-600 text-sm leading-relaxed mb-4">
+            <span class="text-xs font-bold text-red-600 block mb-1" data-i18n="stage1_badge">الصف الأول الثانوي</span>
+            <h3 class="text-xl font-bold text-slate-900 mb-3" data-i18n="stage1_title">بناء الأساس القوي</h3>
+            <p class="text-slate-600 text-sm leading-relaxed mb-4" data-i18n="stage1_desc">
               إتقان الحساب الكيميائي، المول، كيمياء النانو، الحرارية والنووية وتأسيس الطالب لكتابة الصيغ والمعادلات الكيميائية بطريقة احترافية.
             </p>
             <ul class="text-xs text-slate-500 space-y-2 mb-6">
@@ -324,55 +337,55 @@
               <li class="flex items-center gap-2"><i class="fa-solid fa-check text-red-600"></i> اختبارات أسبوعية بنظام التابلت</li>
             </ul>
           </div>
-          <button onclick="goToCheckout('كورس الصف الأول الثانوي', '150 ج.م')" class="w-full bg-white hover:bg-red-600 hover:text-white text-slate-800 font-bold py-2.5 rounded-xl text-xs transition border border-red-100/40">
-            الانضمام لدُفعة أولى ثانوي
+          <button onclick="goToCheckout('كورس الصف الأول الثانوي', '150 ج.م')" class="w-full bg-slate-100 hover:bg-red-600 hover:text-white text-slate-800 font-bold py-2.5 rounded-xl text-xs transition border border-slate-200" data-i18n="stage_btn">
+            استعرض الكورسات
           </button>
         </div>
 
         <!-- Stage 2 -->
         <div class="glass-card rounded-2xl p-6 border border-slate-100 flex flex-col justify-between">
           <div>
-            <div class="w-12 h-12 rounded-xl bg-rose-500/20 border border-rose-500/30 text-rose-400 flex items-center justify-center text-2xl mb-4 font-bold">
+            <div class="w-12 h-12 rounded-xl bg-rose-50 border border-rose-200 text-rose-600 flex items-center justify-center text-2xl mb-4 font-bold">
               ٢
             </div>
-            <span class="text-xs font-bold text-rose-400 block mb-1">الصف الثاني الثانوي</span>
-            <h3 class="text-xl font-bold text-slate-900 mb-3">كورس البناء الذري والروابط</h3>
-            <p class="text-slate-600 text-sm leading-relaxed mb-4">
+            <span class="text-xs font-bold text-rose-600 block mb-1" data-i18n="stage2_badge">الصف الثاني الثانوي</span>
+            <h3 class="text-xl font-bold text-slate-900 mb-3" data-i18n="stage2_title">إتقان البنية والتدرج</h3>
+            <p class="text-slate-600 text-sm leading-relaxed mb-4" data-i18n="stage2_desc">
               فهم أسرار الذرة ونظريات الكم، أعداد الكم الأربعة، التدرج الدوري لخواص العناصر، ونظريات الروابط والتهجين المؤهلة للثانوية العامة.
             </p>
             <ul class="text-xs text-slate-500 space-y-2 mb-6">
-              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-rose-400"></i> أعداد الكم وقواعد التوزيع الإلكتروني</li>
-              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-rose-400"></i> السالبية والجهد ونصف القطر</li>
-              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-rose-400"></i> التهجين وأشكال الجزيئات الفراغية</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-rose-500"></i> أعداد الكم وقواعد التوزيع الإلكتروني</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-rose-500"></i> السالبية والجهد ونصف القطر</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-rose-500"></i> التهجين وأشكال الجزيئات الفراغية</li>
             </ul>
           </div>
-          <button onclick="goToCheckout('كورس الصف الثاني الثانوي', '180 ج.م')" class="w-full bg-white hover:bg-red-600 hover:text-white text-slate-800 font-bold py-2.5 rounded-xl text-xs transition border border-red-100/40">
-            الانضمام لدُفعة تانية ثانوي
+          <button onclick="goToCheckout('كورس الصف الثاني الثانوي', '180 ج.م')" class="w-full bg-slate-100 hover:bg-red-600 hover:text-white text-slate-800 font-bold py-2.5 rounded-xl text-xs transition border border-slate-200" data-i18n="stage_btn">
+            استعرض الكورسات
           </button>
         </div>
 
         <!-- Stage 3 (Highlighted) -->
-        <div class="glass-card rounded-2xl p-6 border-2 border-blue-600 bg-gradient-to-b from-slate-900/60 to-[#14080c] shadow-2xl relative flex flex-col justify-between">
+        <div class="glass-card rounded-2xl p-6 border-2 border-red-600 bg-gradient-to-b from-red-50/70 via-white to-white shadow-xl relative flex flex-col justify-between theme-surface">
           <div class="absolute -top-3 left-6 bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-black text-[11px] px-3 py-0.5 rounded-full shadow-lg">
             سنة الحصاد والقمة ⭐
           </div>
           <div>
-            <div class="w-12 h-12 rounded-xl bg-red-500/20 border border-blue-500/30 text-red-600 flex items-center justify-center text-2xl mb-4 font-bold">
+            <div class="w-12 h-12 rounded-xl bg-red-600 text-white shadow-md shadow-red-600/20 flex items-center justify-center text-2xl mb-4 font-bold">
               ٣
             </div>
-            <span class="text-xs font-bold text-red-600 block mb-1">الصف الثالث الثانوي</span>
-            <h3 class="text-xl font-bold text-slate-900 mb-3">كورس الثانوية العامة 60/60</h3>
-            <p class="text-slate-600 text-sm leading-relaxed mb-4">
+            <span class="text-xs font-bold text-red-600 block mb-1" data-i18n="stage3_badge">الصف الثالث الثانوي</span>
+            <h3 class="text-xl font-bold text-slate-900 mb-3" data-i18n="stage3_title">طريقك للدرجة النهائية</h3>
+            <p class="text-slate-600 text-sm leading-relaxed mb-4" data-i18n="stage3_desc">
               الأبواب الخمسة: العناصر الانتقالية، التحليل الكيميائي، الاتزان الكيميائي، الكيمياء الكهربية، والكيمياء العضوية بأعلى معدل حل مسائل.
             </p>
             <ul class="text-xs text-slate-600 space-y-2 mb-6">
-              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> كراسة مفاهيم وتلخيص شامل لكل باب</li>
-              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> حل امتحانات الأعوام السابقة (2021-2025)</li>
-              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> ورش عمل أسبوعية ومتابعة ولي الأمر</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500"></i> كراسة مفاهيم وتلخيص شامل لكل باب</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500"></i> حل امتحانات الأعوام السابقة (2021-2025)</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500"></i> ورش عمل أسبوعية ومتابعة ولي الأمر</li>
             </ul>
           </div>
-          <button onclick="goToCheckout('كورس الصف الثالث الثانوي الكامل', '250 ج.م')" class="w-full bg-red-600 hover:bg-red-500 text-white font-bold py-2.5 rounded-xl text-xs transition shadow-lg shadow-blue-600/30">
-            الانضمام لدُفعة تالتة ثانوي
+          <button onclick="goToCheckout('كورس الصف الثالث الثانوي الكامل', '250 ج.م')" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2.5 rounded-xl text-xs transition shadow-lg shadow-red-600/30 btn-glow" data-i18n="stage_btn">
+            استعرض الكورسات
           </button>
         </div>
 
@@ -387,28 +400,28 @@
       
       <div class="flex flex-col md:flex-row items-center justify-between gap-6 mb-10">
         <div>
-          <span class="text-xs font-bold text-red-600 uppercase tracking-widest bg-red-500/10 px-3 py-1 rounded-full border border-blue-500/20">
-            محتوى الدورات
+          <span class="text-xs font-bold text-red-600 uppercase tracking-widest bg-red-50 px-3 py-1 rounded-full border border-red-200" data-i18n="courses_badge">
+            أقوى الكورسات التفاعلية
           </span>
-          <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 mt-2">
-            الكورسات والمحاضرات المتاحة
+          <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 mt-2" data-i18n="courses_title">
+            اختر الكورس المناسب لك
           </h2>
-          <p class="text-slate-500 text-sm mt-1">اختر صفك الدراسي واستعرض المحتوى والشروحات التفصيلية</p>
+          <p class="text-slate-500 text-sm mt-1" data-i18n="courses_desc">شروحات مسجلة بأعلى جودة، مذكرات PDF ملونة، وبنوك أسئلة شاملة لكل باب</p>
         </div>
 
         <!-- Filter Tabs -->
-        <div class="flex flex-wrap items-center gap-2 bg-[#190a0e] p-1.5 rounded-2xl border border-slate-100">
-          <button data-filter="all" class="filter-btn active bg-red-600 text-white text-xs font-bold px-4 py-2 rounded-xl transition">
-            جميع الكورسات
+        <div class="flex flex-wrap items-center gap-2 bg-slate-100 p-1.5 rounded-2xl border border-slate-200 theme-surface">
+          <button data-filter="all" class="filter-btn active bg-red-600 text-white text-xs font-bold px-4 py-2 rounded-xl transition" data-i18n="filter_all">
+            الكل
           </button>
-          <button data-filter="grade3" class="filter-btn bg-[#18090d] text-slate-600 hover:text-white text-xs font-bold px-4 py-2 rounded-xl transition">
-            تالتة ثانوي
+          <button data-filter="grade3" class="filter-btn bg-white text-slate-600 hover:text-red-600 text-xs font-bold px-4 py-2 rounded-xl transition" data-i18n="filter_3sec">
+            3 ثانوي
           </button>
-          <button data-filter="grade2" class="filter-btn bg-[#18090d] text-slate-600 hover:text-white text-xs font-bold px-4 py-2 rounded-xl transition">
-            تانية ثانوي
+          <button data-filter="grade2" class="filter-btn bg-white text-slate-600 hover:text-red-600 text-xs font-bold px-4 py-2 rounded-xl transition" data-i18n="filter_2sec">
+            2 ثانوي
           </button>
-          <button data-filter="grade1" class="filter-btn bg-[#18090d] text-slate-600 hover:text-white text-xs font-bold px-4 py-2 rounded-xl transition">
-            أولى ثانوي
+          <button data-filter="grade1" class="filter-btn bg-white text-slate-600 hover:text-red-600 text-xs font-bold px-4 py-2 rounded-xl transition" data-i18n="filter_1sec">
+            1 ثانوي
           </button>
         </div>
       </div>
@@ -425,13 +438,13 @@
   <section id="videos-showcase" class="py-16 relative z-10 bg-white border-y border-slate-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center max-w-3xl mx-auto mb-12">
-        <span class="text-xs font-bold text-red-600 bg-red-50 px-3 py-1 rounded-full border border-red-200">
-          فيديوهات وشروحات مجانية 🎥
+        <span class="text-xs font-bold text-red-600 bg-red-50 px-3 py-1 rounded-full border border-red-200" data-i18n="videos_badge">
+          جولة داخل الشرح 🎥
         </span>
-        <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 mt-3">
-          شاهد محاضرات الشرح التوضيحية
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 mt-3" data-i18n="videos_title">
+          مقتطفات وشروحات المنصة
         </h2>
-        <p class="text-slate-500 text-sm mt-2">
+        <p class="text-slate-500 text-sm mt-2" data-i18n="videos_desc">
           مكتبة الفيديوهات المختارة من الإدارة لطلاب الثانوية العامة
         </p>
       </div>
@@ -443,17 +456,17 @@
   </section>
 
   <!-- Interactive Quiz & Test Simulator Section -->
-  <section id="quiz-section" class="py-20 relative z-10 bg-[#120508]/80 border-y border-slate-100">
+  <section id="quiz-section" class="py-20 relative z-10 bg-red-50/30 border-y border-slate-100 theme-surface">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <div class="text-center max-w-2xl mx-auto mb-10">
-        <span class="text-xs font-bold text-red-600 uppercase tracking-widest bg-red-500/10 px-3 py-1 rounded-full border border-blue-500/20">
-          محاكاة امتحانات التابلت
+        <span class="text-xs font-bold text-red-600 uppercase tracking-widest bg-red-50 px-3 py-1 rounded-full border border-red-200" data-i18n="quiz_badge">
+          تحدي الكيمياء السريع
         </span>
-        <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 mt-2">
-          اختبر مستواك الآن في كيمياء الثانوية العامة
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 mt-2" data-i18n="quiz_title">
+          اختبر مستواك الآن
         </h2>
-        <p class="text-slate-500 text-sm mt-2">
+        <p class="text-slate-500 text-sm mt-2" data-i18n="quiz_desc">
           نموذج تفاعلي سريع يحتوي على أسئلة وزارية تقيس الفهم العميق مع التصحيح والتفسير الفوري للإجابات
         </p>
       </div>
@@ -497,17 +510,17 @@
   </section>
 
   <!-- Why Choose Al-Abaqera Features -->
-  <section id="features" class="py-20 relative z-10 bg-[#120508]/50 border-t border-slate-100">
+  <section id="features" class="py-20 relative z-10 bg-red-50/30 border-t border-slate-100 theme-surface">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <div class="text-center max-w-3xl mx-auto mb-16">
-        <span class="text-xs font-bold text-red-600 bg-red-500/10 px-3 py-1 rounded-full border border-blue-500/20">
+        <span class="text-xs font-bold text-red-600 bg-red-50 px-3 py-1 rounded-full border border-red-200" data-i18n="features_badge">
           مميزات المنصة
         </span>
-        <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 mt-3">
-          لماذا يثق طلاب الثانوية العامة في منصة "العباقرة"؟
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 mt-3" data-i18n="features_title">
+          تجربة تعليمية متكاملة تصنع الفارق
         </h2>
-        <p class="text-slate-500 text-sm mt-3">
+        <p class="text-slate-500 text-sm mt-3" data-i18n="features_desc">
           نقدم تجربة تعليمية متكاملة تجمع بين أقوى شرح، أحدث نظام تدريب، وأدق متابعة فردية.
         </p>
       </div>
@@ -516,7 +529,7 @@
         
         <!-- Feature 1 -->
         <div class="glass-card rounded-2xl p-6 border border-slate-100">
-          <div class="w-12 h-12 rounded-xl bg-red-500/10 border border-blue-500/30 text-red-600 flex items-center justify-center text-xl mb-4">
+          <div class="w-12 h-12 rounded-xl bg-red-50 border border-red-200 text-red-600 flex items-center justify-center text-xl mb-4">
             <i class="fa-solid fa-microscope"></i>
           </div>
           <h4 class="text-lg font-bold text-slate-900 mb-2">تجارب معملية ثلاثية الأبعاد</h4>
@@ -527,7 +540,7 @@
 
         <!-- Feature 2 -->
         <div class="glass-card rounded-2xl p-6 border border-slate-100">
-          <div class="w-12 h-12 rounded-xl bg-red-500/10 border border-blue-500/30 text-red-600 flex items-center justify-center text-xl mb-4">
+          <div class="w-12 h-12 rounded-xl bg-red-50 border border-red-200 text-red-600 flex items-center justify-center text-xl mb-4">
             <i class="fa-solid fa-database"></i>
           </div>
           <h4 class="text-lg font-bold text-slate-900 mb-2">بنك أسئلة يحتوي على +5,000 سؤال</h4>
@@ -538,7 +551,7 @@
 
         <!-- Feature 3 -->
         <div class="glass-card rounded-2xl p-6 border border-slate-100">
-          <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center text-xl mb-4">
+          <div class="w-12 h-12 rounded-xl bg-amber-50 border border-amber-200 text-amber-500 flex items-center justify-center text-xl mb-4">
             <i class="fa-solid fa-user-shield"></i>
           </div>
           <h4 class="text-lg font-bold text-slate-900 mb-2">متابعة خاصة لولي الأمر عبر واتساب</h4>
@@ -549,7 +562,7 @@
 
         <!-- Feature 4 -->
         <div class="glass-card rounded-2xl p-6 border border-slate-100">
-          <div class="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 flex items-center justify-center text-xl mb-4">
+          <div class="w-12 h-12 rounded-xl bg-rose-50 border border-rose-200 text-rose-500 flex items-center justify-center text-xl mb-4">
             <i class="fa-solid fa-comments"></i>
           </div>
           <h4 class="text-lg font-bold text-slate-900 mb-2">فريق من المساعدين للرد على الأسئلة 24/7</h4>
@@ -560,7 +573,7 @@
 
         <!-- Feature 5 -->
         <div class="glass-card rounded-2xl p-6 border border-slate-100">
-          <div class="w-12 h-12 rounded-xl bg-red-500/10 border border-blue-500/30 text-red-600 flex items-center justify-center text-xl mb-4">
+          <div class="w-12 h-12 rounded-xl bg-red-50 border border-red-200 text-red-600 flex items-center justify-center text-xl mb-4">
             <i class="fa-solid fa-book-bookmark"></i>
           </div>
           <h4 class="text-lg font-bold text-slate-900 mb-2">مذكرات وخلاصات مجانية بصيغة PDF</h4>
@@ -571,7 +584,7 @@
 
         <!-- Feature 6 -->
         <div class="glass-card rounded-2xl p-6 border border-slate-100">
-          <div class="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 flex items-center justify-center text-xl mb-4">
+          <div class="w-12 h-12 rounded-xl bg-rose-50 border border-rose-200 text-rose-500 flex items-center justify-center text-xl mb-4">
             <i class="fa-solid fa-shield-virus"></i>
           </div>
           <h4 class="text-lg font-bold text-slate-900 mb-2">حماية وسرعة عالية في تشغيل الفيديوهات</h4>
@@ -590,13 +603,13 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <div class="text-center max-w-3xl mx-auto mb-16">
-        <span class="text-xs font-bold text-red-600 bg-red-500/10 px-3 py-1 rounded-full border border-blue-500/20">
-          خطط الأسعار
+        <span class="text-xs font-bold text-red-600 bg-red-50 px-3 py-1 rounded-full border border-red-200" data-i18n="pricing_badge">
+          خطط الاشتراك المرنة
         </span>
-        <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 mt-3">
-          باقات اشتراك مرنة تناسب جميع الطلاب
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 mt-3" data-i18n="pricing_title">
+          باقات التفوق والامتياز
         </h2>
-        <p class="text-slate-500 text-sm mt-3">
+        <p class="text-slate-500 text-sm mt-3" data-i18n="pricing_desc">
           استثمر في مستقبلك مع أفضل قيمة تعليمية وتدريبية في مصر
         </p>
       </div>
@@ -619,17 +632,17 @@
               <li class="flex items-center gap-2"><i class="fa-solid fa-check text-red-600"></i> جميع محاضرات الشهر (4-8 حصص)</li>
               <li class="flex items-center gap-2"><i class="fa-solid fa-check text-red-600"></i> حل الواجبات الإلكترونية وتصحيحها</li>
               <li class="flex items-center gap-2"><i class="fa-solid fa-check text-red-600"></i> ملزمة الشهر بصيغة PDF قابلة للطباعة</li>
-              <li class="flex items-center gap-2 text-slate-500"><i class="fa-solid fa-xmark"></i> المراجعات النهائية الشاملة</li>
+              <li class="flex items-center gap-2 text-slate-400"><i class="fa-solid fa-xmark"></i> المراجعات النهائية الشاملة</li>
             </ul>
           </div>
-          <button onclick="goToCheckout('باقة الاشتراك الشهري', '200 ج.م')" class="w-full bg-white hover:bg-slate-900 text-white font-bold py-3 rounded-xl text-xs transition border border-red-100/40">
+          <button onclick="goToCheckout('باقة الاشتراك الشهري', '200 ج.م')" class="w-full bg-slate-100 hover:bg-red-600 hover:text-white text-slate-900 font-bold py-3 rounded-xl text-xs transition border border-slate-200">
             اختيار الباقة الشهرية
           </button>
         </div>
 
         <!-- Plan 2 (Featured) -->
-        <div class="glass-card rounded-3xl p-8 border-2 border-blue-600 bg-gradient-to-b from-slate-900/70 to-[#14080c] shadow-2xl relative flex flex-col justify-between scale-105">
-          <div class="absolute -top-3.5 right-1/2 translate-x-1/2 bg-gradient-to-r from-blue-600 to-blue-600 text-white font-bold text-xs px-4 py-1 rounded-full shadow-lg">
+        <div class="glass-card rounded-3xl p-8 border-2 border-red-600 bg-gradient-to-b from-red-50/80 via-white to-white shadow-2xl relative flex flex-col justify-between md:scale-105 theme-surface">
+          <div class="absolute -top-3.5 right-1/2 translate-x-1/2 bg-gradient-to-r from-red-600 to-rose-600 text-white font-bold text-xs px-4 py-1 rounded-full shadow-lg">
             الأكثر توفيراً وإقبالاً 🔥
           </div>
           <div>
@@ -638,19 +651,19 @@
             <p class="text-xs text-slate-600 mb-6">تغطية شاملة لكل دروس الترم مع المعسكرات والمراجعات</p>
             
             <div class="mb-6 flex items-baseline gap-1">
-              <span class="text-4xl font-black text-amber-400">850</span>
-              <span class="text-sm text-slate-500">جنيه / الترم كاملاً</span>
-              <span class="text-xs text-slate-500 line-through mr-2">1100 ج.م</span>
+              <span class="text-4xl font-black text-red-600">850</span>
+              <span class="text-sm text-slate-600 font-bold">جنيه / الترم كاملاً</span>
+              <span class="text-xs text-slate-400 line-through mr-2">1100 ج.م</span>
             </div>
 
-            <ul class="text-xs text-slate-800 space-y-3 mb-8">
-              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> جميع محاضرات الترم بدون حد للمشاهدة</li>
-              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> معسكر ليلة الامتحان والمراجعة المكثفة</li>
-              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> شحن المذكرات الورقية مجاناً للبيت</li>
-              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> جروب VIP للمتابعة المباشرة مع المعلم</li>
+            <ul class="text-xs text-slate-700 space-y-3 mb-8">
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500"></i> جميع محاضرات الترم بدون حد للمشاهدة</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500"></i> معسكر ليلة الامتحان والمراجعة المكثفة</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500"></i> شحن المذكرات الورقية مجاناً للبيت</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500"></i> جروب VIP للمتابعة المباشرة مع المعلم</li>
             </ul>
           </div>
-          <button onclick="goToCheckout('باقة الترم الذهبية', '850 ج.م')" class="w-full bg-red-600 hover:bg-red-500 text-white font-bold py-3.5 rounded-xl text-xs transition shadow-lg shadow-blue-600/40 btn-glow">
+          <button onclick="goToCheckout('باقة الترم الذهبية', '850 ج.م')" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3.5 rounded-xl text-xs transition shadow-lg shadow-red-600/35 btn-glow">
             اشترك في الباقة الذهبية الآن
           </button>
         </div>
@@ -674,7 +687,7 @@
               <li class="flex items-center gap-2"><i class="fa-solid fa-check text-red-600"></i> كراسة مفاهيم وزارة التربية والتعليم</li>
             </ul>
           </div>
-          <button onclick="goToCheckout('باقة المراجعة النهائية', '450 ج.م')" class="w-full bg-white hover:bg-slate-900 text-white font-bold py-3 rounded-xl text-xs transition border border-red-100/40">
+          <button onclick="goToCheckout('باقة المراجعة النهائية', '450 ج.م')" class="w-full bg-slate-100 hover:bg-red-600 hover:text-white text-slate-900 font-bold py-3 rounded-xl text-xs transition border border-slate-200">
             حجز معسكر المراجعة
           </button>
         </div>
@@ -685,16 +698,16 @@
   </section>
 
   <!-- Student Reviews Section (Managed from Admin Panel) -->
-  <section id="reviews-section" class="py-20 relative z-10 bg-red-50/40 border-t border-slate-100">
+  <section id="reviews-section" class="py-20 relative z-10 bg-red-50/40 border-t border-slate-100 theme-surface">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center max-w-3xl mx-auto mb-12">
-        <span class="text-xs font-bold text-red-600 bg-white px-3 py-1 rounded-full border border-red-200 shadow-sm">
-          آراء وتجارب طلابنا ⭐
+        <span class="text-xs font-bold text-red-600 bg-white px-3 py-1 rounded-full border border-red-200 shadow-sm" data-i18n="reviews_badge">
+          قصص نجاح حقيقية ⭐
         </span>
-        <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 mt-3">
-          ماذا يقول طلاب العباقرة عن المنصة؟
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 mt-3" data-i18n="reviews_title">
+          ماذا يقول طلاب العباقرة؟
         </h2>
-        <p class="text-slate-500 text-sm mt-2">
+        <p class="text-slate-500 text-sm mt-2" data-i18n="reviews_desc">
           تقييمات حقيقية من طلابنا في مختلف محافظات مصر
         </p>
       </div>
@@ -706,28 +719,28 @@
   </section>
 
   <!-- Contact & Registration Section -->
-  <section id="contact" class="py-20 relative z-10 bg-white border-t border-slate-100">
+  <section id="contact" class="py-20 relative z-10 bg-white border-t border-slate-100 theme-surface">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
         
         <!-- Contact Information -->
         <div class="lg:col-span-5 space-y-6">
-          <span class="text-xs font-bold text-red-600 bg-red-500/10 px-3 py-1 rounded-full border border-blue-500/20">
-            تواصل مباشر مع الإدارة
+          <span class="text-xs font-bold text-red-600 bg-red-50 px-3 py-1 rounded-full border border-red-200" data-i18n="contact_badge">
+            تواصل معنا مباشرة
           </span>
-          <h2 class="text-3xl font-black text-slate-900">
-            جاهزون للرد على جميع استفساراتكم على مدار اليوم
+          <h2 class="text-3xl font-black text-slate-900" data-i18n="contact_title">
+            هل لديك استفسار؟ فريق الدعم معك
           </h2>
-          <p class="text-slate-600 text-sm leading-relaxed">
+          <p class="text-slate-600 text-sm leading-relaxed" data-i18n="contact_desc">
             سواء كنت طالباً ترغب في الاشتراك، أو ولي أمر يود متابعة مستوى ابنه، فريق دعم منصة "العباقرة" متاح لمساعدتكم وتقديم أكواد التفعيل وتفاصيل السناتر والبث المباشر.
           </p>
 
           <!-- Contact Cards -->
           <div class="space-y-4 pt-2">
             
-            <a href="tel:019624723742" class="glass-panel p-4 rounded-2xl flex items-center gap-4 hover:border-blue-500/40 transition group">
-              <div class="w-12 h-12 rounded-xl bg-red-500/20 border border-blue-500/40 text-red-600 flex items-center justify-center text-xl group-hover:scale-110 transition">
+            <a href="tel:019624723742" class="glass-panel p-4 rounded-2xl flex items-center gap-4 hover:border-red-300 transition group">
+              <div class="w-12 h-12 rounded-xl bg-red-50 border border-red-200 text-red-600 flex items-center justify-center text-xl group-hover:scale-110 transition">
                 <i class="fa-solid fa-phone"></i>
               </div>
               <div>
@@ -736,18 +749,18 @@
               </div>
             </a>
 
-            <a href="https://wa.me/2019624723742" target="_blank" class="glass-panel p-4 rounded-2xl flex items-center gap-4 hover:border-emerald-500/40 transition group">
-              <div class="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center text-xl group-hover:scale-110 transition">
+            <a href="https://wa.me/2019624723742" target="_blank" class="glass-panel p-4 rounded-2xl flex items-center gap-4 hover:border-emerald-300 transition group">
+              <div class="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center text-xl group-hover:scale-110 transition">
                 <i class="fa-brands fa-whatsapp"></i>
               </div>
               <div>
                 <span class="text-xs text-slate-500 block font-semibold">واتساب الدعم والاشتراكات الفورية</span>
-                <span class="text-base font-black text-slate-900 group-hover:text-emerald-400 transition" dir="ltr">019624723742</span>
+                <span class="text-base font-black text-slate-900 group-hover:text-emerald-600 transition" dir="ltr">019624723742</span>
               </div>
             </a>
 
             <div class="glass-panel p-4 rounded-2xl flex items-center gap-4">
-              <div class="w-12 h-12 rounded-xl bg-slate-900 border border-red-100/50 text-red-600 flex items-center justify-center text-xl">
+              <div class="w-12 h-12 rounded-xl bg-red-50 border border-red-200 text-red-600 flex items-center justify-center text-xl">
                 <i class="fa-solid fa-location-dot"></i>
               </div>
               <div>
@@ -824,7 +837,7 @@
         <!-- Brand Col -->
         <div class="space-y-3 md:col-span-1">
           <div class="flex items-center gap-2.5">
-            <div class="w-10 h-10 rounded-xl bg-white p-0.5 overflow-hidden shrink-0 shadow-md border border-blue-500/40">
+            <div class="w-10 h-10 rounded-xl bg-white p-0.5 overflow-hidden shrink-0 shadow-md border border-red-200">
               <img src="assets/logo.png" alt="لوجو منصة العباقرة" class="w-full h-full object-cover">
             </div>
             <span class="text-xl font-black text-slate-900">الـعـبـاقـرة</span>
@@ -877,11 +890,11 @@
       </div>
 
       <div class="border-t border-slate-100 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-center">
-        <p>© 2026 منصة العباقرة في الكيمياء للثانوية العامة. جميع الحقوق محفوظة.</p>
+        <p data-i18n="footer_rights">© 2026 منصة العباقرة في الكيمياء - مستر أبانوب فيكتور. جميع الحقوق محفوظة.</p>
         <div class="flex items-center gap-4 text-slate-500">
           <span>تم التطوير بأعلى معايير الجودة</span>
           <span>•</span>
-          <a href="admin.html" class="text-red-600 hover:text-white font-bold transition flex items-center gap-1">
+          <a href="admin.html" class="text-red-600 hover:text-red-700 font-bold transition flex items-center gap-1">
             <i class="fa-solid fa-lock text-[10px]"></i>
             <span>لوحة تحكم الإدارة</span>
           </a>
@@ -897,15 +910,15 @@
     <!-- Floating WhatsApp -->
     <a href="https://wa.me/2019624723742?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%20%D9%85%D9%86%D8%B5%D8%A9%20%D8%A7%D9%84%D8%B9%D8%A8%D8%A7%D9%82%D8%B1%D8%A9%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B4%D8%AA%D8%B1%D8%A7%D9%83%20%D9%81%D9%8A%20%D9%83%D9%88%D8%B1%D8%B3%D8%A7%D8%AA%20%D8%A7%D9%84%D9%83%D9%8A%D9%85%D9%8A%D8%A7%D8%A1" target="_blank" class="w-14 h-14 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white flex items-center justify-center text-2xl shadow-xl shadow-emerald-500/40 transition hover:scale-110 group relative" title="تواصل واتساب">
       <i class="fa-brands fa-whatsapp"></i>
-      <span class="absolute right-16 bg-[#1a080d] text-white text-xs font-bold py-1.5 px-3 rounded-xl whitespace-nowrap opacity-0 group-hover:opacity-100 transition shadow-lg pointer-events-none border border-red-100/50">
+      <span class="absolute right-16 bg-slate-900 text-white text-xs font-bold py-1.5 px-3 rounded-xl whitespace-nowrap opacity-0 group-hover:opacity-100 transition shadow-lg pointer-events-none">
         تحدث معنا واتساب
       </span>
     </a>
 
     <!-- Floating Phone -->
-    <a href="tel:019624723742" class="w-14 h-14 rounded-full bg-red-600 hover:bg-blue-700 text-white flex items-center justify-center text-xl shadow-xl shadow-blue-600/40 transition hover:scale-110 group relative" title="اتصال هاتفي">
+    <a href="tel:019624723742" class="w-14 h-14 rounded-full bg-red-600 hover:bg-red-700 text-white flex items-center justify-center text-xl shadow-xl shadow-red-600/40 transition hover:scale-110 group relative" title="اتصال هاتفي">
       <i class="fa-solid fa-phone"></i>
-      <span class="absolute right-16 bg-[#1a080d] text-white text-xs font-bold py-1.5 px-3 rounded-xl whitespace-nowrap opacity-0 group-hover:opacity-100 transition shadow-lg pointer-events-none border border-red-100/50" dir="ltr">
+      <span class="absolute right-16 bg-slate-900 text-white text-xs font-bold py-1.5 px-3 rounded-xl whitespace-nowrap opacity-0 group-hover:opacity-100 transition shadow-lg pointer-events-none" dir="ltr">
         019624723742
       </span>
     </a>
