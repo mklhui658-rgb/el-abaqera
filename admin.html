@@ -597,6 +597,73 @@
                 </div>
               </form>
             </div>
+
+            <!-- Kashier Payment Gateway Settings -->
+            <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-5">
+              <div class="flex flex-wrap items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-xl bg-red-50 text-red-600 flex items-center justify-center text-lg border border-red-100">
+                    <i class="fa-solid fa-credit-card"></i>
+                  </div>
+                  <div>
+                    <h2 class="text-base font-black text-slate-900">إعدادات بوابة الدفع كاشير (Kashier)</h2>
+                    <p class="text-xs text-slate-500">ربط الدفع الإلكتروني بالبطاقات البنكية (Visa / Mastercard / Meeza) والمحافظ عبر Kashier</p>
+                  </div>
+                </div>
+                <span id="kashier-status-badge" class="px-3 py-1 rounded-full text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200">
+                  في انتظار Merchant ID
+                </span>
+              </div>
+
+              <div id="kashier-settings-banner" class="hidden p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-800"></div>
+
+              <form onsubmit="handleKashierSettingsSave(event)" class="space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1.5">Merchant ID (معرّف التاجر من كاشير) *</label>
+                    <input type="text" id="kashier-merchant-id" placeholder="MID-xxxxx-xxx"
+                      class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-xs text-slate-900 font-mono" dir="ltr">
+                    <p class="text-[11px] text-slate-400 mt-1">موجود في لوحة تحكم كاشير &gt; Integrations / API Keys (يبدأ عادةً بـ MID-)</p>
+                  </div>
+
+                  <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1.5">Payment API Key *</label>
+                    <div class="relative">
+                      <input type="password" id="kashier-api-key" required
+                        class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-xs text-slate-900 font-mono" dir="ltr">
+                      <button type="button" onclick="togglePass('kashier-api-key', this)"
+                        class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 text-xs">
+                        <i class="fa-solid fa-eye"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
+                  <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1.5">وضع التشغيل (Mode)</label>
+                    <select id="kashier-mode"
+                      class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-xs text-slate-900 font-bold">
+                      <option value="test">وضع التجربة (Test / Sandbox)</option>
+                      <option value="live">الوضع الفعلي (Live / Production)</option>
+                    </select>
+                  </div>
+
+                  <label class="flex items-center gap-2.5 cursor-pointer bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 mt-4 sm:mt-5">
+                    <input type="checkbox" id="kashier-enabled" checked class="w-4 h-4 accent-red-600 rounded">
+                    <span class="text-xs font-bold text-slate-700">تفعيل الدفع عبر كاشير للطلاب</span>
+                  </label>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-3 pt-1">
+                  <button type="submit"
+                    class="bg-red-600 hover:bg-red-700 text-white font-bold px-6 py-3 rounded-xl text-xs transition flex items-center gap-2">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    <span>حفظ إعدادات كاشير</span>
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
 
         </section>
@@ -864,6 +931,7 @@
       if (tabName === "reviews") loadReviewsList();
       if (tabName === "courses") renderAdminCourses();
       if (tabName === "payments") { loadPaymentsList(); loadCodesList(); }
+      if (tabName === "settings") loadKashierSettings();
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
@@ -874,7 +942,8 @@
         loadReviewsList(),
         loadPaymentsList(),
         loadCodesList(),
-        renderAdminCourses()
+        renderAdminCourses(),
+        loadKashierSettings()
       ]);
     }
 
@@ -1419,6 +1488,56 @@
       localStorage.setItem("abaqera_admin", JSON.stringify(DEFAULT_ADMIN));
       updateAdminDisplays();
       showToast("تمت استعادة البيانات الافتراضية.");
+    }
+
+    async function loadKashierSettings() {
+      if (typeof SupabaseAPI === "undefined" || !SupabaseAPI.getKashierConfig) return;
+      const cfg = await SupabaseAPI.getKashierConfig();
+      const midEl = document.getElementById("kashier-merchant-id");
+      const keyEl = document.getElementById("kashier-api-key");
+      const modeEl = document.getElementById("kashier-mode");
+      const enabledEl = document.getElementById("kashier-enabled");
+      const badgeEl = document.getElementById("kashier-status-badge");
+
+      if (midEl) midEl.value = cfg.merchantId || "";
+      if (keyEl) keyEl.value = cfg.apiKey || "ded74f2b-df3b-4a8e-92a4-3198ee0a18c7";
+      if (modeEl) modeEl.value = cfg.mode === "live" ? "live" : "test";
+      if (enabledEl) enabledEl.checked = cfg.enabled !== false;
+
+      if (badgeEl) {
+        if (cfg.merchantId && cfg.apiKey) {
+          badgeEl.className = "px-3 py-1 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200";
+          badgeEl.innerText = cfg.mode === "live" ? "مُفعّل (Live ✓)" : "مُفعّل (Test ✓)";
+        } else {
+          badgeEl.className = "px-3 py-1 rounded-full text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200";
+          badgeEl.innerText = "في انتظار Merchant ID (MID-...)";
+        }
+      }
+    }
+
+    async function handleKashierSettingsSave(e) {
+      e.preventDefault();
+      const merchantId = document.getElementById("kashier-merchant-id").value.trim();
+      const apiKey = document.getElementById("kashier-api-key").value.trim();
+      const mode = document.getElementById("kashier-mode").value;
+      const enabled = document.getElementById("kashier-enabled").checked;
+
+      if (!apiKey) {
+        alert("يرجى إدخال Payment API Key.");
+        return;
+      }
+
+      const res = await SupabaseAPI.saveKashierConfig({ merchantId, apiKey, mode, enabled });
+      await loadKashierSettings();
+
+      const banner = document.getElementById("kashier-settings-banner");
+      if (banner) {
+        banner.classList.remove("hidden");
+        banner.innerText = merchantId
+          ? `تم حفظ إعدادات بوابة كاشير (${mode === "live" ? "الوضع الفعلي Live" : "وضع التجربة Test"}) بنجاح!`
+          : "تم حفظ API Key بنجاح — تذكّر إضافة Merchant ID (MID-...) لتفعيل الدفع الفعلي.";
+      }
+      showToast(res && res.success ? "تم حفظ إعدادات كاشير في قاعدة البيانات!" : "تم الحفظ محلياً (تحقق من الاتصال)");
     }
 
     function showToast(message) {

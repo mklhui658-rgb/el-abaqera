@@ -36,7 +36,7 @@ const SupabaseAPI = {
         const { data, error } = await db
           .from("courses")
           .select("*")
-          .not("grade", "in", '("site_video","site_review","system_ban","system_avatar")');
+          .not("grade", "in", '("site_video","site_review","system_ban","system_avatar","system_config")');
         if (!error && data && data.length > 0) {
           return data.map(c => ({
             id: c.id,
@@ -747,5 +747,86 @@ const SupabaseAPI = {
         await db.from("activation_codes").delete().eq("code", code);
       } catch (e) {}
     }
+  },
+
+  // 10. Kashier Payment Gateway Configuration (stored cleanly via system_config + localStorage)
+  KASHIER_DEFAULT_API_KEY: "ded74f2b-df3b-4a8e-92a4-3198ee0a18c7",
+
+  async getKashierConfig() {
+    const defaults = {
+      merchantId: "",
+      apiKey: this.KASHIER_DEFAULT_API_KEY,
+      mode: "test",
+      enabled: true,
+      updatedAt: null
+    };
+
+    let localCfg = null;
+    try {
+      const raw = localStorage.getItem("abaqera_kashier_config");
+      if (raw) localCfg = JSON.parse(raw);
+    } catch (e) {}
+
+    if (db) {
+      try {
+        const { data, error } = await db
+          .from("courses")
+          .select("*")
+          .eq("id", "config-kashier")
+          .maybeSingle();
+        if (!error && data && data.description) {
+          const parsed = JSON.parse(data.description);
+          const merged = {
+            ...defaults,
+            ...(localCfg || {}),
+            ...parsed,
+            apiKey: parsed.apiKey || (localCfg && localCfg.apiKey) || defaults.apiKey
+          };
+          try {
+            localStorage.setItem("abaqera_kashier_config", JSON.stringify(merged));
+          } catch (e) {}
+          return merged;
+        }
+      } catch (e) {
+        console.warn("getKashierConfig failed, using fallback:", e);
+      }
+    }
+
+    return { ...defaults, ...(localCfg || {}) };
+  },
+
+  async saveKashierConfig(cfg) {
+    const clean = {
+      merchantId: String((cfg && cfg.merchantId) || "").trim(),
+      apiKey: String((cfg && cfg.apiKey) || this.KASHIER_DEFAULT_API_KEY).trim(),
+      mode: String((cfg && cfg.mode) || "test").trim().toLowerCase() === "live" ? "live" : "test",
+      enabled: cfg && typeof cfg.enabled === "boolean" ? cfg.enabled : true,
+      updatedAt: new Date().toISOString()
+    };
+
+    try {
+      localStorage.setItem("abaqera_kashier_config", JSON.stringify(clean));
+    } catch (e) {}
+
+    if (db) {
+      try {
+        const { error } = await db.from("courses").upsert({
+          id: "config-kashier",
+          title: "__KASHIER_CONFIG__",
+          grade: "system_config",
+          grade_name: clean.mode,
+          price: "0",
+          lectures_count: 0,
+          image: "assets/logo.png",
+          youtube_url: "",
+          description: JSON.stringify(clean)
+        });
+        return { success: !error, config: clean, error };
+      } catch (e) {
+        return { success: false, config: clean, error: e };
+      }
+    }
+
+    return { success: true, config: clean };
   }
 };

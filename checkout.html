@@ -181,9 +181,14 @@
         </h3>
 
         <!-- Payment Method Tabs -->
-        <div class="grid grid-cols-3 gap-2 p-1.5 bg-slate-100 rounded-2xl border border-slate-200 mb-6 theme-surface">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 p-1.5 bg-slate-100 rounded-2xl border border-slate-200 mb-6 theme-surface">
           
-          <button id="tab-btn-wallet" onclick="selectPaymentMethod('wallet')" class="py-3 px-2 rounded-xl text-xs font-bold transition flex flex-col sm:flex-row items-center justify-center gap-1.5 bg-red-600 text-white shadow-md shadow-red-600/25">
+          <button id="tab-btn-kashier" onclick="selectPaymentMethod('kashier')" class="py-3 px-2 rounded-xl text-xs font-bold transition flex flex-col sm:flex-row items-center justify-center gap-1.5 bg-red-600 text-white shadow-md shadow-red-600/25">
+            <i class="fa-solid fa-credit-card text-base"></i>
+            <span>بطاقة / كاشير</span>
+          </button>
+
+          <button id="tab-btn-wallet" onclick="selectPaymentMethod('wallet')" class="py-3 px-2 rounded-xl text-xs font-bold transition flex flex-col sm:flex-row items-center justify-center gap-1.5 text-slate-600 hover:text-red-600">
             <i class="fa-solid fa-mobile-screen-button text-base"></i>
             <span>محفظة كاش</span>
           </button>
@@ -200,8 +205,77 @@
 
         </div>
 
+        <!-- Kashier Callback Status Banner -->
+        <div id="kashier-callback-banner" class="hidden p-4 rounded-2xl border text-xs mb-5 leading-relaxed"></div>
+
+        <!-- ================= METHOD 0: KASHIER ONLINE GATEWAY ================= -->
+        <div id="method-kashier" class="space-y-5">
+          <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 theme-surface">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <div class="flex items-center gap-2">
+                <span class="w-8 h-8 rounded-xl bg-red-600 text-white flex items-center justify-center text-sm shadow-sm">
+                  <i class="fa-solid fa-shield-halved"></i>
+                </span>
+                <div>
+                  <h4 class="text-xs sm:text-sm font-black text-slate-900">الدفع الفوري عبر بوابة كاشير (Kashier)</h4>
+                  <p class="text-[11px] text-slate-500">تفعيل فوري للكورس فور إتمام الدفع بنجاح</p>
+                </div>
+              </div>
+              <span id="kashier-mode-pill" class="text-[10px] px-2.5 py-1 rounded-full font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                دفع إلكتروني مشفر 100%
+              </span>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2 pt-1 text-[11px] font-bold text-slate-600">
+              <span class="px-2.5 py-1 rounded-lg bg-white border border-slate-200 theme-surface flex items-center gap-1.5">
+                <i class="fa-brands fa-cc-visa text-blue-600 text-sm"></i> Visa
+              </span>
+              <span class="px-2.5 py-1 rounded-lg bg-white border border-slate-200 theme-surface flex items-center gap-1.5">
+                <i class="fa-brands fa-cc-mastercard text-orange-500 text-sm"></i> Mastercard
+              </span>
+              <span class="px-2.5 py-1 rounded-lg bg-white border border-slate-200 theme-surface flex items-center gap-1.5">
+                <i class="fa-solid fa-credit-card text-emerald-600"></i> بطاقة ميزة
+              </span>
+              <span class="px-2.5 py-1 rounded-lg bg-white border border-slate-200 theme-surface flex items-center gap-1.5">
+                <i class="fa-solid fa-wallet text-red-600"></i> محافظ إلكترونية
+              </span>
+            </div>
+          </div>
+
+          <div id="kashier-config-notice" class="hidden p-4 rounded-2xl bg-amber-50 border border-amber-200 text-xs text-amber-800 leading-relaxed">
+            <div class="font-bold flex items-center gap-1.5 mb-1">
+              <i class="fa-solid fa-triangle-exclamation text-amber-600"></i>
+              <span>بوابة كاشير بانتظار إكمال معرّف التاجر (Merchant ID)</span>
+            </div>
+            <p class="text-[11px]">
+              تم ربط مفتاح API الخاص بكاشير بنجاح، يرجى إضافة <strong>Merchant ID (MID-...)</strong> من
+              <a href="admin.html" class="underline font-bold text-amber-900">لوحة الأدمن &gt; الإعدادات</a>
+              أو استخدام التحويل بالمحفظة / إنستاباي حالياً.
+            </p>
+          </div>
+
+          <form onsubmit="handleKashierSubmit(event)" class="space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1.5">اسم الطالب *</label>
+                <input type="text" id="kashier-student-name" required placeholder="الاسم بالكامل" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-red-500 focus:bg-white">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1.5">رقم الموبايل *</label>
+                <input type="tel" id="kashier-student-phone" required placeholder="01xxxxxxxxx" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-red-500 focus:bg-white" dir="ltr">
+              </div>
+            </div>
+
+            <button type="submit" id="kashier-pay-btn" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3.5 rounded-xl text-sm transition flex items-center justify-center gap-2 shadow-lg shadow-red-600/30 btn-glow">
+              <i class="fa-solid fa-lock"></i>
+              <span>الانتقال للدفع الآمن عبر كاشير</span>
+              <i class="fa-solid fa-arrow-left text-xs"></i>
+            </button>
+          </form>
+        </div>
+
         <!-- ================= METHOD 1: WALLET CASH ================= -->
-        <div id="method-wallet" class="space-y-5">
+        <div id="method-wallet" class="space-y-5 hidden">
           
           <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 theme-surface">
             <div class="flex items-center justify-between flex-wrap gap-2">
@@ -389,13 +463,16 @@
   <script>
     const PLATFORM_PHONE = "019624723742";
     const WHATSAPP_INTL = "2019624723742";
-    let selectedMethod = "wallet";
+    const KASHIER_FALLBACK_KEY = "ded74f2b-df3b-4a8e-92a4-3198ee0a18c7";
+    let selectedMethod = "kashier";
     let currentCourseName = "الكيمياء العضوية الشاملة للثانوية العامة";
     let currentPrice = "250 ج.م";
 
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", async () => {
       parseUrlParams();
       loadStudentInfo();
+      await initKashierGateway();
+      await handleKashierReturn();
     });
 
     function parseUrlParams() {
@@ -423,19 +500,28 @@
       if (stored) {
         try {
           const user = JSON.parse(stored);
-          if (user.name) document.getElementById("summary-student-name").innerText = user.name;
-          if (user.phone) document.getElementById("summary-student-phone").innerText = user.phone;
+          if (user.name) {
+            document.getElementById("summary-student-name").innerText = user.name;
+            const kName = document.getElementById("kashier-student-name");
+            if (kName && !kName.value) kName.value = user.name;
+          }
+          if (user.phone) {
+            document.getElementById("summary-student-phone").innerText = user.phone;
+            const kPhone = document.getElementById("kashier-student-phone");
+            if (kPhone && !kPhone.value) kPhone.value = user.phone;
+          }
         } catch(e) {}
       }
     }
 
     function selectPaymentMethod(method) {
       selectedMethod = method;
-      const methods = ["wallet", "instapay", "code"];
+      const methods = ["kashier", "wallet", "instapay", "code"];
       
       methods.forEach(m => {
         const btn = document.getElementById(`tab-btn-${m}`);
         const div = document.getElementById(`method-${m}`);
+        if (!btn || !div) return;
         if (m === method) {
           btn.className = "py-3 px-2 rounded-xl text-xs font-bold transition flex flex-col sm:flex-row items-center justify-center gap-1.5 bg-red-600 text-white shadow-md shadow-red-600/25";
           div.classList.remove("hidden");
@@ -444,6 +530,236 @@
           div.classList.add("hidden");
         }
       });
+    }
+
+    async function initKashierGateway() {
+      if (typeof SupabaseAPI === "undefined" || !SupabaseAPI.getKashierConfig) return;
+      const cfg = await SupabaseAPI.getKashierConfig();
+      const notice = document.getElementById("kashier-config-notice");
+      const pill = document.getElementById("kashier-mode-pill");
+      if (cfg.enabled === false) {
+        const kBtn = document.getElementById("tab-btn-kashier");
+        if (kBtn) kBtn.classList.add("hidden");
+        selectPaymentMethod("wallet");
+        return;
+      }
+      if (notice) {
+        notice.classList.toggle("hidden", Boolean(cfg.merchantId));
+      }
+      if (pill) {
+        pill.innerText = cfg.mode === "live" ? "دفع مباشر آمن (Live) 🔒" : "بيئة اختبار كاشير (Test) 🧪";
+      }
+    }
+
+    async function computeClientHmacSha256(secretKey, message) {
+      const enc = new TextEncoder();
+      const key = await crypto.subtle.importKey(
+        "raw",
+        enc.encode(secretKey),
+        { name: "HMAC", hash: "SHA-256" },
+        false,
+        ["sign"]
+      );
+      const sig = await crypto.subtle.sign("HMAC", key, enc.encode(message));
+      return Array.from(new Uint8Array(sig)).map(b => b.toString(16).padStart(2, "0")).join("");
+    }
+
+    async function handleKashierSubmit(e) {
+      e.preventDefault();
+      const nameInput = document.getElementById("kashier-student-name");
+      const phoneInput = document.getElementById("kashier-student-phone");
+      const payBtn = document.getElementById("kashier-pay-btn");
+
+      const studentName = (nameInput ? nameInput.value.trim() : "") || document.getElementById("summary-student-name").innerText;
+      const studentPhone = (phoneInput ? phoneInput.value.trim() : "") || document.getElementById("summary-student-phone").innerText;
+      if (!studentName || !studentPhone) {
+        alert("يرجى إدخال اسم الطالب ورقم الموبايل للمتابعة.");
+        return;
+      }
+
+      document.getElementById("summary-student-name").innerText = studentName;
+      document.getElementById("summary-student-phone").innerText = studentPhone;
+
+      const numericAmount = parseFloat(String(currentPrice || "250").replace(/[^0-9.]/g, "")) || 250;
+      const amountStr = numericAmount.toFixed(2);
+      const orderId = `ABQ-${Date.now()}-${Math.floor(100 + Math.random() * 899)}`;
+
+      let storedStudent = {};
+      try { storedStudent = JSON.parse(localStorage.getItem("abaqera_student") || "{}"); } catch(err) {}
+      localStorage.setItem("abaqera_kashier_pending", JSON.stringify({
+        orderId,
+        courseTitle: currentCourseName,
+        price: currentPrice,
+        amount: amountStr,
+        student: { ...storedStudent, name: studentName, phone: studentPhone },
+        createdAt: Date.now()
+      }));
+
+      if (payBtn) {
+        payBtn.disabled = true;
+        payBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i><span>جاري التجهيز والاتصال بكاشير...</span>`;
+      }
+
+      try {
+        const cfg = (typeof SupabaseAPI !== "undefined" && SupabaseAPI.getKashierConfig)
+          ? await SupabaseAPI.getKashierConfig()
+          : { merchantId: "", apiKey: KASHIER_FALLBACK_KEY, mode: "test" };
+
+        const redirectUrl = window.location.origin + window.location.pathname;
+        let checkoutUrl = "";
+
+        const apiRes = await fetch("/api/kashier-checkout", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            orderId,
+            amount: amountStr,
+            currency: "EGP",
+            merchantRedirect: redirectUrl,
+            courseTitle: currentCourseName,
+            customerName: studentName,
+            customerPhone: studentPhone,
+            customerEmail: storedStudent.email || "",
+            merchantId: cfg.merchantId || "",
+            apiKey: cfg.apiKey || KASHIER_FALLBACK_KEY,
+            mode: cfg.mode || "test"
+          })
+        }).catch(() => null);
+
+        if (apiRes && apiRes.ok) {
+          const data = await apiRes.json();
+          checkoutUrl = data.checkoutUrl || "";
+        } else if (apiRes && apiRes.status === 400) {
+          const errData = await apiRes.json().catch(() => ({}));
+          if (errData.code === "MISSING_MERCHANT_ID") {
+            const notice = document.getElementById("kashier-config-notice");
+            if (notice) notice.classList.remove("hidden");
+            throw new Error("يرجى إضافة Merchant ID (MID-...) من لوحة الأدمن > الإعدادات أولاً.");
+          }
+          throw new Error(errData.error || "تعذر تجهيز جلسة الدفع");
+        } else {
+          // Local static server fallback (when /api/* Serverless runtime isn't active)
+          if (!cfg.merchantId) {
+            const notice = document.getElementById("kashier-config-notice");
+            if (notice) notice.classList.remove("hidden");
+            throw new Error("يرجى إضافة Merchant ID (MID-...) من لوحة الأدمن > الإعدادات أولاً.");
+          }
+          const path = `/?payment=${cfg.merchantId}.${orderId}.${amountStr}.EGP`;
+          const hash = await computeClientHmacSha256(cfg.apiKey || KASHIER_FALLBACK_KEY, path);
+          const qp = new URLSearchParams({
+            merchantId: cfg.merchantId,
+            orderId,
+            amount: amountStr,
+            currency: "EGP",
+            hash,
+            mode: cfg.mode || "test",
+            merchantRedirect: redirectUrl,
+            allowedMethods: "card,wallet,bank_installments",
+            defaultMethod: "card",
+            display: "ar"
+          });
+          checkoutUrl = `https://checkout.kashier.io/?${qp.toString()}`;
+        }
+
+        if (!checkoutUrl) throw new Error("لم يتم استلام رابط الدفع من كاشير");
+        window.location.href = checkoutUrl;
+      } catch (err) {
+        showToast(err.message || "حدث خطأ أثناء الاتصال ببوابة كاشير");
+        if (payBtn) {
+          payBtn.disabled = false;
+          payBtn.innerHTML = `<i class="fa-solid fa-lock"></i><span>الانتقال للدفع الآمن عبر كاشير</span><i class="fa-solid fa-arrow-left text-xs"></i>`;
+        }
+      }
+    }
+
+    async function handleKashierReturn() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const paymentStatus = urlParams.get("paymentStatus");
+      const signature = urlParams.get("signature");
+      if (!paymentStatus && !signature) return;
+
+      let pending = null;
+      try {
+        const rawPending = localStorage.getItem("abaqera_kashier_pending");
+        if (rawPending) pending = JSON.parse(rawPending);
+      } catch(e) {}
+
+      if (pending) {
+        if (pending.courseTitle) {
+          currentCourseName = pending.courseTitle;
+          document.getElementById("summary-course-title").innerText = pending.courseTitle;
+        }
+        if (pending.price) {
+          currentPrice = pending.price;
+          const num = String(pending.price).replace(/[^0-9]/g, "");
+          if (num) {
+            document.getElementById("summary-final-price").innerText = num;
+            document.getElementById("summary-original-price").innerText = (parseInt(num, 10) + 100) + " ج.م";
+          }
+        }
+        if (pending.student) {
+          if (pending.student.name) document.getElementById("summary-student-name").innerText = pending.student.name;
+          if (pending.student.phone) document.getElementById("summary-student-phone").innerText = pending.student.phone;
+        }
+      }
+
+      const banner = document.getElementById("kashier-callback-banner");
+      if (String(paymentStatus).toUpperCase() !== "SUCCESS") {
+        if (banner) {
+          banner.className = "p-4 rounded-2xl border border-red-200 bg-red-50 text-xs text-red-800 mb-5 leading-relaxed";
+          banner.innerHTML = `<i class="fa-solid fa-circle-xmark ml-1.5"></i> لم تكتمل عملية الدفع عبر كاشير (${paymentStatus || "ملغاة"}). يمكنك المحاولة مجدداً أو اختيار وسيلة دفع أخرى.`;
+        }
+        return;
+      }
+
+      // Verify cryptographic signature from Kashier
+      const paramsObj = {};
+      urlParams.forEach((v, k) => { paramsObj[k] = v; });
+
+      let cfg = { apiKey: KASHIER_FALLBACK_KEY };
+      if (typeof SupabaseAPI !== "undefined" && SupabaseAPI.getKashierConfig) {
+        cfg = await SupabaseAPI.getKashierConfig();
+      }
+
+      let isVerified = false;
+      try {
+        const verifyRes = await fetch("/api/kashier-verify", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            rawQuery: window.location.search,
+            params: paramsObj,
+            apiKey: cfg.apiKey || KASHIER_FALLBACK_KEY
+          })
+        });
+        if (verifyRes.ok) {
+          const data = await verifyRes.json();
+          isVerified = data.valid === true;
+        } else if (verifyRes.status === 404 && signature) {
+          const cleanParts = [];
+          urlParams.forEach((val, key) => {
+            if (key !== "signature" && key !== "mode") cleanParts.push(`${key}=${val}`);
+          });
+          const expected = await computeClientHmacSha256(cfg.apiKey || KASHIER_FALLBACK_KEY, cleanParts.join("&"));
+          isVerified = expected.toLowerCase() === String(signature).toLowerCase();
+        }
+      } catch (e) {}
+
+      if (!isVerified) {
+        if (banner) {
+          banner.className = "p-4 rounded-2xl border border-red-200 bg-red-50 text-xs text-red-800 mb-5 leading-relaxed";
+          banner.innerHTML = `<i class="fa-solid fa-shield-halved ml-1.5"></i> تعذر التحقق من توقيع عملية كاشير (Signature Mismatch). يرجى التواصل مع الدعم الفني برقم الطلب: <strong dir="ltr">${urlParams.get("merchantOrderId") || urlParams.get("orderId") || "-"}</strong>.`;
+        }
+        return;
+      }
+
+      localStorage.removeItem("abaqera_kashier_pending");
+      try {
+        window.history.replaceState({}, document.title, window.location.pathname);
+      } catch (e) {}
+
+      const verifiedOrder = urlParams.get("merchantOrderId") || urlParams.get("orderId") || (pending && pending.orderId) || "";
+      showPaymentSuccess("بوابة كاشير الإلكترونية (Kashier)", { invoiceCode: verifiedOrder });
     }
 
     function copyWalletNumber() {
@@ -497,17 +813,25 @@
       showPaymentSuccess("كود التفعيل مسبق الدفع (كارت السنتر)");
     }
 
-    function showPaymentSuccess(methodName) {
+    function showPaymentSuccess(methodName, opts) {
       showToast("جاري التحقق من العملية وتفعيل الكورس...");
-      
-      // Save student login state
+      const inv = (opts && opts.invoiceCode)
+        ? ("#" + String(opts.invoiceCode).replace(/^#/, ""))
+        : ("#INV-" + Math.floor(10000 + Math.random() * 90000));
+
+      // Save student login state while preserving existing account profile fields
       localStorage.setItem("abaqera_logged_in", "true");
+      let existingStudent = {};
+      try {
+        existingStudent = JSON.parse(localStorage.getItem("abaqera_student") || "{}");
+      } catch(e) {}
       let student = {
-        name: document.getElementById("summary-student-name").innerText || "أحمد محمود إبراهيم",
-        phone: document.getElementById("summary-student-phone").innerText || PLATFORM_PHONE,
-        grade: "الصف الثالث الثانوي (علمي علوم)",
-        governorate: "القاهرة",
-        id: "#ALB-2026-8492",
+        ...existingStudent,
+        name: existingStudent.name || document.getElementById("summary-student-name").innerText || "أحمد محمود إبراهيم",
+        phone: existingStudent.phone || document.getElementById("summary-student-phone").innerText || PLATFORM_PHONE,
+        grade: existingStudent.grade || "الصف الثالث الثانوي (علمي علوم)",
+        governorate: existingStudent.governorate || "القاهرة",
+        id: existingStudent.id || "#ALB-2026-8492",
         activeCourse: currentCourseName
       };
       localStorage.setItem("abaqera_student", JSON.stringify(student));
@@ -566,7 +890,6 @@
       }
 
       setTimeout(() => {
-        const inv = "#INV-" + Math.floor(10000 + Math.random() * 90000);
         document.getElementById("receipt-invoice-code").innerText = inv;
         document.getElementById("receipt-payment-method").innerText = methodName;
         
@@ -602,21 +925,6 @@
       `;
 
       container.appendChild(toast);
-      // Save student in Supabase if API available
-      if (typeof SupabaseAPI !== "undefined") {
-        SupabaseAPI.saveStudent(student);
-        SupabaseAPI.saveSubscription({
-          invoiceCode: inv,
-          studentName: student.name,
-          studentPhone: student.phone,
-          courseId: fullCourse ? fullCourse.id : null,
-          courseTitle: currentCourseName,
-          price: currentPrice,
-          paymentMethod: methodName,
-          senderNumber: student.phone,
-          status: "approved"
-        });
-      }
 
       setTimeout(() => {
         toast.style.opacity = "0";
