@@ -77,7 +77,20 @@
       </div>
 
       <!-- Quick Action Controls -->
-      <div class="flex items-center gap-2 sm:gap-2.5">
+      <div class="flex items-center gap-2 sm:gap-2.5 flex-wrap justify-end">
+        <!-- My Subscribed Courses Button -->
+        <button type="button" onclick="openMyCoursesModal()" class="bg-red-600 hover:bg-red-700 text-white px-3 sm:px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-red-600/20">
+          <i class="fa-solid fa-layer-group"></i>
+          <span class="hidden sm:inline" data-i18n="dash_btn_my_courses">كورساتي المشترك بها</span>
+          <span id="header-courses-count" class="bg-white text-red-600 font-black px-1.5 py-0.5 rounded-md text-[10px]">0</span>
+        </button>
+
+        <!-- Edit Profile & Password Button -->
+        <button type="button" onclick="openProfileModal()" class="bg-white hover:bg-red-50 text-slate-800 border border-slate-200 hover:border-red-200 px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+          <img id="header-student-avatar" src="assets/logo.png" alt="صورة الطالب" class="w-5 h-5 rounded-full object-cover border border-red-200">
+          <span class="hidden md:inline" data-i18n="dash_btn_edit_profile">تعديل الحساب</span>
+        </button>
+
         <!-- Theme Toggle Button -->
         <button type="button" onclick="toggleTheme()" data-theme-toggle class="bg-slate-100 hover:bg-red-50 text-slate-800 border border-slate-200 hover:border-red-200 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5" title="تبديل الثيم الأسود">
           <span class="theme-icon"></span>
@@ -91,19 +104,19 @@
         </button>
 
         <!-- WhatsApp Teacher Support -->
-        <a href="https://wa.me/2019624723742?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%20%D9%85%D8%B3%D8%AA%D8%B1%20%D8%A7%D9%84%D9%83%D9%8A%D9%85%D9%8A%D8%A7%D8%A1%D8%8C%20%D9%85%D8%B9%D8%A7%D9%83%20%D8%A7%D9%84%D8%B7%D8%A7%D9%84%D8%A8%20%D9%85%D9%86%20%D9%85%D9%86%D8%B5%D8%A9%20%D8%A7%D9%84%D8%B9%D8%A8%D8%A7%D9%82%D8%B1%D8%A9%D8%8C%20%D9%84%D8%AF%D9%8A%20%D8%B3%D8%A4%D8%A7%D9%84%20%D9%81%D9%8A%20%D8%A7%D9%84%D9%88%D8%A7%D8%AC%D8%A8" target="_blank" class="hidden lg:flex items-center gap-2 bg-emerald-50 hover:bg-emerald-600 border border-emerald-200 text-emerald-700 hover:text-white px-3.5 py-2 rounded-xl text-xs font-bold transition">
+        <a href="https://wa.me/2019624723742?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%20%D9%85%D8%B3%D8%AA%D8%B1%20%D8%A7%D9%84%D9%83%D9%8A%D9%85%D9%8A%D8%A7%D8%A1%D8%8C%20%D9%85%D8%B9%D8%A7%D9%83%20%D8%A7%D9%84%D8%B7%D8%A7%D9%84%D8%A8%20%D9%85%D9%86%20%D9%85%D9%86%D8%B5%D8%A9%20%D8%A7%D9%84%D8%B9%D8%A8%D8%A7%D9%82%D8%B1%D8%A9%D8%8C%20%D9%84%D8%AF%D9%8A%20%D8%B3%D8%A4%D8%A7%D9%84%20%D9%81%D9%8A%20%D8%A7%D9%84%D9%88%D8%A7%D8%AC%D8%A8" target="_blank" class="hidden xl:flex items-center gap-2 bg-emerald-50 hover:bg-emerald-600 border border-emerald-200 text-emerald-700 hover:text-white px-3.5 py-2 rounded-xl text-xs font-bold transition">
           <i class="fa-brands fa-whatsapp text-sm"></i>
           <span data-i18n="dash_support_btn">اسأل أستاذ المادة</span>
         </a>
 
         <!-- Home Page Link -->
-        <a href="index.html" class="text-xs font-bold text-slate-700 hover:text-red-600 bg-white border border-slate-200 hover:border-red-200 px-3 sm:px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm">
+        <a href="index.html" class="text-xs font-bold text-slate-700 hover:text-red-600 bg-white border border-slate-200 hover:border-red-200 px-3 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm">
           <i class="fa-solid fa-house text-red-600"></i>
-          <span class="hidden sm:inline" data-i18n="nav_home">الرئيسية</span>
+          <span class="hidden lg:inline" data-i18n="nav_home">الرئيسية</span>
         </a>
 
         <!-- Logout Button -->
-        <button onclick="handleDashboardLogout()" class="bg-red-50 hover:bg-red-600 text-red-600 hover:text-white border border-red-200 px-3 sm:px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+        <button onclick="handleDashboardLogout()" class="bg-red-50 hover:bg-red-600 text-red-600 hover:text-white border border-red-200 px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
           <i class="fa-solid fa-right-from-bracket"></i>
           <span class="hidden sm:inline" data-i18n="nav_logout">خروج</span>
         </button>
@@ -120,9 +133,12 @@
       <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 relative z-10">
         
         <div class="flex items-center gap-4 sm:gap-5">
-          <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white p-1 shadow-xl shadow-red-600/15 shrink-0 border-2 border-red-500 overflow-hidden">
-            <img src="assets/logo.png" alt="شخصية العباقرة" class="w-full h-full object-contain">
-          </div>
+          <button type="button" onclick="openProfileModal()" title="تغيير الصورة الشخصية" class="relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white p-0.5 shadow-xl shadow-red-600/15 shrink-0 border-2 border-red-500 overflow-hidden group cursor-pointer">
+            <img id="student-avatar-display" src="assets/logo.png" alt="صورة الطالب" class="w-full h-full object-cover rounded-[14px]">
+            <span class="absolute inset-0 bg-black/45 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-sm">
+              <i class="fa-solid fa-camera"></i>
+            </span>
+          </button>
           <div>
             <div class="flex flex-wrap items-center gap-2 mb-1">
               <span class="text-xs font-bold text-red-600" data-i18n="dash_welcome">أهلاً بك يا عبقري،</span>
@@ -138,6 +154,16 @@
               <span class="text-slate-400">•</span>
               <span><i class="fa-solid fa-phone text-red-600 ml-1"></i> <span dir="ltr" id="student-phone-display">019624723742</span></span>
             </p>
+            <div class="flex flex-wrap items-center gap-2 mt-3">
+              <button type="button" onclick="openMyCoursesModal()" class="bg-red-600 hover:bg-red-700 text-white font-bold px-3.5 py-1.5 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm">
+                <i class="fa-solid fa-book-open"></i>
+                <span data-i18n="dash_btn_my_courses">كورساتي المشترك بها</span>
+              </button>
+              <button type="button" onclick="openProfileModal()" class="bg-white hover:bg-red-50 text-slate-800 border border-slate-200 hover:border-red-300 font-bold px-3.5 py-1.5 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm">
+                <i class="fa-solid fa-user-pen text-red-600"></i>
+                <span data-i18n="dash_btn_edit_profile">تعديل الاسم والصورة وكلمة المرور</span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -423,6 +449,120 @@
     </div>
   </div>
 
+  <!-- Subscribed Courses Overview Modal -->
+  <div id="my-courses-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="glass-panel bg-white rounded-3xl p-6 sm:p-8 max-w-2xl w-full border border-slate-200 shadow-2xl relative max-h-[90vh] flex flex-col theme-surface">
+      <button type="button" onclick="closeMyCoursesModal()" class="absolute top-5 left-5 text-slate-500 hover:text-red-600 text-xl transition">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="flex items-center gap-3 mb-4 pb-4 border-b border-slate-100">
+        <div class="w-11 h-11 rounded-2xl bg-red-50 text-red-600 border border-red-200 flex items-center justify-center text-xl">
+          <i class="fa-solid fa-layer-group"></i>
+        </div>
+        <div>
+          <h4 class="text-lg font-black text-slate-900" data-i18n="subs_modal_title">سجل الكورسات المشترك بها</h4>
+          <p class="text-xs text-slate-500" data-i18n="subs_modal_sub">جميع الكورسات النشطة وطلبات الاشتراك الخاصة بحسابك</p>
+        </div>
+      </div>
+
+      <div id="my-courses-modal-list" class="space-y-3 overflow-y-auto pr-1 flex-grow">
+        <!-- Populated dynamically -->
+      </div>
+
+      <div class="mt-5 pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
+        <a href="index.html#courses" class="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2.5 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm">
+          <i class="fa-solid fa-plus"></i>
+          <span data-i18n="dash_browse_all">تصفح جميع الكورسات</span>
+        </a>
+        <button type="button" onclick="closeMyCoursesModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2.5 rounded-xl text-xs transition">
+          إغلاق
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Student Profile Settings Modal (Name, Avatar Photo Upload, Password) -->
+  <div id="profile-settings-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="glass-panel bg-white rounded-3xl p-6 sm:p-8 max-w-lg w-full border border-slate-200 shadow-2xl relative max-h-[92vh] overflow-y-auto theme-surface">
+      <button type="button" onclick="closeProfileModal()" class="absolute top-5 left-5 text-slate-500 hover:text-red-600 text-xl transition">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="flex items-center gap-3 mb-5 pb-4 border-b border-slate-100">
+        <div class="w-11 h-11 rounded-2xl bg-red-50 text-red-600 border border-red-200 flex items-center justify-center text-xl">
+          <i class="fa-solid fa-user-gear"></i>
+        </div>
+        <div>
+          <h4 class="text-lg font-black text-slate-900" data-i18n="prof_modal_title">تعديل بيانات الحساب والصورة</h4>
+          <p class="text-xs text-slate-500">تغيير الاسم، رفع صورة شخصية، أو تحديث كلمة المرور</p>
+        </div>
+      </div>
+
+      <form id="profile-settings-form" onsubmit="saveStudentProfileChanges(event)" class="space-y-4">
+        <!-- Photo Uploader -->
+        <div class="flex flex-col sm:flex-row items-center gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-200 theme-surface">
+          <div class="w-20 h-20 rounded-2xl bg-white border-2 border-red-500 overflow-hidden shrink-0 shadow-md">
+            <img id="profile-preview-img" src="assets/logo.png" alt="معاينة الصورة" class="w-full h-full object-cover">
+          </div>
+          <div class="flex-grow space-y-2 text-center sm:text-right">
+            <input type="file" id="profile-avatar-file" accept="image/*" class="hidden" onchange="handleAvatarFileSelected(this)">
+            <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+              <button type="button" onclick="document.getElementById('profile-avatar-file').click()" class="bg-red-600 hover:bg-red-700 text-white font-bold px-3.5 py-2 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+                <span data-i18n="prof_upload_photo">رفع صورة شخصية</span>
+              </button>
+              <button type="button" onclick="removeProfileAvatar()" class="bg-white hover:bg-red-50 text-slate-600 hover:text-red-600 border border-slate-200 font-bold px-3 py-2 rounded-xl text-xs transition">
+                <span data-i18n="prof_remove_photo">حذف الصورة</span>
+              </button>
+            </div>
+            <p class="text-[11px] text-slate-500">يتم ضغط الصورة وحفظها تلقائياً في حسابك</p>
+          </div>
+        </div>
+
+        <!-- Full Name -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1.5" data-i18n="prof_name_label">اسم الطالب الكامل</label>
+          <input type="text" id="profile-name-input" required placeholder="أدخل اسمك الكامل..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-red-500 focus:bg-white">
+        </div>
+
+        <!-- Divider: Password Change -->
+        <div class="pt-3 border-t border-slate-200 space-y-3">
+          <span class="text-xs font-black text-red-600 flex items-center gap-1.5">
+            <i class="fa-solid fa-key"></i>
+            <span>تغيير كلمة المرور (اختياري)</span>
+          </span>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1" data-i18n="prof_cur_pass_label">كلمة المرور الحالية (عند تغيير الباسورد فقط)</label>
+            <input type="password" id="profile-current-pass" placeholder="••••••••" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-red-500 focus:bg-white" dir="ltr">
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1" data-i18n="prof_new_pass_label">كلمة المرور الجديدة</label>
+              <input type="password" id="profile-new-pass" placeholder="4 أحرف على الأقل" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-red-500 focus:bg-white" dir="ltr">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1" data-i18n="prof_confirm_pass_label">تأكيد كلمة المرور الجديدة</label>
+              <input type="password" id="profile-confirm-pass" placeholder="أعد كتابتها" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-red-500 focus:bg-white" dir="ltr">
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 pt-3 border-t border-slate-100">
+          <button type="button" onclick="closeProfileModal()" class="px-4 py-2.5 rounded-xl text-xs font-bold text-slate-600 hover:text-red-600 transition">
+            إلغاء
+          </button>
+          <button type="submit" id="profile-save-submit-btn" class="bg-red-600 hover:bg-red-700 text-white font-bold px-6 py-2.5 rounded-xl text-xs transition flex items-center gap-2 shadow-lg shadow-red-600/25 btn-glow">
+            <i class="fa-solid fa-floppy-disk"></i>
+            <span data-i18n="prof_save_btn">حفظ التغييرات</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- Toast Notification System -->
   <div class="toast-container"></div>
 
@@ -442,19 +582,41 @@
     document.addEventListener("DOMContentLoaded", async () => {
       loadStudentProfile();
       
-      // Sync real subscriptions from Supabase for this logged in student
+      // Sync real subscriptions & avatar from Supabase for this logged in student
       const student = getStudentData();
-      if (student && student.phone && typeof SupabaseAPI !== "undefined") {
+      if (student && typeof SupabaseAPI !== "undefined") {
         try {
-          const remoteSubs = await SupabaseAPI.getStudentSubscriptions(student.phone);
-          if (remoteSubs && remoteSubs.length > 0) {
-            localStorage.setItem("abaqera_subscribed_courses", JSON.stringify(remoteSubs));
+          if (student.phone) {
+            const remoteSubs = await SupabaseAPI.getStudentSubscriptions(student.phone);
+            if (remoteSubs && remoteSubs.length > 0) {
+              localStorage.setItem("abaqera_subscribed_courses", JSON.stringify(remoteSubs));
+            }
+          }
+          // Hydrate avatar from Supabase if not set locally
+          const key = student.dbId || student.id || student.phone;
+          if (!student.avatar && key && typeof SupabaseAPI.getStudentAvatar === "function") {
+            const remoteAvatar = await SupabaseAPI.getStudentAvatar(key);
+            if (remoteAvatar) {
+              student.avatar = remoteAvatar;
+              localStorage.setItem("abaqera_student", JSON.stringify(student));
+              applyStudentAvatarToUI(remoteAvatar);
+            }
           }
         } catch(e) {}
       }
 
       renderStudentSubscribedCourses();
     });
+
+    function applyStudentAvatarToUI(avatarSrc) {
+      const cleanSrc = avatarSrc && avatarSrc.trim() ? avatarSrc : "assets/logo.png";
+      const mainImg = document.getElementById("student-avatar-display");
+      const headerImg = document.getElementById("header-student-avatar");
+      const previewImg = document.getElementById("profile-preview-img");
+      if (mainImg) mainImg.src = cleanSrc;
+      if (headerImg) headerImg.src = cleanSrc;
+      if (previewImg) previewImg.src = cleanSrc;
+    }
 
     function loadStudentProfile() {
       const storedUser = localStorage.getItem("abaqera_student");
@@ -474,6 +636,7 @@
         if (user.governorate) document.getElementById("student-gov-display").innerText = "محافظة " + (user.governorate || "العامة");
         if (user.phone) document.getElementById("student-phone-display").innerText = user.phone;
         if (user.id) document.getElementById("badge-student-id").innerText = user.id;
+        applyStudentAvatarToUI(user.avatar || "");
       } catch (e) {
         console.error("Error reading stored user profile", e);
       }
@@ -493,6 +656,7 @@
     function renderStudentSubscribedCourses() {
       const container = document.getElementById("student-courses-container");
       const countBadge = document.getElementById("active-courses-count-badge");
+      const headerCountBadge = document.getElementById("header-courses-count");
       if (!container) return;
 
       let subs = [];
@@ -506,7 +670,7 @@
 
       // If no subscribed courses in array, check if student has an activeCourse from registration/login
       const student = getStudentData();
-      if (subs.length === 0 && student.activeCourse) {
+      if (subs.length === 0 && student && student.activeCourse) {
         subs.push({
           id: "sub-init",
           title: student.activeCourse,
@@ -523,9 +687,12 @@
         localStorage.setItem("abaqera_subscribed_courses", JSON.stringify(subs));
       }
 
-      // Update badge count
+      // Update badge counts
       if (countBadge) {
         countBadge.innerText = `الحالية والنشطة (${subs.length})`;
+      }
+      if (headerCountBadge) {
+        headerCountBadge.innerText = String(subs.length);
       }
 
       // If 0 courses (student has not subscribed to anything yet)
@@ -821,6 +988,265 @@
       const modal = document.getElementById("homework-modal");
       modal.classList.add("hidden");
       modal.classList.remove("flex");
+    }
+
+    // ==================== MY SUBSCRIBED COURSES MODAL ====================
+    async function openMyCoursesModal() {
+      const modal = document.getElementById("my-courses-modal");
+      const listEl = document.getElementById("my-courses-modal-list");
+      if (!modal || !listEl) return;
+
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+      listEl.innerHTML = `<p class="text-xs text-slate-500 text-center py-6">جاري تحميل الكورسات المشترك بها...</p>`;
+
+      const student = getStudentData();
+      let remoteRecords = [];
+      if (student && student.phone && typeof SupabaseAPI !== "undefined" && typeof SupabaseAPI.getAllStudentSubscriptions === "function") {
+        try {
+          remoteRecords = await SupabaseAPI.getAllStudentSubscriptions(student.phone);
+        } catch (e) {}
+      }
+
+      let localSubs = [];
+      try {
+        const raw = localStorage.getItem("abaqera_subscribed_courses");
+        if (raw) localSubs = JSON.parse(raw);
+      } catch (e) {}
+      if (!Array.isArray(localSubs)) localSubs = [];
+
+      // Merge remote records + any local approved courses not in remoteRecords
+      const combined = [];
+      const seenTitles = new Set();
+
+      remoteRecords.forEach(r => {
+        const tKey = (r.course_title || "").trim();
+        if (tKey) seenTitles.add(tKey);
+        combined.push({
+          title: r.course_title || "كورس كيمياء",
+          price: r.price || "-",
+          status: r.status || "approved",
+          date: r.created_at ? new Date(r.created_at).toLocaleDateString("ar-EG") : "حديثاً",
+          method: r.payment_method || "فودافون كاش"
+        });
+      });
+
+      localSubs.forEach(s => {
+        const tKey = (s.title || "").trim();
+        if (!seenTitles.has(tKey)) {
+          combined.push({
+            title: s.title || "كورس كيمياء",
+            price: s.price || "-",
+            status: "approved",
+            date: s.subscribedAt || "حديثاً",
+            method: "مفعل في الحساب"
+          });
+        }
+      });
+
+      if (combined.length === 0) {
+        listEl.innerHTML = `
+          <div class="text-center py-8 px-4 bg-slate-50 rounded-2xl border border-slate-200 theme-surface">
+            <i class="fa-solid fa-book-open text-3xl text-red-500 mb-2"></i>
+            <h5 class="text-sm font-bold text-slate-900">لا توجد كورسات مشترك بها حالياً</h5>
+            <p class="text-xs text-slate-500 mt-1">يمكنك تصفح الكورسات المتاحة والاشتراك للوصول لجميع المحاضرات والملازم.</p>
+          </div>
+        `;
+        return;
+      }
+
+      listEl.innerHTML = combined.map(item => {
+        const isApproved = item.status === "approved";
+        const isPending = item.status === "pending";
+        const badgeHtml = isApproved
+          ? `<span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">مفعل ومفتوح ✓</span>`
+          : isPending
+          ? `<span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200">قيد مراجعة الإدارة ⏳</span>`
+          : `<span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-red-50 text-red-700 border border-red-200">مرفوض / غير نشط</span>`;
+
+        return `
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 theme-surface">
+            <div>
+              <div class="flex items-center gap-2 flex-wrap mb-1">
+                ${badgeHtml}
+                <span class="text-[11px] text-slate-500 font-mono">${item.date}</span>
+              </div>
+              <h5 class="text-sm font-bold text-slate-900">${item.title}</h5>
+              <span class="text-xs text-slate-500">القيمة: <strong class="text-red-600">${item.price}</strong> • ${item.method}</span>
+            </div>
+            ${isApproved ? `
+              <button type="button" onclick="jumpToSubscribedCourses()" class="bg-red-600 hover:bg-red-700 text-white font-bold px-3.5 py-2 rounded-xl text-xs transition shrink-0 flex items-center gap-1.5">
+                <i class="fa-solid fa-play"></i>
+                <span>فتح المحاضرات</span>
+              </button>
+            ` : ''}
+          </div>
+        `;
+      }).join("");
+    }
+
+    function closeMyCoursesModal() {
+      const modal = document.getElementById("my-courses-modal");
+      if (modal) {
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+      }
+    }
+
+    function jumpToSubscribedCourses() {
+      closeMyCoursesModal();
+      const target = document.getElementById("student-courses-container");
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+
+    // ==================== STUDENT PROFILE SETTINGS (NAME, PHOTO, PASSWORD) ====================
+    let pendingAvatarDataUrl = undefined;
+
+    function openProfileModal() {
+      const modal = document.getElementById("profile-settings-modal");
+      const student = getStudentData();
+      if (!modal || !student) return;
+
+      pendingAvatarDataUrl = undefined;
+      document.getElementById("profile-name-input").value = student.name || "";
+      document.getElementById("profile-current-pass").value = "";
+      document.getElementById("profile-new-pass").value = "";
+      document.getElementById("profile-confirm-pass").value = "";
+      applyStudentAvatarToUI(student.avatar || "");
+
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+    }
+
+    function closeProfileModal() {
+      const modal = document.getElementById("profile-settings-modal");
+      if (modal) {
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+      }
+    }
+
+    function handleAvatarFileSelected(input) {
+      const file = input.files && input.files[0];
+      if (!file) return;
+      if (!file.type.startsWith("image/")) {
+        alert("يرجى اختيار ملف صورة صالح (JPG / PNG / WEBP).");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function (ev) {
+        const img = new Image();
+        img.onload = function () {
+          // Compress/resize avatar to crisp max 280x280 JPEG
+          const maxDim = 280;
+          let w = img.width;
+          let h = img.height;
+          if (w > h && w > maxDim) {
+            h = Math.round((h * maxDim) / w);
+            w = maxDim;
+          } else if (h >= w && h > maxDim) {
+            w = Math.round((w * maxDim) / h);
+            h = maxDim;
+          }
+          const canvas = document.createElement("canvas");
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, w, h);
+          pendingAvatarDataUrl = canvas.toDataURL("image/jpeg", 0.82);
+          document.getElementById("profile-preview-img").src = pendingAvatarDataUrl;
+        };
+        img.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function removeProfileAvatar() {
+      pendingAvatarDataUrl = "";
+      document.getElementById("profile-preview-img").src = "assets/logo.png";
+      const fileInp = document.getElementById("profile-avatar-file");
+      if (fileInp) fileInp.value = "";
+    }
+
+    async function saveStudentProfileChanges(e) {
+      e.preventDefault();
+      const student = getStudentData();
+      if (!student) return;
+
+      const newName = document.getElementById("profile-name-input").value.trim();
+      const curPass = document.getElementById("profile-current-pass").value;
+      const newPass = document.getElementById("profile-new-pass").value;
+      const confirmPass = document.getElementById("profile-confirm-pass").value;
+
+      if (!newName) {
+        alert("يرجى إدخال اسم الطالب.");
+        return;
+      }
+
+      if (newPass || confirmPass || curPass) {
+        if (newPass.length < 4) {
+          alert("كلمة المرور الجديدة يجب ألا تقل عن 4 أحرف أو أرقام.");
+          return;
+        }
+        if (newPass !== confirmPass) {
+          alert("كلمة المرور الجديدة وتأكيدها غير متطابقتين.");
+          return;
+        }
+        if (student.password && curPass.trim() !== student.password.toString().trim()) {
+          alert("كلمة المرور الحالية غير صحيحة!");
+          return;
+        }
+      }
+
+      const saveBtn = document.getElementById("profile-save-submit-btn");
+      const originalHtml = saveBtn ? saveBtn.innerHTML : "";
+      if (saveBtn) {
+        saveBtn.disabled = true;
+        saveBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>جاري الحفظ...</span>';
+      }
+
+      try {
+        if (typeof SupabaseAPI !== "undefined" && typeof SupabaseAPI.updateStudentProfile === "function") {
+          const res = await SupabaseAPI.updateStudentProfile({
+            dbId: student.dbId,
+            phone: student.phone,
+            email: student.email,
+            studentCode: student.id,
+            name: newName,
+            currentPassword: curPass,
+            newPassword: newPass || "",
+            avatar: pendingAvatarDataUrl
+          });
+
+          if (!res.success) {
+            alert(res.message || "تعذر حفظ التعديلات، يرجى المحاولة مرة أخرى.");
+            return;
+          }
+          if (res.user && res.user.id && !student.dbId) {
+            student.dbId = res.user.id;
+          }
+        }
+
+        // Update local student session
+        student.name = newName;
+        if (newPass) student.password = newPass;
+        if (pendingAvatarDataUrl !== undefined) {
+          student.avatar = pendingAvatarDataUrl;
+        }
+        localStorage.setItem("abaqera_student", JSON.stringify(student));
+
+        loadStudentProfile();
+        closeProfileModal();
+        showToast("تم حفظ بياناتك الشخصية وصورتك بنجاح! ✓");
+      } finally {
+        if (saveBtn) {
+          saveBtn.disabled = false;
+          saveBtn.innerHTML = originalHtml;
+        }
+      }
     }
 
     function submitHomeworkMock() {

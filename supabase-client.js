@@ -36,7 +36,7 @@ const SupabaseAPI = {
         const { data, error } = await db
           .from("courses")
           .select("*")
-          .not("grade", "in", '("site_video","site_review","system_ban")');
+          .not("grade", "in", '("site_video","site_review","system_ban","system_avatar")');
         if (!error && data && data.length > 0) {
           return data.map(c => ({
             id: c.id,
@@ -224,6 +224,10 @@ const SupabaseAPI = {
           }
 
           if (user.password && user.password.toString().trim() === password.toString().trim()) {
+            // Hydrate avatar from system_avatar marker if not directly stored on student row
+            if (!user.avatar && user.id) {
+              user.avatar = await this.getStudentAvatar(user.id);
+            }
             return { success: true, user: user };
           } else {
             return { success: false, error: "wrong_password", message: "كلمة المرور غير صحيحة، يرجى إعادة المحاولة!" };
@@ -300,9 +304,128 @@ const SupabaseAPI = {
     }
   },
 
-  // 3.4 Get Subscribed courses for a student from Supabase
-  async getStudentSubscriptions(studentPhone) {
+  // 3.3b Get / Save Student Avatar & Profile (Name, Password, Avatar)
+  async getStudentAvatar(studentKey) {
+    if (!db || !studentKey) return "";
+    try {
+      const { data } = await db
+        .from("courses")
+        .select("image")
+        .eq("id", `avatar-${studentKey}`)
+        .limit(1);
+      if (data && data.length > 0 && data[0].image) {
+        return data[0].image;
+      }
+    } catch (e) {}
+    return "";
+  },
+
+  async updateStudentProfile({ dbId, phone, email, studentCode, name, currentPassword, newPassword, avatar }) {
+    let targetRow = null;
+
     if (db) {
+      try {
+        if (dbId) {
+          const { data } = await db.from("students").select("*").eq("id", dbId).limit(1);
+          if (data && data.length > 0) targetRow = data[0];
+        }
+        if (!targetRow && phone) {
+          const { data } = await db.from("students").select("*").eq("phone", phone.trim()).limit(1);
+          if (data && data.length > 0) targetRow = data[0];
+        }
+        if (!targetRow && email) {
+          const { data } = await db.from("students").select("*").eq("email", email.trim().toLowerCase()).limit(1);
+          if (data && data.length > 0) targetRow = data[0];
+        }
+        if (!targetRow && studentCode) {
+          const { data } = await db.from("students").select("*").eq("student_code", studentCode.trim()).limit(1);
+          if (data && data.length > 0) targetRow = data[0];
+        }
+
+        // Verify password if changing password
+        if (newPassword && newPassword.trim() !== "") {
+          if (targetRow && targetRow.password && currentPassword !== undefined && currentPassword !== null) {
+            if (targetRow.password.toString().trim() !== currentPassword.toString().trim()) {
+              return {
+                success: false,
+                error: "wrong_password",
+                message: "كلمة المرور الحالية غير صحيحة!"
+              };
+            }
+          }
+        }
+
+        const updates = {};
+        if (name && name.trim()) updates.name = name.trim();
+        if (newPassword && newPassword.trim()) updates.password = newPassword.trim();
+
+        if (targetRow && Object.keys(updates).length > 0) {
+          const { error: updErr } = await db.from("students").update(updates).eq("id", targetRow.id);
+          if (updErr) {
+            return { success: false, error: updErr, message: "تعذر تحديث البيانات في قاعدة البيانات." };
+          }
+        }
+
+        // Save avatar in system_avatar marker (+ try direct column if present)
+        const avatarKey = (targetRow && targetRow.id) || dbId || phone || studentCode;
+        if (avatar !== undefined && avatarKey) {
+          if (avatar === "") {
+            await db.from("courses").delete().eq("id", `avatar-${avatarKey}`);
+          } else {
+            await db.from("courses").upsert({
+              id: `avatar-${avatarKey}`,
+              title: (targetRow && targetRow.phone) || phone || "avatar",
+              grade: "system_avatar",
+              grade_name: "صورة الطالب",
+              price: "avatar",
+              image: avatar
+            });
+          }
+          if (targetRow) {
+            try {
+              await db.from("students").update({ avatar: avatar }).eq("id", targetRow.id);
+            } catch (e) {}
+          }
+        }
+      } catch (err) {
+        console.warn("updateStudentProfile Supabase error:", err);
+        return { success: false, error: err, message: "حدث خطأ أثناء حفظ البيانات." };
+      }
+    }
+
+    // Update localStorage fallback list as well
+    try {
+      const localListRaw = localStorage.getItem("abaqera_registered_students");
+      if (localListRaw) {
+        const list = JSON.parse(localListRaw);
+        const idx = list.findIndex(s =>
+          (phone && s.phone === phone) ||
+          (email && s.email === email) ||
+          (studentCode && s.id === studentCode)
+        );
+        if (idx >= 0) {
+          if (name && name.trim()) list[idx].name = name.trim();
+          if (newPassword && newPassword.trim()) list[idx].password = newPassword.trim();
+          if (avatar !== undefined) list[idx].avatar = avatar;
+          localStorage.setItem("abaqera_registered_students", JSON.stringify(list));
+        }
+      }
+    } catch (e) {}
+
+    return {
+      success: true,
+      user: {
+        ...(targetRow || {}),
+        name: (name && name.trim()) || (targetRow && targetRow.name),
+        password: (newPassword && newPassword.trim()) || (targetRow && targetRow.password),
+        avatar: avatar !== undefined ? avatar : (targetRow && targetRow.avatar)
+      }
+    };
+  },
+
+  // 3.4 Get Subscribed courses for a student from Supabase (approved only)
+  async getStudentSubscriptions(studentPhone) {
+    if (db && studentPhone) {
       try {
         const { data, error } = await db.from("subscriptions")
           .select("*")
@@ -310,22 +433,51 @@ const SupabaseAPI = {
           .eq("status", "approved");
 
         if (!error && data && data.length > 0) {
-          return data.map(sub => ({
-            id: sub.course_id || sub.id,
-            title: sub.course_title,
-            grade: "الصف الثالث الثانوي",
-            price: sub.price,
-            image: "assets/logo.png",
-            youtubeUrl: "https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ",
-            description: "شرح تفصيلي للمنهج مع حل أفكار ومسائل الثانوية العامة ونواتج التعلم.",
-            lecturesCount: 20,
-            pdfUrl: "",
-            subscribedAt: new Date(sub.created_at).toLocaleDateString("ar-EG"),
-            status: "كورس نشط ومفعل ✓"
-          }));
+          let allCourses = [];
+          try { allCourses = await this.getCourses(); } catch (e) {}
+
+          return data.map(sub => {
+            const matchedCourse = allCourses.find(c =>
+              c.id === sub.course_id ||
+              (sub.course_title && c.title && c.title.trim() === sub.course_title.trim())
+            );
+            return {
+              id: sub.course_id || (matchedCourse && matchedCourse.id) || sub.id,
+              title: sub.course_title,
+              grade: (matchedCourse && matchedCourse.gradeName) || "الصف الثالث الثانوي",
+              price: sub.price || (matchedCourse && matchedCourse.price) || "250 ج.م",
+              image: (matchedCourse && matchedCourse.image) || "assets/logo.png",
+              youtubeUrl: (matchedCourse && matchedCourse.youtubeUrl) || "https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ",
+              description: (matchedCourse && matchedCourse.description) || "شرح تفصيلي للمنهج مع حل أفكار ومسائل الثانوية العامة ونواتج التعلم.",
+              lecturesCount: (matchedCourse && matchedCourse.lecturesCount) || 20,
+              pdfUrl: (matchedCourse && matchedCourse.pdfUrl) || "",
+              subscribedAt: sub.created_at ? new Date(sub.created_at).toLocaleDateString("ar-EG") : "حديثاً",
+              status: "كورس نشط ومفعل ✓",
+              rawStatus: sub.status
+            };
+          });
         }
       } catch (err) {
         console.warn("Supabase fetch student subscriptions failed:", err);
+      }
+    }
+    return [];
+  },
+
+  // 3.5 Get ALL subscription records (approved + pending + rejected) for student overview modal
+  async getAllStudentSubscriptions(studentPhone) {
+    if (db && studentPhone) {
+      try {
+        const { data, error } = await db.from("subscriptions")
+          .select("*")
+          .eq("student_phone", studentPhone.trim())
+          .order("created_at", { ascending: false });
+
+        if (!error && data) {
+          return data;
+        }
+      } catch (err) {
+        console.warn("Supabase fetch all student subscriptions failed:", err);
       }
     }
     return [];

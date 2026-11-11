@@ -374,11 +374,14 @@
         // Login Succeeded: Load real student account data from Supabase
         const dbUser = result.user;
         const student = {
+          dbId: dbUser.id,
           name: dbUser.name,
+          email: dbUser.email || "",
           phone: dbUser.phone,
           grade: dbUser.grade || "الصف الثالث الثانوي (علمي علوم)",
           governorate: dbUser.governorate || "القاهرة",
           id: dbUser.student_code || ("#ALB-2026-" + dbUser.phone.slice(-4)),
+          avatar: dbUser.avatar || "",
           password: dbUser.password
         };
 
@@ -440,7 +443,10 @@
 
       // Save into Supabase Database permanently
       if (typeof SupabaseAPI !== "undefined") {
-        await SupabaseAPI.saveStudent(student);
+        const saveRes = await SupabaseAPI.saveStudent(student);
+        if (saveRes && saveRes.data && saveRes.data[0] && saveRes.data[0].id) {
+          student.dbId = saveRes.data[0].id;
+        }
       }
 
       // Save into localStorage for current session
